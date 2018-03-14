@@ -2,7 +2,9 @@ from unittest import TestCase
 
 from bs4 import BeautifulSoup
 
-from robotj.crawler.parser import parse_metadados, area_dos_metadados
+from robotj.crawler.parser import (parse_metadados,
+                                   area_dos_metadados,
+                                   extrai_dados_colunas)
 from robotj.test.processos import processo_judicial_1, processo_judicial_2
 
 
@@ -86,3 +88,16 @@ class Parser(TestCase):
 
         self.assertEqual(inicio, inicio_esperado)
         self.assertEqual(fim, fim_esperado)
+
+    def test_extrai_dados_das_colunas(self):
+        html = """
+                <tr>
+                 <td class="negrito" nowrap="" valign="top">Tipo:</td>
+                 <td align="justify" class="normal" valign="top">Conclusão</td>
+                 </tr>
+                """
+        soup = self._prepara_html(html)[0].find_all('td')
+        dados_das_colunas = extrai_dados_colunas(soup)
+        esperado = ['Tipo:', 'Conclusão']
+
+        self.assertEqual(dados_das_colunas, esperado)

@@ -28,35 +28,27 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
         linhas_com_metadados[0].find_all('td')[0].get_text()
     )
 
+    # Apaga linhas utilizadas
     del linhas_com_metadados[:2]
-    dados_comarca = []
+
+    comarcas = []
     for tr in list(linhas_com_metadados):
         linhas_com_metadados.pop(0)
-        if len(tr.find_all('td')) == 1:
+        colunas = tr.find_all('td')
+
+        if len(colunas) == 1:
             break
-        dados_comarca += [tr]
+        comarcas += extrai_dados_colunas(colunas)
 
-    # TODO: refatorar
-    textos = []
-    for tr in dados_comarca:
-        for td in tr.find_all('td'):
-            textos += list(
-                filter(None, [limpa_conteudo(td.get_text()) if td else ''])
-            )
-
-    metadados['comarca'] = textos
+    metadados['comarca'] = comarcas
 
     for tr in list(linhas_com_metadados):
         linhas_com_metadados.pop(0)
         linha = []
-        tds = tr.find_all('td')
-        for td in tds:
-            linha += list(
-                filter(None, [limpa_conteudo(td.get_text()) if td else ''])
-            )
-
-            if linha:
-                metadados[slugify(linha[0])] = linha[1:]
+        colunas = tr.find_all('td')
+        linha = extrai_dados_colunas(colunas)
+        if linha:
+            metadados[slugify(linha[0])] = linha[1:]
 
     return metadados
 
@@ -70,3 +62,13 @@ def area_dos_metadados(linhas_de_dados):
             break
 
     return inicio, fim
+
+
+def extrai_dados_colunas(colunas):
+    linha = []
+    for td in colunas:
+        linha += list(
+            filter(None, [limpa_conteudo(td.get_text()) if td else ''])
+        )
+
+    return linha

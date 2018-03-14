@@ -3,12 +3,14 @@ from unittest import TestCase
 from bs4 import BeautifulSoup
 
 from robotj.crawler.parser import parse_metadados, area_dos_metadados
-from robotj.test.processos import processo_judicial_1, processo_judicial_2
+from robotj.test.fixtures.processos import (
+    processo_judicial_1,
+    processo_judicial_2)
 
 
 class Parser(TestCase):
     def _prepara_html(self, html):
-        soup_obj = BeautifulSoup(html)
+        soup_obj = BeautifulSoup(html, 'lxml')
         return soup_obj.find_all('tr')
 
     def _test_parse_metadados_processo_judicial(self):

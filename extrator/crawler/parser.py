@@ -1,6 +1,6 @@
 from slugify import slugify
 
-from robotj.crawler.utils import limpa_conteudo
+from .utils import limpa_conteudo
 
 
 def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,

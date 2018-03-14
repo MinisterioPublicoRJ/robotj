@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from robotj.crawler.utils import formata_numero_processo, limpa_conteudo
+from ..crawler.utils import formata_numero_processo, limpa_conteudo
 
 
 class Utils(TestCase):

@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 from robotj.crawler.parser import parse_metadados, area_dos_metadados
 from robotj.test.fixtures.processos import (
     processo_judicial_1,
-    processo_judicial_2)
+    processo_judicial_2
+)
 
 
 class Parser(TestCase):

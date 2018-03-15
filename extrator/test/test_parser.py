@@ -73,6 +73,9 @@ class Parser(TestCase):
             'classe': ['Autorização judicial - ECA'],
             'aviso-ao-advogado': ['tem peça na pasta.'],
             'autor': [''],
+            'livro': [''],
+            'folha': [''],
+            'numero-do-tombo': [''],
             'requerido': [''],
             'requerente': ['IGREJA EVANGÉLICA NOVA ASSEMBLÉIA DE DEUS'],
             'advogado-s': ['RJ081634 - IRANY SPERANDIO DE MEDEIROS']}
@@ -108,7 +111,9 @@ class Parser(TestCase):
             'requerente': [''],
             'advogado-s': ['RJ146889 - VIRGINIA MARIA RAMOS DA FONSECA']}
 
-        self.assertEqual(metadados, esperado)
+        for chave, valor in esperado.items():
+            with self.subTest():
+                self.assertEqual(metadados[chave], valor)
 
     def test_parsea_processo_com_link_nos_metadados(self):
         metadados = parse_metadados(
@@ -137,8 +142,9 @@ class Parser(TestCase):
             'requerente': ['FRANCISCO CAMILO RIBEIRO e outro(s)...'],
             'advogado-s': ['TJ000002 - DEFENSOR PÚBLICO']}
 
-        self.maxDiff = None
-        self.assertEqual(metadados, esperado)
+        for chave, valor in esperado.items():
+                with self.subTest():
+                    self.assertEqual(metadados[chave], valor)
 
     def test_delimita_linhas_dos_metadados_processo_judicial_1(self):
         inicio, fim = area_dos_metadados(

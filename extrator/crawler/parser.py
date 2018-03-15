@@ -14,7 +14,7 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
         'acao': [''],
         'assunto': [''],
         'classe': [''],
-        'aviso_ao_advogado': [''],
+        'aviso-ao-advogado': [''],
         'autor': [''],
         'requerido': [''],
         'requerente': [''],
@@ -33,13 +33,18 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
     del linhas_com_metadados[:2]
 
     comarcas = []
+    comecou_comarca = False
     for tr in list(linhas_com_metadados):
         linhas_com_metadados.pop(0)
         colunas = tr.find_all('td')
+        if 'Comarca' in ''.join([c.get_text() for c in colunas]):
+            comecou_comarca = True
 
-        if len(colunas) == 1:
+        if comecou_comarca:
+            comarcas += extrai_dados_colunas(colunas)
+
+        if len(colunas) == 1 and comecou_comarca:
             break
-        comarcas += extrai_dados_colunas(colunas)
 
     metadados['comarca'] = comarcas
 

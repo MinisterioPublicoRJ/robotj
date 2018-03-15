@@ -7,7 +7,8 @@ from ..crawler.parser import (parse_metadados,
                               extrai_dados_colunas)
 from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_2,
-                                 processo_judicial_3)
+                                 processo_judicial_3,
+                                 processo_judicial_4)
 
 
 class Parser(TestCase):
@@ -79,6 +80,65 @@ class Parser(TestCase):
         for chave, valor in expected.items():
             with self.subTest():
                 self.assertEqual(metadados[chave], valor)
+
+    def test_parsea_processo_com_informacoes_de_comarca_diferentes(self):
+        metadados = parse_metadados(
+            self._prepara_html(processo_judicial_3),
+            '0001762-56.2009.8.19.0026',
+            inicio_metadados=7,
+            fim_metadados=23
+        )
+
+        esperado = {
+            'numero_processo': '0001762-56.2009.8.19.0026',
+            'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 1903, em 22/11/2012',
+            'comarca': [
+                'Comarca de Itaperuna',
+                'Vara de Família e da Infância e da Juventude e do Idoso',
+                'Cartório da Vara de Família, Inf. e da Juv. e do Idoso'],
+            'endereco': ['Rodovia Br-356 Km 01'],
+            'bairro': [''],
+            'cidade': ['Itaperuna'],
+            'acao': ['Adoção de Criança / Seção Cível'],
+            'assunto': ['Adoção de Criança / Seção Cível'],
+            'classe': ['Adoção c/c Destituição do Poder Familiar - ECA'],
+            'aviso-ao-advogado': [''],
+            'autor': [''],
+            'requerido': [''],
+            'requerente': [''],
+            'advogado-s': ['RJ146889 - VIRGINIA MARIA RAMOS DA FONSECA']}
+
+        self.assertEqual(metadados, esperado)
+
+    def test_parsea_processo_com_link_nos_metadados(self):
+        metadados = parse_metadados(
+            self._prepara_html(processo_judicial_4),
+            '0441870-74.2008.8.19.0001',
+            inicio_metadados=7,
+            fim_metadados=27
+        )
+
+        esperado = {
+            'numero_processo': '0441870-74.2008.8.19.0001',
+            'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 9819, em 24/02/2013',
+            'comarca': [
+                'Comarca da Capital',
+                '1ª Vara da Infância da Juventude e do Idoso',
+                'Cartório da 1ª Vara da Infância, da Juventude e do Idoso'],
+            'endereco': ['Praça Onze de Junho 403 Praça Onze'],
+            'bairro': ['Centro'],
+            'cidade': ['Rio de Janeiro'],
+            'acao': [''],
+            'assunto': ['Adoção Nacional / Seção Cível'],
+            'classe': ['Adoção c/c Destituição do Poder Familiar - ECA'],
+            'aviso-ao-advogado': [''],
+            'autor': [''],
+            'requerido': ['MARIA GISLEUDA RODRIGUES DA SILVA'],
+            'requerente': ['FRANCISCO CAMILO RIBEIRO e outro(s)...'],
+            'advogado-s': ['TJ000002 - DEFENSOR PÚBLICO']}
+
+        self.maxDiff = None
+        self.assertEqual(metadados, esperado)
 
     def test_delimita_linhas_dos_metadados_processo_judicial_1(self):
         inicio, fim = area_dos_metadados(

@@ -7,6 +7,7 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
                     fim_metadados):
     metadados = {
         'status': [''],
+        'comarca': [''],
         'endereco': [''],
         'bairro': [''],
         'cidade': [''],
@@ -55,8 +56,15 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
 
 def area_dos_metadados(linhas_de_dados):
     # Aparentemente esse valor e fixo
-    inicio = 6
+    inicio = 0
     for indice, linha in enumerate(linhas_de_dados):
+        coluna = linha.find('td')
+        atributos_inicio_metadados = {'align': 'center',
+                                      'class': ['negrito'],
+                                      'colspan': '2'}
+        if not inicio and coluna.attrs == atributos_inicio_metadados:
+            inicio = indice
+
         if 'Tipo do Movimento:' in linha.get_text():
             fim = indice - 1
             break

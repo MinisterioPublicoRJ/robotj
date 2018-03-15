@@ -6,7 +6,8 @@ from ..crawler.parser import (parse_metadados,
                               area_dos_metadados,
                               extrai_dados_colunas)
 from .fixtures.processos import (processo_judicial_1,
-                                 processo_judicial_2)
+                                 processo_judicial_2,
+                                 processo_judicial_3)
 
 
 class Parser(TestCase):
@@ -86,6 +87,21 @@ class Parser(TestCase):
 
         inicio_esperado = 6
         fim_esperado = 26
+
+        self.assertEqual(inicio, inicio_esperado)
+        self.assertEqual(fim, fim_esperado)
+
+    def test_delimita_linhas_dos_metadados_processo_judicial_3(self):
+        """
+            O Processo judicial numero 3, diferente dos outros 2 presentes
+            nas fixtures, inicia os metadados em uma linha diferente.
+        """
+        inicio, fim = area_dos_metadados(
+            self._prepara_html(processo_judicial_3)
+        )
+
+        inicio_esperado = 7
+        fim_esperado = 23
 
         self.assertEqual(inicio, inicio_esperado)
         self.assertEqual(fim, fim_esperado)

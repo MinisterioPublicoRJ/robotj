@@ -25,7 +25,7 @@ class Parser(TestCase):
         )
 
         expected = {
-            'numero_processo': '0004999-58.2015.8.19.0036',
+            'numero-processo': '0004999-58.2015.8.19.0036',
             'status': 'PROCESSO COM BAIXA',
             'comarca': [
                 'Comarca de Nilópolis',
@@ -59,7 +59,7 @@ class Parser(TestCase):
         )
 
         expected = {
-            'numero_processo': '0025375-16.2012.8.19.0054',
+            'numero-processo': '0025375-16.2012.8.19.0054',
             'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 722, em 20/05/2013',
             'comarca': [
                 'Comarca de São João de Meriti',
@@ -93,7 +93,7 @@ class Parser(TestCase):
         )
 
         esperado = {
-            'numero_processo': '0001762-56.2009.8.19.0026',
+            'numero-processo': '0001762-56.2009.8.19.0026',
             'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 1903, em 22/11/2012',
             'comarca': [
                 'Comarca de Itaperuna',
@@ -124,7 +124,7 @@ class Parser(TestCase):
         )
 
         esperado = {
-            'numero_processo': '0441870-74.2008.8.19.0001',
+            'numero-processo': '0441870-74.2008.8.19.0001',
             'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 9819, em 24/02/2013',
             'comarca': [
                 'Comarca da Capital',

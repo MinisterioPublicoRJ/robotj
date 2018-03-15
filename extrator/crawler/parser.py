@@ -27,7 +27,7 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
     # Delimita o processo na regiao dos metadados
     linhas_com_metadados = linhas_de_dados[inicio_metadados:fim_metadados]
 
-    metadados['numero_processo'] = numero_processo
+    metadados['numero-processo'] = numero_processo
     metadados['status'] = limpa_conteudo(
         linhas_com_metadados[0].find_all('td')[0].get_text()
     )

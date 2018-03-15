@@ -40,7 +40,9 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
     for tr in list(linhas_com_metadados):
         linhas_com_metadados.pop(0)
         colunas = tr.find_all('td')
-        if 'Comarca' in ''.join([c.get_text() for c in colunas]):
+        dados = ''.join([c.get_text() for c in colunas])
+        if 'Comarca' in dados or \
+           'Regional' in dados:
             comecou_comarca = True
 
         if comecou_comarca:

@@ -8,7 +8,9 @@ from ..crawler.parser import (parse_metadados,
 from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_2,
                                  processo_judicial_3,
-                                 processo_judicial_4)
+                                 processo_judicial_4,
+                                 processo_judicial_5,
+                                 processo_judicial_6)
 
 
 class Parser(TestCase):
@@ -145,6 +147,74 @@ class Parser(TestCase):
         for chave, valor in esperado.items():
                 with self.subTest():
                     self.assertEqual(metadados[chave], valor)
+
+    def test_parsea_processo_com_link_antes_dos_metadados(self):
+        metadados = parse_metadados(
+            self._prepara_html(processo_judicial_5),
+            '0001394-96.2011.8.19.0084',
+            inicio_metadados=0,
+            fim_metadados=23
+        )
+
+        esperado = {
+            'numero-processo': '0001394-96.2011.8.19.0084',
+            'status': '',
+            'comarca': [
+                'Comarca de Carapebus / Quissamã',
+                'Vara Única',
+                'Cartório da Vara Única'],
+            'endereco': ['Estrada do Correio Imperial 1003'],
+            'bairro': ['Piteiras'],
+            'cidade': ['Quissamã'],
+            'acao': ['Medidas Pertinentes Aos Pais Ou Responsável /'
+                     ' Seção Cível'],
+            'assunto': ['Medidas Pertinentes Aos Pais Ou Responsável /'
+                        ' Seção Cível'],
+            'classe': ['Apuração de Infração Administrativa às Normas de'
+                       ' Proteção'],
+            'aviso-ao-advogado': [''],
+            'autor': [''],
+            'requerido': [''],
+            'requerente': [''],
+            'advogado-s': ['RJ125011 - ALBECIR RIBEIRO RJ143662 -'
+                           ' PAULO ROMERO AQUINO BARBOSA']}
+
+        for chave, valor in esperado.items():
+            with self.subTest():
+                self.assertEqual(metadados[chave], valor)
+
+    def test_parsea_processo_com_nome_regional_ao_inves_de_comarca(self):
+        metadados = parse_metadados(
+            self._prepara_html(processo_judicial_6),
+            '0021491-54.2011.8.19.0202',
+            inicio_metadados=6,
+            fim_metadados=21
+        )
+
+        esperado = {
+            'numero-processo': '0021491-54.2011.8.19.0202',
+            'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 442, em 27/02/2012',
+            'comarca': [
+                'Regional de Madureira',
+                '3ª Vara da Infância, da Juventude e do Idoso',
+                'Cartório da 3ª Vara da Infância, da Juventude e do Idoso'],
+            'endereco': ['Avenida Ernani Cardoso 152 2º andar'],
+            'bairro': ['Cascadura'],
+            'cidade': ['Rio de Janeiro'],
+            'acao': ['Acolhimento Institucional de Crianças e'
+                     ' Adolescentes/seção Cível'],
+            'assunto': ['Acolhimento Institucional de Crianças e'
+                        ' Adolescentes/seção Cível'],
+            'classe': ['Providência - ECA'],
+            'aviso-ao-advogado': [''],
+            'autor': [''],
+            'requerido': [''],
+            'requerente': [''],
+            'advogado-s': ['']}
+
+        for chave, valor in esperado.items():
+            with self.subTest():
+                self.assertEqual(metadados[chave], valor)
 
     def test_delimita_linhas_dos_metadados_processo_judicial_1(self):
         inicio, fim = area_dos_metadados(

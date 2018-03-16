@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from extrator.settings import DS_EXADATA_CONN_CSTR, engine
 from extrator.datasources.mcpr import obter_documentos_externos
-from extrator.crawler.parser import parse_metadados
+
 
 def main():
     engine['connection'] = create_engine(

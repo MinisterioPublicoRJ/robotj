@@ -1,6 +1,11 @@
+import re
+
 from slugify import slugify
 
 from .utils import limpa_conteudo
+
+
+PADRAO_MOV = re.compile(r'numMov=(\d+)')
 
 
 def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
@@ -62,6 +67,61 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
             metadados[slugify(linha[0])] = linha[1:]
 
     return metadados
+
+
+def parse_itens(soup, numero_processo, inicio_itens):
+    # Recorta area com os itens
+    itens = {}
+    itens['numero-processo'] = numero_processo
+    lista_de_itens = []
+    linhas_de_dados = soup.find_all(attrs={'name': 'formResultado'})[0]\
+        .find_all('tr')
+    linhas_com_itens = linhas_de_dados[inicio_itens:]
+
+    for indice, linha in enumerate(list(linhas_com_itens)):
+        if linha.attrs == {'class': ['tipoMovimento']}:
+            item = {}
+            colunas = linha.find_all('td')
+            item[slugify(colunas[0].get_text())] = limpa_conteudo(
+                colunas[1].get_text()
+            )
+            info = linhas_com_itens[indice + 1:]
+            cont = 0
+            while cont < len(info) and\
+                    info[cont].attrs != {'class': ['tipoMovimento']}:
+
+                cols = info[cont].find_all('td')
+                if len(cols) > 1:
+                    if len(cols) > 1 and cols[1].find_all('a'):
+                        conteudo_escondido = cols[1].find('a').attrs['onclick']
+                        item['inteiro-teor'] = PADRAO_MOV.findall(
+                            conteudo_escondido
+                        )
+                        item[slugify(cols[0].get_text())] = limpa_conteudo(
+                            cols[1].get_text().split('\n')[0]
+                        )
+                    else:
+                        item[slugify(cols[0].get_text())] = limpa_conteudo(
+                            cols[1].get_text()
+                        )
+                else:
+                    cont += 1
+                    continue
+
+                cont += 1
+
+            lista_de_itens.append(item)
+
+    for item in lista_de_itens:
+        if 'inteiro-teor' in item:
+            item['inteiro-teor'] = soup.find(
+                'input', {
+                    'type': 'HIDDEN',
+                    'name': 'descMov{0}'.format(item['inteiro-teor'][0])
+                }).attrs['value']
+
+    itens['itens'] = lista_de_itens
+    return itens
 
 
 def area_dos_metadados(linhas_de_dados):

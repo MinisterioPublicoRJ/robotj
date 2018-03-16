@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 
 from ..crawler.parser import (parse_metadados,
                               area_dos_metadados,
-                              extrai_dados_colunas)
+                              extrai_dados_colunas,
+                              parse_itens)
 from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_2,
                                  processo_judicial_3,
@@ -249,8 +250,154 @@ class Parser(TestCase):
                  <td align="justify" class="normal" valign="top">Conclusão</td>
                  </tr>
                 """
-        soup = self._prepara_html(html)[0].find_all('td')
+        soup = _prepara_html(html)[0].find_all('td')
         dados_das_colunas = extrai_dados_colunas(soup)
         esperado = ['Tipo:', 'Conclusão']
 
         self.assertEqual(dados_das_colunas, esperado)
+
+
+class ComparaItensProcessoMixin:
+    def assert_items_equal(self, first, second):
+        self.assertEqual(first['numero-processo'], second['numero-processo'])
+        items_first = first['itens']
+        items_second = second['itens']
+
+        self.assertEqual(len(items_first), len(items_second))
+
+        for item_first, item_second in zip(items_first, items_second):
+            for key, value in item_second.items():
+                with self.subTest():
+                    self.assertEqual(item_first[key], value)
+
+
+class ParserItems(ComparaItensProcessoMixin, TestCase):
+    def test_extrai_itens_do_processo_judicial_1(self):
+        soup = BeautifulSoup(processo_judicial_1, 'lxml')
+        itens = parse_itens(
+            soup,
+            '0004999-58.2015.8.19.0036',
+            inicio_itens=26
+        )
+        esperado = {
+            'numero-processo':
+            '0004999-58.2015.8.19.0036',
+            'itens': [{
+                'tipo-do-movimento':
+                'Declínio de Competência',
+                'data':
+                '11/01/2016',
+                'descricao':
+                'VIJI DA COMARCA DE SÃO MATHEUS - ESPIRITO SANTOS'
+            }, {
+                'tipo-do-movimento': 'Recebimento',
+                'data-de-recebimento': '19/11/2015'
+            }, {
+                'tipo-do-movimento':
+                'Decisão - Declínio de Competência',
+                'data-decisao':
+                '21/10/2015',
+                'descricao': ('Ante o teor de fls. 104, DECLINO DE MINHA'
+                              ' COMPETÊNCIA para o Juízo da Infância e'
+                              ' Juventude da Comarca de São Mateus, no'
+                              ' Espírito Santo. Dê-se baixa e encaminhem-se'
+                              ' imediatamente, com as nossas homenagens.')
+            }, {
+                'tipo-do-movimento': 'Conclusão ao Juiz',
+                'data-da-conclusao': '21/10/2015',
+                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+            }, {
+                'tipo-do-movimento': 'Decurso de Prazo',
+                'data-do-movimento': '20/10/2015'
+            }, {
+                'tipo-do-movimento': 'Recebidos os autos',
+                'data-do-recebimento': '20/10/2015'
+            }, {
+                'tipo-do-movimento': 'Remessa',
+                'destinatario': 'Ministério Público',
+                'data-da-remessa': '06/08/2015',
+                'prazo': '15 dia(s)'
+            }, {
+                'tipo-do-movimento': 'Recebimento',
+                'data-de-recebimento': '30/07/2015'
+            }, {
+                'tipo-do-movimento':
+                'Despacho - Proferido despacho de mero expediente',
+                'data-despacho':
+                '28/07/2015',
+                'descricao':
+                'Dê-se vista ao Ministério Público.'
+            }, {
+                'tipo-do-movimento': 'Conclusão ao Juiz',
+                'data-da-conclusao': '28/07/2015',
+                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+            }, {
+                'tipo-do-movimento': 'Decurso de Prazo',
+                'data-do-movimento': '27/07/2015'
+            }, {
+                'tipo-do-movimento': 'Recebidos os autos',
+                'data-do-recebimento': '21/07/2015'
+            }, {
+                'tipo-do-movimento': 'Remessa',
+                'destinatario': 'Psicologia',
+                'data-da-remessa': '17/07/2015',
+                'prazo': '15 dia(s)'
+            }, {
+                'tipo-do-movimento': 'Recebidos os autos',
+                'data-do-recebimento': '17/07/2015'
+            }, {
+                'tipo-do-movimento': 'Remessa',
+                'destinatario': 'Assistente Social',
+                'data-da-remessa': '15/06/2015',
+                'prazo': '15 dia(s)'
+            }, {
+                'tipo-do-movimento': 'Recebimento',
+                'data-de-recebimento': '22/05/2015'
+            }, {
+                'tipo-do-movimento':
+                'Despacho - Proferido despacho de mero expediente',
+                'data-despacho':
+                '11/05/2015',
+                'descricao': ('Atenda-se ao Ministério Público. Promovam-se os'
+                              ' estudos social e psicológico com a demandada'
+                              ' e os adolescentes.'),
+                'inteiro-teor': ('Atenda-se ao Ministério Público. Promovam-se'
+                                 '  os estudos social e psicológico com a'
+                                 ' demandada e os adolescentes.'),
+            }, {
+                'tipo-do-movimento': 'Conclusão ao Juiz',
+                'data-da-conclusao': '11/05/2015',
+                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+            }, {
+                'tipo-do-movimento': 'Recebidos os autos',
+                'data-do-recebimento': '30/04/2015'
+            }, {
+                'tipo-do-movimento': 'Remessa',
+                'destinatario': 'Ministério Público',
+                'data-da-remessa': '08/04/2015',
+                'prazo': '15 dia(s)'
+            }, {
+                'tipo-do-movimento': 'Recebimento',
+                'data-de-recebimento': '27/03/2015'
+            }, {
+                'tipo-do-movimento':
+                'Despacho - Proferido despacho de mero expediente',
+                'data-despacho': '19/03/2015',
+                'descricao': 'Dê-se vista ao Ministério Público.',
+                'inteiro-teor': 'Dê-se vista ao Ministério Público.'
+            }, {
+                'tipo-do-movimento': 'Conclusão ao Juiz',
+                'data-da-conclusao': '19/03/2015',
+                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+            }, {
+                'tipo-do-movimento': 'Distribuição Dirigida',
+                'data-da-distribuicao': '19/03/2015',
+                'serventia': ('Cartório da 2ª Vara de Família, Inf. e da'
+                              ' Juv. e do Idoso - 2ª Vara de Família e da'
+                              ' Infância e da Juventude e do Idoso'),
+                'processo-s-no-tribunal-de-justica': 'Não há.',
+                'localizacao-na-serventia': 'Saída de Acervo'
+            }]
+        }
+
+        self.assert_items_equal(itens, esperado)

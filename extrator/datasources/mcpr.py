@@ -1,4 +1,4 @@
-from lyraextrator.settings import conn
+from extrator.settings import conn
 
 SELECT_DOCU_EXTERNO = """
     select docu_nr_externo as DOCU_NR_EXTERNO

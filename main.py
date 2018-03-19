@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
-from lyraextrator.settings import DS_EXADATA_CONN_CSTR, engine
-from lyraextrator.datasources.mcpr import obter_documentos_externos
+from extrator.settings import DS_EXADATA_CONN_CSTR, engine
+from extrator.datasources.mcpr import obter_documentos_externos
 
 
 def main():
@@ -12,9 +12,7 @@ def main():
         echo=True
     )
 
-    linhas = obter_documentos_externos()
-    for linha in linhas:
-        print(linha['docu_nr_externo'])
+    return obter_documentos_externos()
 
 
 if __name__ == '__main__':

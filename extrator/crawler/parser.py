@@ -1,0 +1,152 @@
+import re
+
+from slugify import slugify
+
+from .utils import limpa_conteudo
+
+
+PADRAO_MOV = re.compile(r'numMov=(\d+)')
+
+
+def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
+                    fim_metadados):
+    metadados = {
+        'status': [''],
+        'comarca': [''],
+        'endereco': [''],
+        'bairro': [''],
+        'cidade': [''],
+        'acao': [''],
+        'assunto': [''],
+        'classe': [''],
+        'livro': [''],
+        'folha': [''],
+        'numero-do-tombo': [''],
+        'aviso-ao-advogado': [''],
+        'autor': [''],
+        'requerido': [''],
+        'requerente': [''],
+        'advogado-s': ['']
+    }
+
+    # Delimita o processo na regiao dos metadados
+    linhas_com_metadados = linhas_de_dados[inicio_metadados:fim_metadados]
+
+    metadados['numero-processo'] = numero_processo
+    metadados['status'] = limpa_conteudo(
+        linhas_com_metadados[0].find_all('td')[0].get_text()
+    )
+
+    # Apaga linhas utilizadas
+    del linhas_com_metadados[:2]
+
+    comarcas = []
+    comecou_comarca = False
+    for tr in list(linhas_com_metadados):
+        linhas_com_metadados.pop(0)
+        colunas = tr.find_all('td')
+        dados = ''.join([c.get_text() for c in colunas])
+        if 'Comarca' in dados or \
+           'Regional' in dados:
+            comecou_comarca = True
+
+        if comecou_comarca:
+            comarcas += extrai_dados_colunas(colunas)
+
+        if len(colunas) == 1 and comecou_comarca:
+            break
+
+    metadados['comarca'] = comarcas
+
+    for tr in list(linhas_com_metadados):
+        linhas_com_metadados.pop(0)
+        linha = []
+        colunas = tr.find_all('td')
+        linha = extrai_dados_colunas(colunas)
+        if linha:
+            metadados[slugify(linha[0])] = linha[1:]
+
+    return metadados
+
+
+def parse_itens(soup, numero_processo, inicio_itens):
+    # Recorta area com os itens
+    itens = {}
+    itens['numero-processo'] = numero_processo
+    lista_de_itens = []
+    linhas_de_dados = soup.find_all(attrs={'name': 'formResultado'})[0]\
+        .find_all('tr')
+    linhas_com_itens = linhas_de_dados[inicio_itens:]
+
+    for indice, linha in enumerate(list(linhas_com_itens)):
+        if linha.attrs == {'class': ['tipoMovimento']}:
+            item = {}
+            colunas = linha.find_all('td')
+            item[slugify(colunas[0].get_text())] = limpa_conteudo(
+                colunas[1].get_text()
+            )
+            info = linhas_com_itens[indice + 1:]
+            cont = 0
+            while cont < len(info) and\
+                    info[cont].attrs != {'class': ['tipoMovimento']}:
+
+                cols = info[cont].find_all('td')
+                if len(cols) > 1:
+                    if len(cols) > 1 and cols[1].find_all('a'):
+                        conteudo_escondido = cols[1].find('a').attrs['onclick']
+                        item['inteiro-teor'] = PADRAO_MOV.findall(
+                            conteudo_escondido
+                        )
+                        item[slugify(cols[0].get_text())] = limpa_conteudo(
+                            cols[1].get_text().split('\n')[0]
+                        )
+                    else:
+                        item[slugify(cols[0].get_text())] = limpa_conteudo(
+                            cols[1].get_text()
+                        )
+                else:
+                    cont += 1
+                    continue
+
+                cont += 1
+
+            lista_de_itens.append(item)
+
+    for item in lista_de_itens:
+        if 'inteiro-teor' in item:
+            item['inteiro-teor'] = soup.find(
+                'input', {
+                    'type': 'HIDDEN',
+                    'name': 'descMov{0}'.format(item['inteiro-teor'][0])
+                }).attrs['value']
+
+    itens['itens'] = lista_de_itens
+    return itens
+
+
+def area_dos_metadados(linhas_de_dados):
+    # Aparentemente esse valor e fixo
+    inicio = 0
+    for indice, linha in enumerate(linhas_de_dados):
+        coluna = linha.find('td')
+        atributos_inicio_metadados = {'align': 'center',
+                                      'class': ['negrito'],
+                                      'colspan': '2'}
+        if not inicio and coluna.attrs == atributos_inicio_metadados:
+            inicio = indice
+
+        if 'Tipo do Movimento:' in linha.get_text():
+            fim = indice - 1
+            break
+
+    return inicio, fim
+
+
+def extrai_dados_colunas(colunas):
+    linha = []
+    for td in colunas:
+        linha += list(
+            filter(None, [limpa_conteudo(td.get_text()) if td else ''])
+        )
+
+    return linha

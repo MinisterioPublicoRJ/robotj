@@ -13,7 +13,8 @@ from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_3,
                                  processo_judicial_4,
                                  processo_judicial_5,
-                                 processo_judicial_6)
+                                 processo_judicial_6,
+                                 processo_judicial_7)
 
 
 def _prepara_html(html):
@@ -405,6 +406,38 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
         }
 
         self.assert_items_equal(itens, esperado)
+
+    def test_extrai_itens_de_processo_com_lins_sem_atributo_onclick(self):
+        soup = BeautifulSoup(processo_judicial_7, 'lxml')
+        itens = parse_itens(
+            soup,
+            '0002346-95.2011.8.19.0045',
+            inicio_itens=26
+        )
+        esperado = {
+            'numero-processo':
+            '0004999-58.2015.8.19.0036',
+            'itens': [{
+                'tipo-do-movimento':
+                'Distribuição Dirigida',
+                'data-da-distribuicao':
+                '14/03/2011',
+                'serventia':
+                'Cartório da 2ª Vara de Família, da Inf., da Juv. e do Idoso -'
+                ' 2ª Vara de Família Infância e Juventude e do Idoso',
+                'processo-s-apensado-s': '0000159-51.2010.8.19.0045',
+                'processo-s-no-tribunal-de-justica':
+                '0002346-95.2011.8.19.0045',
+                'protocolo-s-no-tribunal-de-justica':
+                '201500617620 - Data: 26/10/2015',
+                'localizacao-na-serventia':
+                'Aguardando Arquivamento'
+            }]
+        }
+
+        for chave, valor in esperado['itens'][-1].items():
+            with self.subTest():
+                self.assertEqual(itens['itens'][-1][chave], valor)
 
 
 class Pipeline(TestCase):

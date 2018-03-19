@@ -1,11 +1,17 @@
 import re
 
+import requests
+
+from bs4 import BeautifulSoup
+
 from slugify import slugify
 
-from .utils import limpa_conteudo
+from .utils import limpa_conteudo, formata_numero_processo
 
 
 PADRAO_MOV = re.compile(r'numMov=(\d+)')
+URL = "http://www4.tjrj.jus.br/consultaProcessoWebV2/consultaMov.do?v=2"\
+      "&numProcesso={doc_number}&acessoIP=internet&tipoUsuario"
 
 
 def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
@@ -150,3 +156,20 @@ def extrai_dados_colunas(colunas):
         )
 
     return linha
+
+
+def pipeline(lista_de_processos):
+    dados = []
+    for processo in lista_de_processos:
+        dados_processo = {}
+        numero_processo = formata_numero_processo(processo)
+        resp = requests.get(URL.format(doc_number=numero_processo))
+        soup = BeautifulSoup(resp.content, 'lxml')
+        linhas = soup.find_all('tr')
+        inicio, fim = area_dos_metadados(linhas)
+        dados_processo.update(parse_metadados(linhas, numero_processo, inicio,
+                                              fim))
+        dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
+        dados.append(dados_processo)
+
+    return dados

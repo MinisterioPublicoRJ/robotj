@@ -99,19 +99,19 @@ def parse_itens(soup, numero_processo, inicio_itens):
                 cols = info[cont].find_all('td')
                 if len(cols) > 1:
                     if len(cols) > 1 and cols[1].find_all('a'):
-                        try: 
-                            conteudo_escondido = cols[1].find(
-                                'a').attrs['onclick']
-                            item['inteiro-teor'] = PADRAO_MOV.findall(
-                                conteudo_escondido
-                            )
-                        except KeyError:
-                            pass
-                        conteudos = cols[1].get_text().split('\n')
-                        dados = list(filter(lambda x: x.strip() != '',
-                                            conteudos))
+                        for link in cols[1].find_all('a'):
+                            if 'onclick' in link.attrs:
+                                conteudo_escondido = link.attrs['onclick']
+                                inteiro_teor = PADRAO_MOV.findall(
+                                    conteudo_escondido)
+                                if inteiro_teor:
+                                    item['inteiro-teor'] = inteiro_teor
+
+                        # conteudos = cols[1].get_text().split('\n')
+                        # dados = list(filter(lambda x: x.strip() != '',
+                        #                    conteudos))
                         item[slugify(cols[0].get_text())] = limpa_conteudo(
-                            dados[0]
+                            next(cols[1].descendants)
                         )
                     else:
                         item[slugify(cols[0].get_text())] = limpa_conteudo(

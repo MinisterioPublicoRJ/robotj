@@ -14,14 +14,16 @@ from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_6)
 
 
-class Parser(TestCase):
-    def _prepara_html(self, html):
-        soup_obj = BeautifulSoup(html, 'lxml')
-        return soup_obj.find_all('tr')
+def _prepara_html(html):
+    soup_obj = BeautifulSoup(html, 'lxml')
+    return soup_obj.find_all('tr')
+
+
+class ParserMetadados(TestCase):
 
     def _test_parse_metadados_processo_judicial(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_1),
+            _prepara_html(processo_judicial_1),
             '0004999-58.2015.8.19.0036',
             inicio_metadados=6,
             fim_metadados=26
@@ -55,7 +57,7 @@ class Parser(TestCase):
 
     def test_parse_metadados_de_outro_processo_com_outras_informacoes(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_2),
+            _prepara_html(processo_judicial_2),
             '0025375-16.2012.8.19.0054',
             inicio_metadados=6,
             fim_metadados=27
@@ -89,7 +91,7 @@ class Parser(TestCase):
 
     def test_parsea_processo_com_informacoes_de_comarca_diferentes(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_3),
+            _prepara_html(processo_judicial_3),
             '0001762-56.2009.8.19.0026',
             inicio_metadados=7,
             fim_metadados=23
@@ -120,7 +122,7 @@ class Parser(TestCase):
 
     def test_parsea_processo_com_link_nos_metadados(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_4),
+            _prepara_html(processo_judicial_4),
             '0441870-74.2008.8.19.0001',
             inicio_metadados=7,
             fim_metadados=27
@@ -146,12 +148,12 @@ class Parser(TestCase):
             'advogado-s': ['TJ000002 - DEFENSOR PÚBLICO']}
 
         for chave, valor in esperado.items():
-                with self.subTest():
-                    self.assertEqual(metadados[chave], valor)
+            with self.subTest():
+                self.assertEqual(metadados[chave], valor)
 
     def test_parsea_processo_com_link_antes_dos_metadados(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_5),
+            _prepara_html(processo_judicial_5),
             '0001394-96.2011.8.19.0084',
             inicio_metadados=0,
             fim_metadados=23
@@ -186,7 +188,7 @@ class Parser(TestCase):
 
     def test_parsea_processo_com_nome_regional_ao_inves_de_comarca(self):
         metadados = parse_metadados(
-            self._prepara_html(processo_judicial_6),
+            _prepara_html(processo_judicial_6),
             '0021491-54.2011.8.19.0202',
             inicio_metadados=6,
             fim_metadados=21
@@ -219,7 +221,7 @@ class Parser(TestCase):
 
     def test_delimita_linhas_dos_metadados_processo_judicial_1(self):
         inicio, fim = area_dos_metadados(
-            self._prepara_html(processo_judicial_1)
+            _prepara_html(processo_judicial_1)
         )
 
         inicio_esperado = 6
@@ -234,7 +236,7 @@ class Parser(TestCase):
             nas fixtures, inicia os metadados em uma linha diferente.
         """
         inicio, fim = area_dos_metadados(
-            self._prepara_html(processo_judicial_3)
+            _prepara_html(processo_judicial_3)
         )
 
         inicio_esperado = 7

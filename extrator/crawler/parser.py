@@ -74,6 +74,11 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
 
     return metadados
 
+def atribui(chave, item, valor):
+    valor = ' '.join(limpa_conteudo(valor).split("\n")).strip()
+    if valor:
+        item[chave] = valor
+
 def parse_processo_apensado(cols, item, campo):
     dados = cols[1].find('a')
     if dados:
@@ -88,13 +93,9 @@ def parse_descricao(cols, item, campo):
             if inteiro_teor:
                 item['inteiro-teor'] = inteiro_teor
         
-        item[campo] = limpa_conteudo(
-            cols[1].get_text()
-        )
+        atribui(campo, item, cols[1].get_text())
 
-    item[campo] = limpa_conteudo(
-        next(cols[1].descendants)
-    )
+    atribui(campo, item, next(cols[1].descendants))
 
 METODOS_PARSING = {
     'processo-s-apensado-s': parse_processo_apensado,
@@ -130,9 +131,7 @@ def parse_itens(soup, numero_processo, inicio_itens):
                     if campo in METODOS_PARSING:
                         METODOS_PARSING[campo](cols, item, campo)
                     else:
-                        item[campo] = limpa_conteudo(
-                            cols[1].get_text()
-                        )
+                        atribui(campo, item, cols[1].get_text())
                 else:
                     cont += 1
                     continue

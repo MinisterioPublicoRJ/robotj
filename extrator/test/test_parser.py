@@ -439,8 +439,9 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'data-da-distribuicao':
                 ['14/03/2011'],
                 'serventia':
-                ['Cartório da 2ª Vara de Família, da Inf., da Juv. e do Idoso -'
-                ' 2ª Vara de Família Infância e Juventude e do Idoso'],
+                ['Cartório da 2ª Vara de Família, da Inf., da Juv. '
+                 'e do Idoso -'
+                 ' 2ª Vara de Família Infância e Juventude e do Idoso'],
                 'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
                 'processo-s-no-tribunal-de-justica':
                 ['0002346-95.2011.8.19.0045'],

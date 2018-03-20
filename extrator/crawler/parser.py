@@ -1,9 +1,6 @@
 import re
-
 import requests
-
 from bs4 import BeautifulSoup
-
 from slugify import slugify
 
 from .utils import limpa_conteudo, formata_numero_processo
@@ -74,15 +71,18 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
 
     return metadados
 
+
 def atribui(chave, item, valor):
     valor = ' '.join(limpa_conteudo(valor).split("\n")).strip()
     if valor:
         item[chave] = valor
 
+
 def parse_processo_apensado(cols, item, campo):
     dados = cols[1].find('a')
     if dados:
         item[campo] = dados.get_text()
+
 
 def parse_descricao(cols, item, campo):
     for link in cols[1].find_all('a'):
@@ -96,6 +96,7 @@ def parse_descricao(cols, item, campo):
         atribui(campo, item, cols[1].get_text())
 
     atribui(campo, item, next(cols[1].descendants))
+
 
 METODOS_PARSING = {
     'processo-s-apensado-s': parse_processo_apensado,

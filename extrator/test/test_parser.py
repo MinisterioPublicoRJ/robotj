@@ -308,116 +308,116 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'tipo-do-movimento':
                 'Declínio de Competência',
                 'data':
-                '11/01/2016',
+                ['11/01/2016'],
                 'descricao':
-                'VIJI DA COMARCA DE SÃO MATHEUS - ESPIRITO SANTOS'
+                ['VIJI DA COMARCA DE SÃO MATHEUS - ESPIRITO SANTOS']
             }, {
                 'tipo-do-movimento': 'Recebimento',
-                'data-de-recebimento': '19/11/2015'
+                'data-de-recebimento': ['19/11/2015']
             }, {
                 'tipo-do-movimento':
                 'Decisão - Declínio de Competência',
                 'data-decisao':
-                '21/10/2015',
-                'descricao': ('Ante o teor de fls. 104, DECLINO DE MINHA'
+                ['21/10/2015'],
+                'descricao': ['Ante o teor de fls. 104, DECLINO DE MINHA'
                               ' COMPETÊNCIA para o Juízo da Infância e'
                               ' Juventude da Comarca de São Mateus, no'
                               ' Espírito Santo. Dê-se baixa e encaminhem-se'
-                              ' imediatamente, com as nossas homenagens.')
+                              ' imediatamente, com as nossas homenagens.']
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
-                'data-da-conclusao': '21/10/2015',
-                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+                'data-da-conclusao': ['21/10/2015'],
+                'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Decurso de Prazo',
-                'data-do-movimento': '20/10/2015'
+                'data-do-movimento': ['20/10/2015']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
-                'data-do-recebimento': '20/10/2015'
+                'data-do-recebimento': ['20/10/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
-                'destinatario': 'Ministério Público',
-                'data-da-remessa': '06/08/2015',
-                'prazo': '15 dia(s)'
+                'destinatario': ['Ministério Público'],
+                'data-da-remessa': ['06/08/2015'],
+                'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
-                'data-de-recebimento': '30/07/2015'
+                'data-de-recebimento': ['30/07/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
                 'data-despacho':
-                '28/07/2015',
+                ['28/07/2015'],
                 'descricao':
-                'Dê-se vista ao Ministério Público.'
+                ['Dê-se vista ao Ministério Público.']
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
-                'data-da-conclusao': '28/07/2015',
-                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+                'data-da-conclusao': ['28/07/2015'],
+                'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Decurso de Prazo',
-                'data-do-movimento': '27/07/2015'
+                'data-do-movimento': ['27/07/2015']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
-                'data-do-recebimento': '21/07/2015'
+                'data-do-recebimento': ['21/07/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
-                'destinatario': 'Psicologia',
-                'data-da-remessa': '17/07/2015',
-                'prazo': '15 dia(s)'
+                'destinatario': ['Psicologia'],
+                'data-da-remessa': ['17/07/2015'],
+                'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
-                'data-do-recebimento': '17/07/2015'
+                'data-do-recebimento': ['17/07/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
-                'destinatario': 'Assistente Social',
-                'data-da-remessa': '15/06/2015',
-                'prazo': '15 dia(s)'
+                'destinatario': ['Assistente Social'],
+                'data-da-remessa': ['15/06/2015'],
+                'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
-                'data-de-recebimento': '22/05/2015'
+                'data-de-recebimento': ['22/05/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
                 'data-despacho':
-                '11/05/2015',
-                'descricao': ('Atenda-se ao Ministério Público. Promovam-se os'
+                ['11/05/2015'],
+                'descricao': ['Atenda-se ao Ministério Público. Promovam-se os'
                               ' estudos social e psicológico com a demandada'
-                              ' e os adolescentes.'),
+                              ' e os adolescentes.'],
                 'inteiro-teor': ('Atenda-se ao Ministério Público. Promovam-se'
                                  '  os estudos social e psicológico com a'
                                  ' demandada e os adolescentes.'),
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
-                'data-da-conclusao': '11/05/2015',
-                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+                'data-da-conclusao': ['11/05/2015'],
+                'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
-                'data-do-recebimento': '30/04/2015'
+                'data-do-recebimento': ['30/04/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
-                'destinatario': 'Ministério Público',
-                'data-da-remessa': '08/04/2015',
-                'prazo': '15 dia(s)'
+                'destinatario': ['Ministério Público'],
+                'data-da-remessa': ['08/04/2015'],
+                'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
-                'data-de-recebimento': '27/03/2015'
+                'data-de-recebimento': ['27/03/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
-                'data-despacho': '19/03/2015',
-                'descricao': 'Dê-se vista ao Ministério Público.',
+                'data-despacho': ['19/03/2015'],
+                'descricao': ['Dê-se vista ao Ministério Público.'],
                 'inteiro-teor': 'Dê-se vista ao Ministério Público.'
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
-                'data-da-conclusao': '19/03/2015',
-                'juiz': 'VIVIANE TOVAR DE MATTOS ABRAHAO'
+                'data-da-conclusao': ['19/03/2015'],
+                'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Distribuição Dirigida',
-                'data-da-distribuicao': '19/03/2015',
-                'serventia': ('Cartório da 2ª Vara de Família, Inf. e da'
+                'data-da-distribuicao': ['19/03/2015'],
+                'serventia': ['Cartório da 2ª Vara de Família, Inf. e da'
                               ' Juv. e do Idoso - 2ª Vara de Família e da'
-                              ' Infância e da Juventude e do Idoso'),
-                'localizacao-na-serventia': 'Saída de Acervo'
+                              ' Infância e da Juventude e do Idoso'],
+                'localizacao-na-serventia': ['Saída de Acervo']
             }]
         }
 
@@ -437,17 +437,17 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'tipo-do-movimento':
                 'Distribuição Dirigida',
                 'data-da-distribuicao':
-                '14/03/2011',
+                ['14/03/2011'],
                 'serventia':
-                'Cartório da 2ª Vara de Família, da Inf., da Juv. e do Idoso -'
-                ' 2ª Vara de Família Infância e Juventude e do Idoso',
+                ['Cartório da 2ª Vara de Família, da Inf., da Juv. e do Idoso -'
+                ' 2ª Vara de Família Infância e Juventude e do Idoso'],
                 'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
                 'processo-s-no-tribunal-de-justica':
                 ['0002346-95.2011.8.19.0045'],
                 'protocolo-s-no-tribunal-de-justica':
-                '201500617620 - Data: 26/10/2015',
+                ['201500617620 - Data: 26/10/2015'],
                 'localizacao-na-serventia':
-                'Aguardando Arquivamento'
+                ['Aguardando Arquivamento']
             }]
         }
 

@@ -1,5 +1,6 @@
 import re
 import requests
+import collections
 from bs4 import BeautifulSoup
 from slugify import slugify
 from .utils import limpa_conteudo, formata_numero_processo
@@ -78,7 +79,7 @@ def estripa(texto):
 def atribui(chave, item, valor):
     valor = estripa(valor)
     if valor:
-        item[chave] = valor
+        item[chave].append(valor)
 
 
 def parse_processo_apensado(cols, item, campo):
@@ -95,8 +96,6 @@ def parse_descricao(cols, item, campo):
                 conteudo_escondido)
             if inteiro_teor:
                 item['inteiro-teor'] = inteiro_teor
-
-        atribui(campo, item, cols[1].get_text())
 
     atribui(campo, item, next(cols[1].descendants))
 
@@ -119,7 +118,7 @@ def parse_itens(soup, numero_processo, inicio_itens):
 
     for indice, linha in enumerate(list(linhas_com_itens)):
         if linha.attrs == {'class': ['tipoMovimento']}:
-            item = {}
+            item = collections.defaultdict(list)
             colunas = linha.find_all('td')
             item[slugify(colunas[0].get_text())] = limpa_conteudo(
                 colunas[1].get_text()

@@ -131,6 +131,8 @@ def parse_itens(soup, numero_processo, inicio_itens):
                 cols = info[cont].find_all('td')
                 if len(cols) > 1:
                     campo = slugify(cols[0].get_text())
+                    if campo == 'tipo-do-movimento':
+                        campo = 'sub-tipo-do-movimento'
                     if campo in METODOS_PARSING:
                         METODOS_PARSING[campo](cols, item, campo)
                     else:
@@ -186,6 +188,7 @@ def extrai_dados_colunas(colunas):
 def pipeline(lista_de_processos):
     dados = []
     for processo in lista_de_processos:
+        print(processo)
         dados_processo = {}
         numero_processo = formata_numero_processo(processo)
         resp = requests.get(URL.format(doc_number=numero_processo))

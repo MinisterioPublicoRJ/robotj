@@ -2,11 +2,11 @@ import os
 import cx_Oracle
 
 
-DS_EXADATA_HOST=os.environ['HOST']
+DS_EXADATA_HOST=os.environ['DB_HOST']
 DS_EXADATA_PORT=1521
-DS_EXADATA_SID=os.environ['SID']
-DS_EXADATA_user=os.environ['USER']
-DS_EXADATA_password=os.environ['PASSWORD']
+DS_EXADATA_SID=os.environ['DB_SID']
+DS_EXADATA_user=os.environ['DB_USER']
+DS_EXADATA_password=os.environ['DB_PASSWORD']
 
 DS_EXADATA_CONN_SID = cx_Oracle.makedsn(
     DS_EXADATA_HOST,

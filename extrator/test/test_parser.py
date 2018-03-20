@@ -7,24 +7,41 @@ from ..crawler.parser import (parse_metadados,
                               area_dos_metadados,
                               extrai_dados_colunas,
                               parse_itens,
-                              pipeline)
+                              pipeline,
+                              parse_processo_apensado)
 from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_2,
                                  processo_judicial_3,
                                  processo_judicial_4,
                                  processo_judicial_5,
                                  processo_judicial_6,
-                                 processo_judicial_7)
+                                 processo_judicial_7,
+                                 trecho_processo_judicial_1)
 
 
-def _prepara_html(html):
+def _prepara_html(html, tag='tr'):
     soup_obj = BeautifulSoup(html, 'lxml')
-    return soup_obj.find_all('tr')
+    return soup_obj.find_all(tag)
 
 
 class ParserMetadados(TestCase):
 
-    def _test_parse_metadados_processo_judicial(self):
+    def test_parse_processos_no_tribunal(self):
+        esperado = {
+            'processo-s-no-tribunal-de-justica': [
+                '0021913-53.2011.8.19.0000',
+                '0000159-51.2010.8.19.0045'
+            ]
+        }
+
+        item = {}
+        parse_processo_apensado(
+            _prepara_html(trecho_processo_judicial_1, 'td'),
+            item,
+            'processo-s-no-tribunal-de-justica')
+        assert item == esperado
+
+    def test_parse_metadados_processo_judicial(self):
         metadados = parse_metadados(
             _prepara_html(processo_judicial_1),
             '0004999-58.2015.8.19.0036',
@@ -32,7 +49,7 @@ class ParserMetadados(TestCase):
             fim_metadados=26
         )
 
-        expected = {
+        esperado = {
             'numero-processo': '0004999-58.2015.8.19.0036',
             'status': 'PROCESSO COM BAIXA',
             'comarca': [
@@ -54,7 +71,7 @@ class ParserMetadados(TestCase):
             'requerente': [''],
             'advogado-s': ['TJ000002 - DEFENSOR PÚBLICO']}
 
-        for chave, valor in expected.items():
+        for chave, valor in esperado.items():
             with self.subTest():
                 self.assertEqual(metadados[chave], valor)
 
@@ -66,7 +83,7 @@ class ParserMetadados(TestCase):
             fim_metadados=27
         )
 
-        expected = {
+        esperado = {
             'numero-processo': '0025375-16.2012.8.19.0054',
             'status': 'ARQUIVADO EM DEFINITIVO - MAÇO Nº 722, em 20/05/2013',
             'comarca': [
@@ -88,7 +105,7 @@ class ParserMetadados(TestCase):
             'requerente': ['IGREJA EVANGÉLICA NOVA ASSEMBLÉIA DE DEUS'],
             'advogado-s': ['RJ081634 - IRANY SPERANDIO DE MEDEIROS']}
 
-        for chave, valor in expected.items():
+        for chave, valor in esperado.items():
             with self.subTest():
                 self.assertEqual(metadados[chave], valor)
 
@@ -424,9 +441,9 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'serventia':
                 'Cartório da 2ª Vara de Família, da Inf., da Juv. e do Idoso -'
                 ' 2ª Vara de Família Infância e Juventude e do Idoso',
-                'processo-s-apensado-s': '0000159-51.2010.8.19.0045',
+                'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
                 'processo-s-no-tribunal-de-justica':
-                '0002346-95.2011.8.19.0045',
+                ['0002346-95.2011.8.19.0045'],
                 'protocolo-s-no-tribunal-de-justica':
                 '201500617620 - Data: 26/10/2015',
                 'localizacao-na-serventia':

@@ -82,9 +82,9 @@ def atribui(chave, item, valor):
 
 
 def parse_processo_apensado(cols, item, campo):
-    dados = cols[1].find('a')
+    dados = cols[1].find_all('a')
     if dados:
-        item[campo] = estripa(dados.get_text())
+        item[campo] = [estripa(link.get_text()) for link in dados]
 
 
 def parse_descricao(cols, item, campo):

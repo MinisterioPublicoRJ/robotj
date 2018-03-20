@@ -400,14 +400,13 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'serventia': ('Cartório da 2ª Vara de Família, Inf. e da'
                               ' Juv. e do Idoso - 2ª Vara de Família e da'
                               ' Infância e da Juventude e do Idoso'),
-                'processo-s-no-tribunal-de-justica': 'Não há.',
                 'localizacao-na-serventia': 'Saída de Acervo'
             }]
         }
 
         self.assert_items_equal(itens, esperado)
 
-    def test_extrai_itens_de_processo_com_lins_sem_atributo_onclick(self):
+    def test_extrai_itens_de_processo_com_links_sem_atributo_onclick(self):
         soup = BeautifulSoup(processo_judicial_7, 'lxml')
         itens = parse_itens(
             soup,
@@ -450,7 +449,7 @@ class Pipeline(TestCase):
     @patch('robotj.extrator.crawler.parser.BeautifulSoup')
     @patch('robotj.extrator.crawler.parser.requests')
     @patch('robotj.extrator.crawler.parser.formata_numero_processo')
-    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs, 
+    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs,
                                                _am, _pm, _pi):
         url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\
                        "consultaMov.do?v=2&numProcesso={doc_number}&"\

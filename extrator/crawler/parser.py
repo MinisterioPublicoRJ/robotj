@@ -2,7 +2,6 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from slugify import slugify
-
 from .utils import limpa_conteudo, formata_numero_processo
 
 
@@ -72,8 +71,12 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
     return metadados
 
 
+def estripa(texto):
+    return ' '.join(limpa_conteudo(texto).split("\n")).strip()
+
+
 def atribui(chave, item, valor):
-    valor = ' '.join(limpa_conteudo(valor).split("\n")).strip()
+    valor = estripa(valor)
     if valor:
         item[chave] = valor
 
@@ -81,7 +84,7 @@ def atribui(chave, item, valor):
 def parse_processo_apensado(cols, item, campo):
     dados = cols[1].find('a')
     if dados:
-        item[campo] = dados.get_text()
+        item[campo] = estripa(dados.get_text())
 
 
 def parse_descricao(cols, item, campo):
@@ -92,7 +95,7 @@ def parse_descricao(cols, item, campo):
                 conteudo_escondido)
             if inteiro_teor:
                 item['inteiro-teor'] = inteiro_teor
-        
+
         atribui(campo, item, cols[1].get_text())
 
     atribui(campo, item, next(cols[1].descendants))

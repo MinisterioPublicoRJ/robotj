@@ -74,6 +74,34 @@ def parse_metadados(linhas_de_dados, numero_processo, inicio_metadados,
 
     return metadados
 
+def parse_processo_apensado(cols, item, campo):
+    dados = cols[1].find('a')
+    if dados:
+        item[campo] = dados.get_text()
+
+def parse_descricao(cols, item, campo):
+    for link in cols[1].find_all('a'):
+        if 'onclick' in link.attrs:
+            conteudo_escondido = link.attrs['onclick']
+            inteiro_teor = PADRAO_MOV.findall(
+                conteudo_escondido)
+            if inteiro_teor:
+                item['inteiro-teor'] = inteiro_teor
+        
+        item[campo] = limpa_conteudo(
+            cols[1].get_text()
+        )
+
+    item[campo] = limpa_conteudo(
+        next(cols[1].descendants)
+    )
+
+METODOS_PARSING = {
+    'processo-s-apensado-s': parse_processo_apensado,
+    'processo-s-no-tribunal-de-justica': parse_processo_apensado,
+    'descricao': parse_descricao,
+}
+
 
 def parse_itens(soup, numero_processo, inicio_itens):
     # Recorta area com os itens
@@ -98,23 +126,11 @@ def parse_itens(soup, numero_processo, inicio_itens):
 
                 cols = info[cont].find_all('td')
                 if len(cols) > 1:
-                    if len(cols) > 1 and cols[1].find_all('a'):
-                        for link in cols[1].find_all('a'):
-                            if 'onclick' in link.attrs:
-                                conteudo_escondido = link.attrs['onclick']
-                                inteiro_teor = PADRAO_MOV.findall(
-                                    conteudo_escondido)
-                                if inteiro_teor:
-                                    item['inteiro-teor'] = inteiro_teor
-
-                        # conteudos = cols[1].get_text().split('\n')
-                        # dados = list(filter(lambda x: x.strip() != '',
-                        #                    conteudos))
-                        item[slugify(cols[0].get_text())] = limpa_conteudo(
-                            next(cols[1].descendants)
-                        )
+                    campo = slugify(cols[0].get_text())
+                    if campo in METODOS_PARSING:
+                        METODOS_PARSING[campo](cols, item, campo)
                     else:
-                        item[slugify(cols[0].get_text())] = limpa_conteudo(
+                        item[campo] = limpa_conteudo(
                             cols[1].get_text()
                         )
                 else:

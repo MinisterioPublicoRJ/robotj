@@ -9,7 +9,6 @@ URL = "http://www4.tjrj.jus.br/consultaProcessoWebV2/consultaMov.do?v=2"\
 
 
 def pipeline(lista_de_processos):
-    dados = []
     for processo in lista_de_processos:
         print(processo)
         dados_processo = {}
@@ -21,6 +20,4 @@ def pipeline(lista_de_processos):
         dados_processo.update(parse_metadados(linhas, numero_processo, inicio,
                                               fim))
         dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
-        dados.append(dados_processo)
-
-    return dados
+        yield dados_processo

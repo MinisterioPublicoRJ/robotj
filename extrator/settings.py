@@ -19,7 +19,4 @@ DS_EXADATA_CONN_CSTR = 'oracle://{user}:{password}@{sid}'.format(
     sid=DS_EXADATA_CONN_SID
 )
 
-engine = {'connection': None}
-
-def conn():
-    return engine['connection']
+LOGGER_FORMAT = '%(asctime)-15s %(message)s'

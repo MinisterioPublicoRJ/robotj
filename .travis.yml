@@ -4,6 +4,7 @@ python:
 install:
   pip install -r requirements.txt;
 script:
+  - source extractor/test/teste_env
   - flake8 .
   - nosetests
 notifications:

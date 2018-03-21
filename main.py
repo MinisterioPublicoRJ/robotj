@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine
-from extrator.settings import DS_EXADATA_CONN_CSTR, engine
+from extrator.settings import DS_EXADATA_CONN_CSTR
+from extrator.base.utils import engine, set_log
 from extrator.datasources.mcpr import obter_documentos_externos
+from extrator.crawler.pipeliner import pipeline
 
 
 def main():
@@ -12,7 +14,12 @@ def main():
         echo=True
     )
 
-    return obter_documentos_externos()
+    set_log()
+
+    docs = obter_documentos_externos()
+
+    for item in pipeline(docs):
+        pass
 
 
 if __name__ == '__main__':

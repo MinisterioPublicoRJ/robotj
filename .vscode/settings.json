@@ -5,5 +5,16 @@
     ".vscode/*.py",
     "**/site-packages/**/*.py",
     "**/migrations/**/*.py"
-    ]
+    ],
+    "python.venvFolders": [
+        "envs",
+        ".pyenv",
+        ".direnv",
+        "venv"
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "venv": true
+    }
 }

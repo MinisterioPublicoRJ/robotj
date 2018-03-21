@@ -1,6 +1,8 @@
 import os
 import cx_Oracle
+import logging
 
+POOLCOUNT=50
 
 DS_EXADATA_HOST=os.environ['DB_HOST']
 DS_EXADATA_PORT=1521
@@ -20,3 +22,4 @@ DS_EXADATA_CONN_CSTR = 'oracle://{user}:{password}@{sid}'.format(
 )
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
+LOGGER_LEVEL = logging.INFO

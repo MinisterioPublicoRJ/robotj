@@ -1,4 +1,4 @@
-from extrator.settings import conn
+from extrator.base.utils import conn
 
 SELECT_DOCU_EXTERNO = """
     select docu_nr_externo as DOCU_NR_EXTERNO
@@ -9,4 +9,4 @@ SELECT_DOCU_EXTERNO = """
 
 
 def obter_documentos_externos():
-    return conn().execute(SELECT_DOCU_EXTERNO)
+    return [doc[0] for doc in conn().execute(SELECT_DOCU_EXTERNO)]

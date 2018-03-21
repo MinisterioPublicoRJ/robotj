@@ -7,7 +7,6 @@ from ..crawler.parser import (parse_metadados,
                               area_dos_metadados,
                               extrai_dados_colunas,
                               parse_itens,
-                              pipeline,
                               parse_processo_apensado)
 from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_2,
@@ -17,6 +16,7 @@ from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_6,
                                  processo_judicial_7,
                                  trecho_processo_judicial_1)
+from ..crawler.pipeliner import pipeline
 
 
 def _prepara_html(html, tag='tr'):
@@ -458,15 +458,15 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
 
 
 class Pipeline(TestCase):
-    @patch('robotj.extrator.crawler.parser.parse_itens',
+    @patch('robotj.extrator.crawler.pipeliner.parse_itens',
            side_effect=[{'d': 4}, {'e': 5}, {'f': 6}])
-    @patch('robotj.extrator.crawler.parser.parse_metadados',
+    @patch('robotj.extrator.crawler.pipeliner.parse_metadados',
            side_effect=[{'a': 1}, {'b': 2}, {'c': 3}])
-    @patch('robotj.extrator.crawler.parser.area_dos_metadados',
+    @patch('robotj.extrator.crawler.pipeliner.area_dos_metadados',
            side_effect=[(0, 1), (2, 3), (4, 5)])
-    @patch('robotj.extrator.crawler.parser.BeautifulSoup')
-    @patch('robotj.extrator.crawler.parser.requests')
-    @patch('robotj.extrator.crawler.parser.formata_numero_processo')
+    @patch('robotj.extrator.crawler.pipeliner.BeautifulSoup')
+    @patch('robotj.extrator.crawler.pipeliner.requests')
+    @patch('robotj.extrator.crawler.pipeliner.formata_numero_processo')
     def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs,
                                                _am, _pm, _pi):
         url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\

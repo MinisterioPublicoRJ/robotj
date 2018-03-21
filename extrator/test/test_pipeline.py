@@ -45,7 +45,7 @@ class Pipeline(TestCase):
         _req.get.side_effect = [_resp_mock_1, _resp_mock_2, _resp_mock_3]
         _bs.side_effect = [_soup_mock_1, _soup_mock_2, _soup_mock_3]
 
-        processos = [processo for processo in pipeline(lista_de_processos)]
+        processos = [pipeline(processo) for processo in lista_de_processos]
 
         _fnp_calls = [call('1234'), call('5678'), call('9012')]
         _req_calls = [

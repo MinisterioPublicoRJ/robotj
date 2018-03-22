@@ -1,5 +1,7 @@
 import re
 
+from hashlib import md5
+
 
 def formata_numero_processo(numero_processo):
     mascara = "{0}-{1}.{2}.{3}.{4}.{5}"
@@ -23,3 +25,7 @@ def formata_numero_processo(numero_processo):
 
 def limpa_conteudo(conteudo_sujo):
     return re.sub('\s+', ' ', conteudo_sujo).strip()
+
+
+def confere_atualizao(hash_inicial, processo):
+    return True if hash_inicial != md5(processo).hexdigest() else False

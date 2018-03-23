@@ -29,3 +29,11 @@ def limpa_conteudo(conteudo_sujo):
 
 def confere_atualizao(hash_inicial, processo):
     return True if hash_inicial != md5(processo).hexdigest() else False
+
+
+def remove_data_consulta(html):
+    html = html.decode('latin-1')
+    return re.sub(
+        'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
+        '',
+        html).encode()

@@ -2,7 +2,8 @@ from unittest import TestCase
 
 from ..crawler.utils import (formata_numero_processo,
                              limpa_conteudo,
-                             confere_atualizao)
+                             confere_atualizao,
+                             remove_data_consulta)
 from .fixtures.processos import processo_judicial_1
 
 
@@ -46,3 +47,14 @@ class Hash(TestCase):
         foi_atualizado = confere_atualizao(hash_inicial, processo_judicial_1)
 
         self.assertFalse(foi_atualizado)
+
+    def test_remove_data_de_consulta_do_html(self):
+        trecho_processo = '<tr valign="top"><td colspan="2" class="info">'\
+            'TJ/RJ -\r\n                      23/03/2018 12:48:23</td>'\
+            '</tr>'.encode()
+
+        processo_sem_data = remove_data_consulta(trecho_processo)
+        esperado = '<tr valign="top"><td colspan="2" class="info"></td>'\
+            '</tr>'.encode()
+
+        self.assertEqual(processo_sem_data, esperado)

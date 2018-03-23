@@ -3,7 +3,9 @@ import requests
 import collections
 from bs4 import BeautifulSoup
 from slugify import slugify
-from .utils import limpa_conteudo, formata_numero_processo
+from .utils import (limpa_conteudo,
+                    formata_numero_processo,
+                    cria_hash_do_movimento)
 
 
 PADRAO_MOV = re.compile(r'numMov=(\d+)')
@@ -143,6 +145,7 @@ def parse_itens(soup, numero_processo, inicio_itens):
 
                 cont += 1
 
+            item['hash'] = cria_hash_do_movimento(item)
             lista_de_itens.append(item)
 
     for item in lista_de_itens:

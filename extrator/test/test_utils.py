@@ -2,9 +2,9 @@ from unittest import TestCase
 
 from ..crawler.utils import (formata_numero_processo,
                              limpa_conteudo,
-                             confere_atualizao,
                              remove_data_consulta,
-                             cria_hash_do_movimento)
+                             cria_hash_do_movimento,
+                             cria_hash_do_processo)
 from .fixtures.processos import processo_judicial_1
 
 
@@ -31,23 +31,11 @@ class Utils(TestCase):
 
 
 class Hash(TestCase):
-    def test_hash_diferente_para_atualizacao_no_processo(self):
-        """
-            Cada processo tera uma identificcao hash inicial.
-            Caso a hash inicial seja diferente da hash calculada
-            novamente no mesmo documento, houve alteracao no processo.
-        """
-        hash_inicial = '8a1586a2c0795b9e4abfb7f9af914cc4'
-        processo_alterado = processo_judicial_1 + b'a'
-        foi_atualizado = confere_atualizao(hash_inicial, processo_alterado)
+    def test_cria_hash_do_conteudo_html_do_processo(self):
+        hash_documento = cria_hash_do_processo(processo_judicial_1)
+        esperado = '5d317d964aeb5b1b3b0fb794047e0bc9'
 
-        self.assertTrue(foi_atualizado)
-
-    def test_hash_igual_para_processo_inalterado(self):
-        hash_inicial = '8a1586a2c0795b9e4abfb7f9af914cc4'
-        foi_atualizado = confere_atualizao(hash_inicial, processo_judicial_1)
-
-        self.assertFalse(foi_atualizado)
+        self.assertEqual(hash_documento, esperado)
 
     def test_remove_data_de_consulta_do_html(self):
         trecho_processo = '<tr valign="top"><td colspan="2" class="info">'\

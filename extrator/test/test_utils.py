@@ -3,7 +3,8 @@ from unittest import TestCase
 from ..crawler.utils import (formata_numero_processo,
                              limpa_conteudo,
                              confere_atualizao,
-                             remove_data_consulta)
+                             remove_data_consulta,
+                             cria_hash_do_movimento)
 from .fixtures.processos import processo_judicial_1
 
 
@@ -58,3 +59,15 @@ class Hash(TestCase):
             '</tr>'.encode()
 
         self.assertEqual(processo_sem_data, esperado)
+
+    def test_cria_hash_para_um_movimento(self):
+        item = {
+            'tipo-do-movimento': 'Conclusão ao Juiz',
+            'data-da-conclusao': ['21/10/2015'],
+            'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
+        }
+
+        movimento_hash = cria_hash_do_movimento(item)
+        esperado = '03b979f3d68a8b526746c94370039ddb'
+
+        self.assertEqual(movimento_hash, esperado)

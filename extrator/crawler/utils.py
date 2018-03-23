@@ -1,3 +1,5 @@
+import hashlib
+import json
 import re
 
 from hashlib import md5
@@ -37,3 +39,11 @@ def remove_data_consulta(html):
         'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
         '',
         html).encode()
+
+
+def cria_hash_do_movimento(item):
+    chaves = sorted(item.keys())
+    valores = [item[chave] for chave in chaves]
+    itens_ordenados = list(zip(chaves, valores))
+    item_json = json.dumps(itens_ordenados)
+    return hashlib.md5(item_json.encode()).hexdigest()

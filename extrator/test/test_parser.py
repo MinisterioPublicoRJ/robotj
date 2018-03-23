@@ -25,7 +25,6 @@ def _prepara_html(html, tag='tr'):
 
 
 class ParserMetadados(TestCase):
-
     def test_parse_processos_no_tribunal(self):
         esperado = {
             'processo-s-no-tribunal-de-justica': [

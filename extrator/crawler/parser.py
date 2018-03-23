@@ -191,7 +191,6 @@ def extrai_dados_colunas(colunas):
 def pipeline(lista_de_processos):
     dados = []
     for processo in lista_de_processos:
-        print(processo)
         dados_processo = {}
         numero_processo = formata_numero_processo(processo)
         resp = requests.get(URL.format(doc_number=numero_processo))

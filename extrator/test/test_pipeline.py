@@ -1,4 +1,4 @@
-from unittest.mock import patch, call, MagicMock
+from unittest.mock import patch, MagicMock
 from unittest import TestCase
 from ..crawler.pipeliner import pipeline
 
@@ -48,4 +48,3 @@ class Pipeline(TestCase):
         _pi.assert_called_once_with(_soup_mock, '1.2.3.4', 1)
 
         self.assertEqual(processos, {'a': 1, 'd': 4, 'hash': 'ab12'})
-    

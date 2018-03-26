@@ -3,10 +3,7 @@ from bs4 import BeautifulSoup
 from .utils import formata_numero_processo, cria_hash_do_processo
 from .parser import parse_metadados, area_dos_metadados, parse_itens
 from ..base.utils import logger
-
-
-URL = "http://www4.tjrj.jus.br/consultaProcessoWebV2/consultaMov.do?v=2"\
-      "&numProcesso={doc_number}&acessoIP=internet&tipoUsuario"
+from ..settings import URL_PROCESSO
 
 
 def pipeline(processo):
@@ -14,7 +11,7 @@ def pipeline(processo):
     dados_processo = {}
     numero_processo = formata_numero_processo(processo)
     try:
-        resp = requests.get(URL.format(doc_number=numero_processo))
+        resp = requests.get(URL_PROCESSO.format(doc_number=numero_processo))
         soup = BeautifulSoup(resp.content, 'lxml')
         linhas = soup.find_all('tr')
         inicio, fim = area_dos_metadados(linhas)

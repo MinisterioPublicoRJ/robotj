@@ -23,3 +23,7 @@ DS_EXADATA_CONN_CSTR = 'oracle://{user}:{password}@{sid}'.format(
 
 LOGGER_FORMAT = '%(asctime)-15s %(message)s'
 LOGGER_LEVEL = logging.INFO
+
+URL_PROCESSO = ("http://www4.tjrj.jus.br/consultaProcessoWebV2/"
+                "consultaMov.do?v=2&numProcesso={doc_number}&"
+                "acessoIP=internet&tipoUsuario")

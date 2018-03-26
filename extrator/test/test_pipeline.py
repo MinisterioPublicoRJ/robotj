@@ -1,6 +1,7 @@
 from unittest.mock import patch, MagicMock
 from unittest import TestCase
 from ..crawler.pipeliner import pipeline
+from ..settings import URL_PROCESSO
 
 
 class Pipeline(TestCase):
@@ -16,9 +17,6 @@ class Pipeline(TestCase):
     @patch('robotj.extrator.crawler.pipeliner.formata_numero_processo')
     def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _chdp, _bs,
                                                _am, _pm, _pi):
-        url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\
-                       "consultaMov.do?v=2&numProcesso={doc_number}&"\
-                       "acessoIP=internet&tipoUsuario"
         processo = '1234'
 
         numero_formatado = '1.2.3.4'
@@ -38,7 +36,7 @@ class Pipeline(TestCase):
         processos = pipeline(processo)
 
         _fnp.assert_called_once_with(processo)
-        _req.get.assert_called_once_with(url_processo.format(
+        _req.get.assert_called_once_with(URL_PROCESSO.format(
             doc_number=numero_formatado))
         _chdp.assert_called_once_with(html)
         _bs.assert_called_once_with(html, 'lxml')

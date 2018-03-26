@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from .utils import formata_numero_processo
+from .utils import formata_numero_processo, cria_hash_do_processo
 from .parser import parse_metadados, area_dos_metadados, parse_itens
 from ..base.utils import logger
 
@@ -19,5 +19,6 @@ def pipeline(processo):
     inicio, fim = area_dos_metadados(linhas)
     dados_processo.update(parse_metadados(linhas, numero_processo, inicio,
                                           fim))
+    dados_processo['hash'] = cria_hash_do_processo(resp.content)
     dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
     return dados_processo

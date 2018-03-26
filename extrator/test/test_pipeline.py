@@ -5,74 +5,47 @@ from ..crawler.pipeliner import pipeline
 
 class Pipeline(TestCase):
     @patch('robotj.extrator.crawler.pipeliner.parse_itens',
-           side_effect=[{'d': 4}, {'e': 5}, {'f': 6}])
+           return_value={'d': 4})
     @patch('robotj.extrator.crawler.pipeliner.parse_metadados',
-           side_effect=[{'a': 1}, {'b': 2}, {'c': 3}])
+           return_value={'a': 1})
     @patch('robotj.extrator.crawler.pipeliner.area_dos_metadados',
-           side_effect=[(0, 1), (2, 3), (4, 5)])
+           return_value=(0, 1))
     @patch('robotj.extrator.crawler.pipeliner.BeautifulSoup')
+    @patch('robotj.extrator.crawler.pipeliner.cria_hash_do_processo')
     @patch('robotj.extrator.crawler.pipeliner.requests')
     @patch('robotj.extrator.crawler.pipeliner.formata_numero_processo')
-    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs,
+    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _chdp, _bs,
                                                _am, _pm, _pi):
         url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\
                        "consultaMov.do?v=2&numProcesso={doc_number}&"\
                        "acessoIP=internet&tipoUsuario"
-        lista_de_processos = [
-            '1234',
-            '5678',
-            '9012'
-        ]
+        processo = '1234'
 
-        numeros_formatados = ['1.2.3.4', '5.6.7.8', '9.0.1.2']
-        htmls = ['html_1', 'html_2', 'html_3']
-        _resp_mock_1 = MagicMock()
-        _resp_mock_2 = MagicMock()
-        _resp_mock_3 = MagicMock()
-        _resp_mock_1.content = htmls[0]
-        _resp_mock_2.content = htmls[1]
-        _resp_mock_3.content = htmls[2]
+        numero_formatado = '1.2.3.4'
+        html = 'html_1'
+        _resp_mock = MagicMock()
+        _resp_mock.content = html
 
-        _soup_mock_1 = MagicMock()
-        _soup_mock_2 = MagicMock()
-        _soup_mock_3 = MagicMock()
+        _soup_mock = MagicMock()
 
-        _soup_mock_1.find_all.return_value = 'rows_mock_1'
-        _soup_mock_2.find_all.return_value = 'rows_mock_2'
-        _soup_mock_3.find_all.return_value = 'rows_mock_3'
+        _soup_mock.find_all.return_value = 'rows_mock'
 
-        _fnp.side_effect = numeros_formatados
-        _req.get.side_effect = [_resp_mock_1, _resp_mock_2, _resp_mock_3]
-        _bs.side_effect = [_soup_mock_1, _soup_mock_2, _soup_mock_3]
+        _fnp.return_value = numero_formatado
+        _req.get.return_value = _resp_mock
+        _chdp.return_value = 'ab12'
+        _bs.return_value = _soup_mock
 
-        processos = [pipeline(processo) for processo in lista_de_processos]
+        processos = pipeline(processo)
 
-        _fnp_calls = [call('1234'), call('5678'), call('9012')]
-        _req_calls = [
-            call(url_processo.format(doc_number=doc)) for
-            doc in numeros_formatados
-        ]
-        _bs_calls = [call(html, 'lxml') for html in htmls]
-        _am_calls = [call('rows_mock_1'), call('rows_mock_2'),
-                     call('rows_mock_3')]
-        _pm_calls = [call('rows_mock_1', '1.2.3.4', 0, 1),
-                     call('rows_mock_2', '5.6.7.8', 2, 3),
-                     call('rows_mock_3', '9.0.1.2', 4, 5)]
-        _pi_calls = [call(_soup_mock_1, '1.2.3.4', 1),
-                     call(_soup_mock_2, '5.6.7.8', 3),
-                     call(_soup_mock_3, '9.0.1.2', 5)]
+        _fnp.assert_called_once_with(processo)
+        _req.get.assert_called_once_with(url_processo.format(
+            doc_number=numero_formatado))
+        _chdp.assert_called_once_with(html)
+        _bs.assert_called_once_with(html, 'lxml')
+        _soup_mock.find_all.assert_called_once_with('tr')
+        _am.assert_called_once_with('rows_mock')
+        _pm.assert_called_once_with('rows_mock', '1.2.3.4', 0, 1)
+        _pi.assert_called_once_with(_soup_mock, '1.2.3.4', 1)
 
-        _fnp.assert_has_calls(_fnp_calls)
-        _req.get.assert_has_calls(_req_calls)
-        _bs.assert_has_calls(_bs_calls)
-        _soup_mock_1.find_all.assert_called_once_with('tr')
-        _soup_mock_2.find_all.assert_called_once_with('tr')
-        _soup_mock_3.find_all.assert_called_once_with('tr')
-        _am.assert_has_calls(_am_calls)
-        _pm.assert_has_calls(_pm_calls)
-        _pi.assert_has_calls(_pi_calls)
-
-        self.assertEqual(len(processos), 3)
-        self.assertEqual(processos[0], {'a': 1, 'd': 4})
-        self.assertEqual(processos[1], {'b': 2, 'e': 5})
-        self.assertEqual(processos[2], {'c': 3, 'f': 6})
+        self.assertEqual(processos, {'a': 1, 'd': 4, 'hash': 'ab12'})
+    

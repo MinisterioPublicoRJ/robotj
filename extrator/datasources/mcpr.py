@@ -1,5 +1,5 @@
 from ..base.utils import conn, logger
-from .mcpr_models import TB_DOCUMENTO
+from .mcpr_models import TB_DOCUMENTO, TB_MOVIMENTO
 
 SELECT_DOCU_EXTERNO = """
     select docu_nr_externo as DOCU_NR_EXTERNO
@@ -83,6 +83,11 @@ def atualizar_documento(documento):
             id=documento.id))
     conn().execute(insert)
 
+    movimentos_inserir = _itens_não_presentes(insert['id'], documento['itens'])
+
+    for movimento in movimentos_inserir:
+        insere_movimento(insert['id'], movimento)
+
 
 def insere_movimento(id_documento, movimento):
     trans = conn().begin()
@@ -101,3 +106,9 @@ def _itens_não_presentes(movimentos, lista_hashs):
             retorno += [movimento]
 
     return retorno
+
+
+def obtem_hashs_movimentos(id_documento):
+    return [doc[0] for doc in TB_MOVIMENTO.select(
+        'hash').where(
+            id_documento=id_documento)]

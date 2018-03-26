@@ -13,10 +13,10 @@ def pipeline(processo):
     logger().info(processo)
     dados_processo = {}
     numero_processo = formata_numero_processo(processo)
-    resp = requests.get(URL.format(doc_number=numero_processo))
-    soup = BeautifulSoup(resp.content, 'lxml')
-    linhas = soup.find_all('tr')
     try:
+        resp = requests.get(URL.format(doc_number=numero_processo))
+        soup = BeautifulSoup(resp.content, 'lxml')
+        linhas = soup.find_all('tr')
         inicio, fim = area_dos_metadados(linhas)
         dados_processo.update(
             parse_metadados(
@@ -25,7 +25,7 @@ def pipeline(processo):
                 inicio,
                 fim))
         dados_processo['hash'] = cria_hash_do_processo(resp.content)
-        dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
+        dados_processo.update(parse_itens(soup, processo, inicio + 1))
     except Exception as erro:
         logger().error(
             "Erro de parsing do processo - {0}, com mensagem: {1}".format(

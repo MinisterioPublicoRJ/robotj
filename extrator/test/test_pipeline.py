@@ -45,6 +45,6 @@ class Pipeline(TestCase):
         _soup_mock.find_all.assert_called_once_with('tr')
         _am.assert_called_once_with('rows_mock')
         _pm.assert_called_once_with('rows_mock', '1.2.3.4', 0, 1)
-        _pi.assert_called_once_with(_soup_mock, '1.2.3.4', 1)
+        _pi.assert_called_once_with(_soup_mock, '1234', 1)
 
         self.assertEqual(processos, {'a': 1, 'd': 4, 'hash': 'ab12'})

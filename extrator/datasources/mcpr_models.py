@@ -1,4 +1,11 @@
-from sqlalchemy import MetaData, Table, Column, Integer, String, DateTime, LargeBinary
+from sqlalchemy import (
+    MetaData,
+    Table,
+    Column,
+    Integer,
+    String,
+    DateTime,
+    LargeBinary)
 
 meta = MetaData()
 

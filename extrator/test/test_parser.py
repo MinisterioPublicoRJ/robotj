@@ -488,9 +488,10 @@ class Pipeline(TestCase):
     @patch('robotj.extrator.crawler.parser.area_dos_metadados',
            side_effect=[(0, 1), (2, 3), (4, 5)])
     @patch('robotj.extrator.crawler.parser.BeautifulSoup')
+    @patch('robotj.extrator.crawler.parser.cria_hash_do_processo')
     @patch('robotj.extrator.crawler.parser.requests')
     @patch('robotj.extrator.crawler.parser.formata_numero_processo')
-    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs,
+    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _chdp, _bs,
                                                _am, _pm, _pi):
         url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\
                        "consultaMov.do?v=2&numProcesso={doc_number}&"\
@@ -520,6 +521,7 @@ class Pipeline(TestCase):
 
         _fnp.side_effect = numeros_formatados
         _req.get.side_effect = [_resp_mock_1, _resp_mock_2, _resp_mock_3]
+        _chdp.side_effect = ['ab12', 'cd56', 'ef78']
         _bs.side_effect = [_soup_mock_1, _soup_mock_2, _soup_mock_3]
 
         processos = pipeline(lista_de_processos)
@@ -529,6 +531,7 @@ class Pipeline(TestCase):
             call(url_processo.format(doc_number=doc)) for
             doc in numeros_formatados
         ]
+        _chdp_calls = [call(html) for html in htmls]
         _bs_calls = [call(html, 'lxml') for html in htmls]
         _am_calls = [call('rows_mock_1'), call('rows_mock_2'),
                      call('rows_mock_3')]
@@ -541,6 +544,7 @@ class Pipeline(TestCase):
 
         _fnp.assert_has_calls(_fnp_calls)
         _req.get.assert_has_calls(_req_calls)
+        _chdp.assert_has_calls(_chdp_calls)
         _bs.assert_has_calls(_bs_calls)
         _soup_mock_1.find_all.assert_called_once_with('tr')
         _soup_mock_2.find_all.assert_called_once_with('tr')
@@ -550,6 +554,6 @@ class Pipeline(TestCase):
         _pi.assert_has_calls(_pi_calls)
 
         self.assertEqual(len(processos), 3)
-        self.assertEqual(processos[0], {'a': 1, 'd': 4})
-        self.assertEqual(processos[1], {'b': 2, 'e': 5})
-        self.assertEqual(processos[2], {'c': 3, 'f': 6})
+        self.assertEqual(processos[0], {'a': 1, 'd': 4, 'hash': 'ab12'})
+        self.assertEqual(processos[1], {'b': 2, 'e': 5, 'hash': 'cd56'})
+        self.assertEqual(processos[2], {'c': 3, 'f': 6, 'hash': 'ef78'})

@@ -5,7 +5,8 @@ from bs4 import BeautifulSoup
 from slugify import slugify
 from .utils import (limpa_conteudo,
                     formata_numero_processo,
-                    cria_hash_do_movimento)
+                    cria_hash_do_movimento,
+                    cria_hash_do_processo)
 
 
 PADRAO_MOV = re.compile(r'numMov=(\d+)')
@@ -200,6 +201,7 @@ def pipeline(lista_de_processos):
         dados_processo.update(parse_metadados(linhas, numero_processo, inicio,
                                               fim))
         dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
+        dados_processo['hash'] = cria_hash_do_processo(resp.content)
         dados.append(dados_processo)
 
     return dados

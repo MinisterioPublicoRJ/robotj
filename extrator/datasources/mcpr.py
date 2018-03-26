@@ -1,4 +1,4 @@
-from extrator.base.utils import conn, logger
+from ..base.utils import conn, logger
 from .mcpr_models import TB_DOCUMENTO
 
 SELECT_DOCU_EXTERNO = """
@@ -84,7 +84,6 @@ def atualizar_documento(documento):
     conn().execute(insert)
 
 
-
 def insere_movimento(id_documento, movimento):
     trans = conn().begin()
     try:
@@ -93,3 +92,12 @@ def insere_movimento(id_documento, movimento):
     except Exception as error:
         logger().error(error)
         trans.transaction.rollback()
+
+
+def _itens_não_presentes(movimentos, lista_hashs):
+    retorno = []
+    for movimento in movimentos:
+        if movimento['hash'] not in lista_hashs:
+            retorno += [movimento]
+
+    return retorno

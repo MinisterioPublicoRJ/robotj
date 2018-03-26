@@ -25,7 +25,6 @@ def _prepara_html(html, tag='tr'):
 
 
 class ParserMetadados(TestCase):
-
     def test_parse_processos_no_tribunal(self):
         esperado = {
             'processo-s-no-tribunal-de-justica': [
@@ -294,7 +293,9 @@ class ComparaItensProcessoMixin:
 
 
 class ParserItems(ComparaItensProcessoMixin, TestCase):
-    def test_extrai_itens_do_processo_judicial_1(self):
+    @patch('robotj.extrator.crawler.parser.cria_hash_do_movimento',
+           return_value='1234')
+    def test_extrai_itens_do_processo_judicial_1(self, _chdm):
         soup = BeautifulSoup(processo_judicial_1, 'lxml')
         itens = parse_itens(
             soup,
@@ -302,21 +303,19 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
             inicio_itens=26
         )
         esperado = {
-            'numero-processo':
-            '0004999-58.2015.8.19.0036',
+            'numero-processo': '0004999-58.2015.8.19.0036',
             'itens': [{
-                'tipo-do-movimento':
-                'Declínio de Competência',
-                'data':
-                ['11/01/2016'],
+                'tipo-do-movimento': 'Declínio de Competência',
+                'hash': '1234',
+                'data': ['11/01/2016'],
                 'descricao':
                 ['VIJI DA COMARCA DE SÃO MATHEUS - ESPIRITO SANTOS']
             }, {
                 'tipo-do-movimento': 'Recebimento',
                 'data-de-recebimento': ['19/11/2015']
             }, {
-                'tipo-do-movimento':
-                'Decisão - Declínio de Competência',
+                'tipo-do-movimento': 'Decisão - Declínio de Competência',
+                'hash': '1234',
                 'data-decisao':
                 ['21/10/2015'],
                 'descricao': ['Ante o teor de fls. 104, DECLINO DE MINHA'
@@ -326,58 +325,72 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                               ' imediatamente, com as nossas homenagens.']
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
+                'hash': '1234',
                 'data-da-conclusao': ['21/10/2015'],
                 'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Decurso de Prazo',
+                'hash': '1234',
                 'data-do-movimento': ['20/10/2015']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
+                'hash': '1234',
                 'data-do-recebimento': ['20/10/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
+                'hash': '1234',
                 'destinatario': ['Ministério Público'],
                 'data-da-remessa': ['06/08/2015'],
                 'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
+                'hash': '1234',
                 'data-de-recebimento': ['30/07/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
+                'hash': '1234',
                 'data-despacho':
                 ['28/07/2015'],
                 'descricao':
                 ['Dê-se vista ao Ministério Público.']
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
+                'hash': '1234',
                 'data-da-conclusao': ['28/07/2015'],
                 'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Decurso de Prazo',
+                'hash': '1234',
                 'data-do-movimento': ['27/07/2015']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
+                'hash': '1234',
                 'data-do-recebimento': ['21/07/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
+                'hash': '1234',
                 'destinatario': ['Psicologia'],
                 'data-da-remessa': ['17/07/2015'],
                 'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
+                'hash': '1234',
                 'data-do-recebimento': ['17/07/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
+                'hash': '1234',
                 'destinatario': ['Assistente Social'],
                 'data-da-remessa': ['15/06/2015'],
                 'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
+                'hash': '1234',
                 'data-de-recebimento': ['22/05/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
+                'hash': '1234',
                 'data-despacho':
                 ['11/05/2015'],
                 'descricao': ['Atenda-se ao Ministério Público. Promovam-se os'
@@ -388,31 +401,38 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                                  ' demandada e os adolescentes.'),
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
+                'hash': '1234',
                 'data-da-conclusao': ['11/05/2015'],
                 'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Recebidos os autos',
+                'hash': '1234',
                 'data-do-recebimento': ['30/04/2015']
             }, {
                 'tipo-do-movimento': 'Remessa',
+                'hash': '1234',
                 'destinatario': ['Ministério Público'],
                 'data-da-remessa': ['08/04/2015'],
                 'prazo': ['15 dia(s)']
             }, {
                 'tipo-do-movimento': 'Recebimento',
+                'hash': '1234',
                 'data-de-recebimento': ['27/03/2015']
             }, {
                 'tipo-do-movimento':
                 'Despacho - Proferido despacho de mero expediente',
+                'hash': '1234',
                 'data-despacho': ['19/03/2015'],
                 'descricao': ['Dê-se vista ao Ministério Público.'],
                 'inteiro-teor': 'Dê-se vista ao Ministério Público.'
             }, {
                 'tipo-do-movimento': 'Conclusão ao Juiz',
+                'hash': '1234',
                 'data-da-conclusao': ['19/03/2015'],
                 'juiz': ['VIVIANE TOVAR DE MATTOS ABRAHAO']
             }, {
                 'tipo-do-movimento': 'Distribuição Dirigida',
+                'hash': '1234',
                 'data-da-distribuicao': ['19/03/2015'],
                 'serventia': ['Cartório da 2ª Vara de Família, Inf. e da'
                               ' Juv. e do Idoso - 2ª Vara de Família e da'
@@ -423,7 +443,10 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
 
         self.assert_items_equal(itens, esperado)
 
-    def test_extrai_itens_de_processo_com_links_sem_atributo_onclick(self):
+    @patch('robotj.extrator.crawler.parser.cria_hash_do_movimento',
+           return_value='1234')
+    def test_extrai_itens_de_processo_com_links_sem_atributo_onclick(self,
+                                                                     _chdm):
         soup = BeautifulSoup(processo_judicial_7, 'lxml')
         itens = parse_itens(
             soup,
@@ -434,8 +457,8 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
             'numero-processo':
             '0004999-58.2015.8.19.0036',
             'itens': [{
-                'tipo-do-movimento':
-                'Distribuição Dirigida',
+                'tipo-do-movimento': 'Distribuição Dirigida',
+                'hash': '1234',
                 'data-da-distribuicao':
                 ['14/03/2011'],
                 'serventia':
@@ -465,9 +488,10 @@ class Pipeline(TestCase):
     @patch('robotj.extrator.crawler.parser.area_dos_metadados',
            side_effect=[(0, 1), (2, 3), (4, 5)])
     @patch('robotj.extrator.crawler.parser.BeautifulSoup')
+    @patch('robotj.extrator.crawler.parser.cria_hash_do_processo')
     @patch('robotj.extrator.crawler.parser.requests')
     @patch('robotj.extrator.crawler.parser.formata_numero_processo')
-    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _bs,
+    def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _chdp, _bs,
                                                _am, _pm, _pi):
         url_processo = "http://www4.tjrj.jus.br/consultaProcessoWebV2/"\
                        "consultaMov.do?v=2&numProcesso={doc_number}&"\
@@ -497,6 +521,7 @@ class Pipeline(TestCase):
 
         _fnp.side_effect = numeros_formatados
         _req.get.side_effect = [_resp_mock_1, _resp_mock_2, _resp_mock_3]
+        _chdp.side_effect = ['ab12', 'cd56', 'ef78']
         _bs.side_effect = [_soup_mock_1, _soup_mock_2, _soup_mock_3]
 
         processos = pipeline(lista_de_processos)
@@ -506,6 +531,7 @@ class Pipeline(TestCase):
             call(url_processo.format(doc_number=doc)) for
             doc in numeros_formatados
         ]
+        _chdp_calls = [call(html) for html in htmls]
         _bs_calls = [call(html, 'lxml') for html in htmls]
         _am_calls = [call('rows_mock_1'), call('rows_mock_2'),
                      call('rows_mock_3')]
@@ -518,6 +544,7 @@ class Pipeline(TestCase):
 
         _fnp.assert_has_calls(_fnp_calls)
         _req.get.assert_has_calls(_req_calls)
+        _chdp.assert_has_calls(_chdp_calls)
         _bs.assert_has_calls(_bs_calls)
         _soup_mock_1.find_all.assert_called_once_with('tr')
         _soup_mock_2.find_all.assert_called_once_with('tr')
@@ -527,6 +554,6 @@ class Pipeline(TestCase):
         _pi.assert_has_calls(_pi_calls)
 
         self.assertEqual(len(processos), 3)
-        self.assertEqual(processos[0], {'a': 1, 'd': 4})
-        self.assertEqual(processos[1], {'b': 2, 'e': 5})
-        self.assertEqual(processos[2], {'c': 3, 'f': 6})
+        self.assertEqual(processos[0], {'a': 1, 'd': 4, 'hash': 'ab12'})
+        self.assertEqual(processos[1], {'b': 2, 'e': 5, 'hash': 'cd56'})
+        self.assertEqual(processos[2], {'c': 3, 'f': 6, 'hash': 'ef78'})

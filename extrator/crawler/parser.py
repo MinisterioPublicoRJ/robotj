@@ -3,7 +3,10 @@ import requests
 import collections
 from bs4 import BeautifulSoup
 from slugify import slugify
-from .utils import limpa_conteudo, formata_numero_processo
+from .utils import (limpa_conteudo,
+                    formata_numero_processo,
+                    cria_hash_do_movimento,
+                    cria_hash_do_processo)
 
 
 PADRAO_MOV = re.compile(r'numMov=(\d+)')
@@ -143,6 +146,7 @@ def parse_itens(soup, numero_processo, inicio_itens):
 
                 cont += 1
 
+            item['hash'] = cria_hash_do_movimento(item)
             lista_de_itens.append(item)
 
     for item in lista_de_itens:
@@ -188,7 +192,6 @@ def extrai_dados_colunas(colunas):
 def pipeline(lista_de_processos):
     dados = []
     for processo in lista_de_processos:
-        print(processo)
         dados_processo = {}
         numero_processo = formata_numero_processo(processo)
         resp = requests.get(URL.format(doc_number=numero_processo))
@@ -198,6 +201,7 @@ def pipeline(lista_de_processos):
         dados_processo.update(parse_metadados(linhas, numero_processo, inicio,
                                               fim))
         dados_processo.update(parse_itens(soup, numero_processo, inicio + 1))
+        dados_processo['hash'] = cria_hash_do_processo(resp.content)
         dados.append(dados_processo)
 
     return dados

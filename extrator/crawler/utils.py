@@ -1,4 +1,8 @@
+import hashlib
+import json
 import re
+
+from hashlib import md5
 
 
 def formata_numero_processo(numero_processo):
@@ -23,3 +27,24 @@ def formata_numero_processo(numero_processo):
 
 def limpa_conteudo(conteudo_sujo):
     return re.sub('\s+', ' ', conteudo_sujo).strip()
+
+
+def remove_data_consulta(html):
+    html = html.decode('latin-1')
+    return re.sub(
+        'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
+        '',
+        html).encode()
+
+
+def cria_hash_do_processo(html):
+    html_sem_data = remove_data_consulta(html)
+    return md5(html_sem_data).hexdigest()
+
+
+def cria_hash_do_movimento(item):
+    chaves = sorted(item.keys())
+    valores = [item[chave] for chave in chaves]
+    itens_ordenados = list(zip(chaves, valores))
+    item_json = json.dumps(itens_ordenados)
+    return hashlib.md5(item_json.encode()).hexdigest()

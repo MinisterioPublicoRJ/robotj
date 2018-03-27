@@ -1,7 +1,15 @@
 from ..base.utils import conn, logger, session
-from .tjrj_models import TB_PROCESSO, TB_MOVIMENTO_PROCESSO
+from .tjrj_models import (
+    TB_PROCESSO,
+    TB_MOVIMENTO_PROCESSO,
+    TB_ITEM_MOVIMENTO,
+    SQ_ITEM_MOVIMENTO,
+    SQ_MOVIMENTO,
+    # SQ_PROCESSO
+)
 from .mcpr_models import TB_DOCUMENTO
 from sqlalchemy.sql.expression import func
+from sqlalchemy.sql.functions import sysdate
 
 
 def transacao(funcao):
@@ -74,40 +82,63 @@ def obter_documentos_externos():
     return [(doc[0], doc[1]) for doc in query]
 
 
-def obter_por_numero_processo(numero):
+def obter_por_numero_processo(numero_documento):
     return session().query(
         TB_PROCESSO).where(
-            TB_PROCESSO.c.numero_processo == numero).first()
+            TB_PROCESSO.c.numero_processo == numero_documento).first()
+
+
+def insere_movimento(dk_processo, movimento):
+    id_inserido = _insere_movimento(dk_processo, movimento)
+
+    for item in movimento:
+        if item in ['hash', 'tipo-do-movimento']:
+            continue
+        _insere_item_movimento(id_inserido, item, movimento[item])
+
+
+def _insere_movimento(dk_processo, movimento):
+    insert = TB_MOVIMENTO_PROCESSO.insert().values(
+        prmv_dk=SQ_MOVIMENTO.next_value(),
+        prmv_prtj_dk=dk_processo,
+        prmv_tp_movimento=movimento['tipo-do-movimento'],
+        prmv_dt_ultima_atualizacao=sysdate(),
+        prmv_hash=movimento['hash']
+    )
+    if 'inteiro-teor' in movimento:
+        insert.values(prmv_tx_inteiro_teor=movimento['inteiro-teor'])
+
+    resultado = conn().execute(insert)
+    return resultado.inserted_primary_key[0]
 
 
 @transacao
-def insere_documento(documento):
+def _insere_item_movimento(dk_movimento, chave, valor):
+    insert = TB_ITEM_MOVIMENTO.insert().values(
+        mvit_dk=SQ_ITEM_MOVIMENTO.next_value(),
+        mvit_prmv_dk=dk_movimento,
+        mvit_tp_chave=chave,
+        mvit_tp_valor=valor
+    )
+    conn().execute(insert)
+
+
+@transacao
+def _insere_documento(documento):
     # TODO: somente insert falso por enquanto
     insert = _preenche_valores(documento, TB_PROCESSO.insert())
     conn().execute(insert)
 
 
-def atualizar_documento(documento):
+@transacao
+def _atualizar_documento(documento):
     insert = _preenche_valores(
         documento,
         TB_PROCESSO.update().where(
             id=documento.id))
     conn().execute(insert)
 
-    movimentos_inserir = _itens_não_presentes(insert['id'], documento['itens'])
-
-    for movimento in movimentos_inserir:
-        insere_movimento(insert['id'], movimento)
-
-
-def insere_movimento(id_documento, movimento):
-    trans = conn().begin()
-    try:
-        pass
-        trans.transaction.commit()
-    except Exception as error:
-        logger().error(error)
-        trans.transaction.rollback()
+# movimentos_inserir = _itens_não_presentes(insert['id'], documento['itens'])
 
 
 def _itens_não_presentes(movimentos, lista_hashs):

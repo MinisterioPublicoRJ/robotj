@@ -1,6 +1,7 @@
 from sqlalchemy import (
     MetaData,
     Table,
+    Sequence,
     Column,
     Integer,
     String,
@@ -9,6 +10,10 @@ from sqlalchemy import (
 
 # meta = MetaData(schema='tjrj')
 meta = MetaData()
+
+SQ_PROCESSO = Sequence('SEQ_TJRJ_PROCESSO_TJ')
+SQ_MOVIMENTO = Sequence('SEQ_TJRJ_PROCESSO_MOVIMENTO_TJ')
+SQ_ITEM_MOVIMENTO = Sequence('SEQ_TJRJ_MOVIMENTO_ITEM_TJ')
 
 TB_PROCESSO = Table(
     'tjrj_processo_tj',
@@ -63,7 +68,8 @@ TB_MOVIMENTO_PROCESSO = Table(
     Column('prmv_prtj_dk', Integer()),
     Column('prmv_tp_movimento', String(400)),
     Column('prmv_dt_ultima_atualizacao', DateTime()),
-    Column('prmv_hash', String(32))
+    Column('prmv_hash', String(32)),
+    Column('prmv_tx_inteiro_teor', LargeBinary())
 )
 
 
@@ -74,5 +80,4 @@ TB_ITEM_MOVIMENTO = Table(
     Column('mvit_prmv_dk', Integer()),
     Column('mvit_tp_chave', String(256)),
     Column('mvit_tp_valor', DateTime()),
-    Column('mvit_tx_inteiro_teor', LargeBinary())
 )

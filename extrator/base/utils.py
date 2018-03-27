@@ -1,5 +1,6 @@
 import logging
 from ..settings import LOGGER_FORMAT, LOGGER_LEVEL
+from sqlalchemy.orm import sessionmaker
 
 engine = {'connection': None}
 
@@ -18,3 +19,10 @@ def logger():
 
 def conn():
     return engine['connection']
+
+
+def session():
+    if not ('session' in engine and engine['session']):
+        engine['session'] = sessionmaker(bind=conn())
+
+    return engine['session']()

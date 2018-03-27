@@ -1,9 +1,9 @@
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
-from ..datasources.mcpr import _itens_não_presentes, obtem_hashs_movimentos
+from ..datasources.models import _itens_não_presentes, obtem_hashs_movimentos
 
 
-class DataSourceMcpr(TestCase):
+class ItensMovimento(TestCase):
     def setUp(self):
         self.itens = [
             {'tipo-do-movimento': 'Declínio de Competência',
@@ -43,7 +43,7 @@ class DataSourceMcpr(TestCase):
 
         assert not _itens_não_presentes(self.itens, itens_no_banco)
 
-    @patch('robotj.extrator.datasources.mcpr.TB_MOVIMENTO')
+    @patch('robotj.extrator.datasources.models.TB_MOVIMENTO_PROCESSO')
     def test_obtem_hashs_movimentos(self, tb_movimento):
         select_mock = MagicMock()
         select_mock.where.return_value = [('123',), ('456',)]

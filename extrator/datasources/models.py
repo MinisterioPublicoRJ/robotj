@@ -1,12 +1,7 @@
-from ..base.utils import conn, logger
-from .mcpr_models import TB_DOCUMENTO, TB_MOVIMENTO
-
-SELECT_DOCU_EXTERNO = """
-    select docu_nr_externo as DOCU_NR_EXTERNO
-      from mcpr.mcpr_documento
-     where
-        docu_mate_dk = 4 and
-        length(docu_nr_externo) = 20"""
+from ..base.utils import conn, logger, session
+from .tjrj_models import TB_PROCESSO, TB_MOVIMENTO_PROCESSO
+from .mcpr_models import TB_DOCUMENTO
+from sqlalchemy.sql.expression import func
 
 
 def transacao(funcao):
@@ -19,7 +14,6 @@ def transacao(funcao):
         except Exception as error:
             logger().error(error)
             trans.transaction.rollback()
-
     return wrapper
 
 
@@ -66,20 +60,37 @@ def _preenche_valores(documento, tabela):
 
 
 def obter_documentos_externos():
-    return [doc[0] for doc in conn().execute(SELECT_DOCU_EXTERNO)]
+    query = session().query(
+        TB_DOCUMENTO.c.docu_nr_externo,
+        TB_PROCESSO.c.prtj_dt_ultima_vista).outerjoin(
+        TB_PROCESSO,
+        TB_DOCUMENTO.c.docu_nr_externo == TB_PROCESSO.c.prtj_cd_numero_processo
+    ).filter(
+        TB_DOCUMENTO.c.docu_mate_dk == 4
+    ).filter(
+            func.length(TB_DOCUMENTO.c.docu_nr_externo) == 20).order_by(
+        TB_PROCESSO.c.prtj_dt_ultima_vista
+    )
+    return [(doc[0], doc[1]) for doc in query]
+
+
+def obter_por_numero_processo(numero):
+    return session().query(
+        TB_PROCESSO).where(
+            TB_PROCESSO.c.numero_processo == numero).first()
 
 
 @transacao
 def insere_documento(documento):
     # TODO: somente insert falso por enquanto
-    insert = _preenche_valores(documento, TB_DOCUMENTO.insert())
+    insert = _preenche_valores(documento, TB_PROCESSO.insert())
     conn().execute(insert)
 
 
 def atualizar_documento(documento):
     insert = _preenche_valores(
         documento,
-        TB_DOCUMENTO.update().where(
+        TB_PROCESSO.update().where(
             id=documento.id))
     conn().execute(insert)
 
@@ -109,6 +120,6 @@ def _itens_não_presentes(movimentos, lista_hashs):
 
 
 def obtem_hashs_movimentos(id_documento):
-    return [doc[0] for doc in TB_MOVIMENTO.select(
+    return [doc[0] for doc in TB_MOVIMENTO_PROCESSO.select(
         'hash').where(
             id_documento=id_documento)]

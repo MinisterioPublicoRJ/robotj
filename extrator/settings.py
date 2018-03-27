@@ -5,7 +5,7 @@ import logging
 POOLCOUNT=50
 
 DS_EXADATA_HOST=os.environ['DB_HOST']
-DS_EXADATA_PORT=1521
+DS_EXADATA_PORT=os.environ['DB_PORT']
 DS_EXADATA_SID=os.environ['DB_SID']
 DS_EXADATA_user=os.environ['DB_USER']
 DS_EXADATA_password=os.environ['DB_PASSWORD']

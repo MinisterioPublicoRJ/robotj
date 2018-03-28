@@ -2,8 +2,9 @@ from unittest import TestCase
 from unittest.mock import patch, MagicMock
 from ..datasources.models import (
     _itens_não_presentes,
-    obtem_hashs_movimentos,
-    insere_movimento
+    _obtem_hashs_movimentos,
+    insere_movimento,
+    atualizar_documento
 )
 
 
@@ -47,19 +48,28 @@ class ItensMovimento(TestCase):
 
         assert not _itens_não_presentes(self.itens, itens_no_banco)
 
+    @patch('robotj.extrator.datasources.models.conn')
     @patch('robotj.extrator.datasources.models.TB_MOVIMENTO_PROCESSO')
-    def test_obtem_hashs_movimentos(self, tb_movimento):
+    def test_obtem_hashs_movimentos(self, tb_movimento, conn):
+        conn_mock = MagicMock()
+        conn_mock.execute.return_value = [('123',), ('456',)]
+        conn.return_value = conn_mock
         select_mock = MagicMock()
         select_mock.where.return_value = [('123',), ('456',)]
         tb_movimento.select.return_value = select_mock
 
-        hashs = obtem_hashs_movimentos('3')
+        hashs = _obtem_hashs_movimentos('3')
 
         assert hashs == ['123', '456']
 
-    @patch('robotj.extrator.datasources.models._insere_movimento')
-    @patch('robotj.extrator.datasources.models._insere_item_movimento')
-    def test_inserir_movimento(self, _insere_item_movimento, _insere_movimento):
+    @patch('robotj.extrator.datasources.models.conn')
+    @patch('robotj.extrator.datasources.models._insere_movimento_db')
+    @patch('robotj.extrator.datasources.models._insere_item_movimento_db')
+    def test_inserir_movimento(
+            self,
+            _insere_item_movimento,
+            _insere_movimento,
+            conn):
         _insere_movimento.return_value = 1
         _insere_item_movimento.return_value = 1
 
@@ -78,3 +88,60 @@ class ItensMovimento(TestCase):
             1,
             'chave',
             'valor')
+
+    @patch('robotj.extrator.datasources.models.conn')
+    @patch('robotj.extrator.datasources.models._itens_não_presentes')
+    @patch('robotj.extrator.datasources.models.atualizar_vista')
+    @patch('robotj.extrator.datasources.models._obter_por_numero_processo')
+    @patch('robotj.extrator.datasources.models._atualizar_documento_db')
+    @patch('robotj.extrator.datasources.models._insere_documento_db')
+    @patch('robotj.extrator.datasources.models._obtem_hashs_movimentos')
+    @patch('robotj.extrator.datasources.models.insere_movimento')
+    def test_atualizar_documento_novo(
+            self,
+            insere_movimento,
+            _obtem_hashs_movimentos,
+            _insere_documento_db,
+            _atualizar_documento_db,
+            _obter_por_numero_processo,
+            atualizar_vista,
+            _itens_não_presentes,
+            conn):
+
+        docu_dk = 3
+        documento = {
+            'numero-processo':
+            '00049995820158190036',
+            'itens': [{
+                'tipo-do-movimento': 'Distribuição Dirigida',
+                'hash': '1234',
+                'data-da-distribuicao': ['14/03/2011'],
+                'serventia':
+                ['Cartório da 2ª Vara de Família, da Inf., da Juv. '
+                 'e do Idoso -'
+                 ' 2ª Vara de Família Infância e Juventude e do Idoso'],
+                'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
+                'processo-s-no-tribunal-de-justica':
+                ['0002346-95.2011.8.19.0045'],
+                'protocolo-s-no-tribunal-de-justica':
+                ['201500617620 - Data: 26/10/2015'],
+                'localizacao-na-serventia':
+                ['Aguardando Arquivamento']
+            }]
+        }
+
+        _obter_por_numero_processo.return_value = None
+        _insere_documento_db.return_value = 1
+        _obtem_hashs_movimentos.return_value = []
+        _itens_não_presentes.return_value = documento['itens']
+        insere_movimento.return_value = None
+
+        atualizar_documento(documento, docu_dk)
+
+        assert not atualizar_vista.called
+        assert not _atualizar_documento_db.called
+
+        assert _insere_documento_db.called
+        assert _obtem_hashs_movimentos.called
+        assert _itens_não_presentes.called
+        assert insere_movimento.called

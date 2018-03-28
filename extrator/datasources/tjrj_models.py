@@ -18,7 +18,8 @@ SQ_ITEM_MOVIMENTO = Sequence('SEQ_TJRJ_MOVIMENTO_ITEM_TJ')
 TB_PROCESSO = Table(
     'tjrj_processo_tj',
     meta,
-    Column('prtj_dk', Integer, primary_key=True),
+    Column('prtj_dk', Integer(), primary_key=True),
+    Column('prtj_docu_dk', Integer()),
     Column('prtj_cd_numero_processo', String(25)),
     Column('prtj_tx_executado', String(400)),
     Column('prtj_tx_advogado_s', String(400)),

@@ -28,7 +28,7 @@ def transacao(funcao):
 def _preenche_valores(documento, tabela):
     tabela.values(
         executado='',
-        advogado_s='adevogado',
+        advogado_s='',
         numero_do_tombo='',
         oficio_de_registro='',
         folha='',
@@ -82,24 +82,30 @@ def obter_documentos_externos():
     return [(doc[0], doc[1]) for doc in query]
 
 
-def obter_por_numero_processo(numero_documento):
+def _obter_por_numero_processo(numero_documento):
     return session().query(
         TB_PROCESSO).where(
             TB_PROCESSO.c.numero_processo == numero_documento).first()
 
 
-def insere_movimento(dk_processo, movimento):
-    id_inserido = _insere_movimento(dk_processo, movimento)
-
-    for item in movimento:
-        if item in ['hash', 'tipo-do-movimento']:
-            continue
-        _insere_item_movimento(id_inserido, item, movimento[item])
-
-    return id_inserido
+# ------------------------------------------------------------------------
+# Atualizacao de Movimento
+# ------------------------------------------------------------------------
 
 
-def _insere_movimento(dk_processo, movimento):
+@transacao
+def _insere_item_movimento_db(dk_movimento, chave, valor):
+    insert = TB_ITEM_MOVIMENTO.insert().values(
+        mvit_dk=SQ_ITEM_MOVIMENTO.next_value(),
+        mvit_prmv_dk=dk_movimento,
+        mvit_tp_chave=chave,
+        mvit_tp_valor=valor
+    )
+    conn().execute(insert)
+
+
+@transacao
+def _insere_movimento_db(dk_processo, movimento):
     insert = TB_MOVIMENTO_PROCESSO.insert().values(
         prmv_dk=SQ_MOVIMENTO.next_value(),
         prmv_prtj_dk=dk_processo,
@@ -115,32 +121,77 @@ def _insere_movimento(dk_processo, movimento):
 
 
 @transacao
-def _insere_item_movimento(dk_movimento, chave, valor):
-    insert = TB_ITEM_MOVIMENTO.insert().values(
-        mvit_dk=SQ_ITEM_MOVIMENTO.next_value(),
-        mvit_prmv_dk=dk_movimento,
-        mvit_tp_chave=chave,
-        mvit_tp_valor=valor
-    )
-    conn().execute(insert)
+def insere_movimento(dk_processo, movimento):
+    id_inserido = _insere_movimento_db(dk_processo, movimento)
+
+    for item in movimento:
+        if item in ['hash', 'tipo-do-movimento']:
+            continue
+        _insere_item_movimento_db(id_inserido, item, movimento[item])
+
+    return id_inserido
+
+# ------------------------------------------------------------------------
+# Atualizacao de Documento
+# ------------------------------------------------------------------------
 
 
 @transacao
-def _insere_documento(documento):
+def atualizar_documento(documento, docu_dk):
+    processo = _obter_por_numero_processo(documento['numero-processo'])
+
+    if processo:
+        if processo['prtj_hash'] == documento['hash']:
+            atualizar_vista(documento['numero_documento'], docu_dk, processo)
+            return
+
+        id_processo = processo['PRTJ_DK']
+        _atualizar_documento_db(id_processo, documento)
+    else:
+        id_processo = _insere_documento_db(documento, docu_dk)
+
+    hashs_existentes = _obtem_hashs_movimentos(id_processo)
+    movimentos_inserir = _itens_não_presentes(
+        documento['itens'],
+        hashs_existentes)
+
+    for movimento in movimentos_inserir:
+        insere_movimento(id_processo, movimento)
+
+
+@transacao
+def atualizar_vista(numero_documento, docu_dk, processo=None):
+    processo = processo if processo else _obter_por_numero_processo(
+        numero_documento)
+
+    if processo:
+        _atualiza_vista_db(processo['prtj_dk'], docu_dk)
+    else:
+        _insere_vista_db(numero_documento, docu_dk)
+
+
+@transacao
+def _insere_vista_db(numero_documento, docu_dk):
+    raise NotImplementedError()
+
+
+@transacao
+def _atualiza_vista_db(id_processo, doku_dk):
+    raise NotImplementedError()
+
+
+@transacao
+def _insere_documento_db(documento, docu_dk):
     # TODO: somente insert falso por enquanto
     insert = _preenche_valores(documento, TB_PROCESSO.insert())
     conn().execute(insert)
+    raise NotImplementedError()
+    return 1
 
 
 @transacao
-def _atualizar_documento(documento):
-    insert = _preenche_valores(
-        documento,
-        TB_PROCESSO.update().where(
-            id=documento.id))
-    conn().execute(insert)
-
-# movimentos_inserir = _itens_não_presentes(insert['id'], documento['itens'])
+def _atualizar_documento_db(id, documento):
+    raise NotImplementedError()
 
 
 def _itens_não_presentes(movimentos, lista_hashs):
@@ -152,7 +203,8 @@ def _itens_não_presentes(movimentos, lista_hashs):
     return retorno
 
 
-def obtem_hashs_movimentos(id_documento):
-    return [doc[0] for doc in TB_MOVIMENTO_PROCESSO.select(
-        'hash').where(
-            id_documento=id_documento)]
+def _obtem_hashs_movimentos(id_documento):
+    return [doc[0] for doc in conn().execute(
+        TB_MOVIMENTO_PROCESSO.select(
+            'hash').where(
+                id_documento=id_documento))]

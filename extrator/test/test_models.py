@@ -203,7 +203,7 @@ class ItensMovimento(TestCase):
 
         _obter_por_numero_processo.return_value = {
             'prtj_hash': '1134',
-            'prtj_docu_dk': 1}
+            'prtj_dk': 1}
         _obtem_hashs_movimentos.return_value = []
         _itens_não_presentes.return_value = self.documento['itens']
         insere_movimento.return_value = None

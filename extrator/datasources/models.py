@@ -5,7 +5,7 @@ from .tjrj_models import (
     TB_ITEM_MOVIMENTO,
     SQ_ITEM_MOVIMENTO,
     SQ_MOVIMENTO,
-    # SQ_PROCESSO
+    SQ_PROCESSO
 )
 from .mcpr_models import TB_DOCUMENTO
 from sqlalchemy.sql.expression import func
@@ -27,42 +27,45 @@ def transacao(funcao):
 
 def _preenche_valores(documento, tabela):
     tabela.values(
-        executado='',
-        advogado_s='',
-        numero_do_tombo='',
-        oficio_de_registro='',
-        folha='',
-        requerido='',
-        exequente='',
-        representante_legal='',
-        acao='',
-        comunicante='',
-        requerente='',
-        bairro='',
-        livro='',
-        pai='',
-        mae='',
-        aviso_ao_advogado='',
-        status='',
-        comarca='',
-        assistente='',
-        cidade='',
-        autor_do_fato='',
-        acusado='',
-        impetrado='',
-        impetrante='',
-        notificado='',
-        autor='',
-        intimado='',
-        idoso='',
-        avo_avo='',
-        numero_processo='',
-        reu='',
-        reclamado='',
-        endereco='',
-        prazo='',
-        classe='',
-        assunto=''
+        prtj_cd_numero_processo=documento.get('numero-processo'),
+        prtj_tx_executado=documento.get('executado'),
+        prtj_tx_advogado_s=documento.get('advovado-s'),
+        prtj_tx_numero_do_tombo=documento.get('numero-do-tombo'),
+        prtj_tx_oficio_de_registro=documento.get('oficio-de-registro'),
+        prtj_tx_folha=documento.get('folha'),
+        prtj_tx_requerido=documento.get('requerido'),
+        prtj_tx_exequente=documento.get('exequente'),
+        prtj_tx_representante_legal=documento.get('representante-legal'),
+        prtj_tx_acao=documento.get('acao'),
+        prtj_tx_comunicante=documento.get('comunicante'),
+        prtj_tx_requerente=documento.get('requerente'),
+        prtj_tx_bairro=documento.get('bairro'),
+        prtj_tx_livro=documento.get('livro'),
+        prtj_tx_pai=documento.get('pai'),
+        prtj_tx_mae=documento.get('mae'),
+        prtj_tx_aviso_ao_advogado=documento.get('aviso-ao-advogado'),
+        prtj_tx_status=documento.get('status'),
+        prtj_tx_comarca=documento.get('comarca'),
+        prtj_tx_assistente=documento.get('assistente'),
+        prtj_tx_cidade=documento.get('cidade'),
+        prtj_tx_autor_do_fato=documento.get('autor-do-fato'),
+        prtj_tx_acusado=documento.get('acusado'),
+        prtj_tx_impetrado=documento.get('impetrado'),
+        prtj_tx_impetrante=documento.get('impetrante'),
+        prtj_tx_notificado=documento.get('notificado'),
+        prtj_tx_autor=documento.get('autor'),
+        prtj_tx_intimado=documento.get('intimado'),
+        prtj_tx_idoso=documento.get('idoso'),
+        prtj_tx_avo_avo=documento.get('avo-avo'),
+        prtj_tx_reu=documento.get('reu'),
+        prtj_tx_reclamado=documento.get('reclamado'),
+        prtj_tx_endereco=documento.get('endereco'),
+        prtj_tx_prazo=documento.get('prazo'),
+        prtj_tx_classe=documento.get('classe'),
+        prtj_tx_assunto=documento.get('assunto'),
+        prtj_dt_ultima_atualizacao=sysdate(),
+        prtj_dt_ultima_vista=sysdate(),
+        prtj_hash=documento.get('hash'),
     )
     return tabela
 
@@ -145,8 +148,8 @@ def atualizar_documento(documento, docu_dk):
             atualizar_vista(documento['numero-processo'], docu_dk, processo)
             return
 
-        id_processo = processo['prtj_docu_dk']
-        _atualizar_documento_db(id_processo, documento)
+        id_processo = processo['prtj_dk']
+        _atualizar_documento_db(documento, id_processo)
     else:
         id_processo = _insere_documento_db(documento, docu_dk)
 
@@ -165,33 +168,64 @@ def atualizar_vista(numero_documento, docu_dk, processo=None):
         numero_documento)
 
     if processo:
-        _atualiza_vista_db(processo['prtj_dk'], docu_dk)
+        _atualiza_vista_db(processo['prtj_dk'])
     else:
         _insere_vista_db(numero_documento, docu_dk)
 
 
 @transacao
 def _insere_vista_db(numero_documento, docu_dk):
-    raise NotImplementedError()
+    insert = TB_DOCUMENTO.insert().values(
+        prtj_dk=SQ_PROCESSO.next_value(),
+        prtj_docu_dk=docu_dk,
+        prtj_cd_numero_processo=numero_documento,
+        prtj_dt_ultima_atualizacao=sysdate(),
+        prtj_dt_ultima_vista=sysdate(),
+    )
+
+    conn().execute(insert)
 
 
 @transacao
-def _atualiza_vista_db(id_processo, doku_dk):
-    raise NotImplementedError()
+def _atualiza_vista_db(id_processo):
+    update = TB_DOCUMENTO.update().where(
+        TB_DOCUMENTO.c.prtj_dk == id_processo
+    ).values(
+        prtj_dt_ultima_vista=sysdate()
+    )
+
+    conn().execute(update)
 
 
 @transacao
 def _insere_documento_db(documento, docu_dk):
-    # TODO: somente insert falso por enquanto
-    insert = _preenche_valores(documento, TB_PROCESSO.insert())
-    conn().execute(insert)
-    raise NotImplementedError()
-    return 1
+    insert = TB_DOCUMENTO.insert()
+
+    _preenche_valores(documento, insert)
+
+    insert.values(
+        prtj_docu_dk=docu_dk,
+        prtj_dk=SQ_PROCESSO.next_value(),
+    )
+
+    resultado = conn().execute(insert)
+
+    return resultado.inserted_primary_key[0]
 
 
 @transacao
-def _atualizar_documento_db(id, documento):
-    raise NotImplementedError()
+def _atualizar_documento_db(documento, prtj_dk):
+    insert = TB_DOCUMENTO.update()
+
+    _preenche_valores(documento, insert)
+
+    insert.values(
+        prtj_dk=SQ_PROCESSO.next_value(),
+    ).where(
+        prtj_dk=prtj_dk
+    )
+
+    conn().execute(insert)
 
 
 def _itens_não_presentes(movimentos, lista_hashs):
@@ -203,8 +237,8 @@ def _itens_não_presentes(movimentos, lista_hashs):
     return retorno
 
 
-def _obtem_hashs_movimentos(id_documento):
+def _obtem_hashs_movimentos(prtj_dk):
     return [doc[0] for doc in conn().execute(
         TB_MOVIMENTO_PROCESSO.select(
             'hash').where(
-                id_documento=id_documento))]
+                prtj_dk=prtj_dk))]

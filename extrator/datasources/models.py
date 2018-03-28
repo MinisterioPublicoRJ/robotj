@@ -22,11 +22,12 @@ def transacao(funcao):
         except Exception as error:
             logger().error(error)
             trans.transaction.rollback()
+            raise error
     return wrapper
 
 
 def _preenche_valores(documento, tabela):
-    tabela.values(
+    tabela = tabela.values(
         prtj_cd_numero_processo=documento.get('numero-processo'),
         prtj_tx_executado=documento.get('executado'),
         prtj_tx_advogado_s=documento.get('advovado-s'),
@@ -73,6 +74,7 @@ def _preenche_valores(documento, tabela):
 def obter_documentos_externos():
     query = session().query(
         TB_DOCUMENTO.c.docu_nr_externo,
+        TB_DOCUMENTO.c.docu_dk,
         TB_PROCESSO.c.prtj_dt_ultima_vista).outerjoin(
         TB_PROCESSO,
         TB_DOCUMENTO.c.docu_nr_externo == TB_PROCESSO.c.prtj_cd_numero_processo
@@ -87,8 +89,9 @@ def obter_documentos_externos():
 
 def _obter_por_numero_processo(numero_documento):
     return session().query(
-        TB_PROCESSO).where(
-            TB_PROCESSO.c.numero_processo == numero_documento).first()
+        TB_PROCESSO).filter(
+            TB_PROCESSO.c.prtj_cd_numero_processo == numero_documento
+        ).first()
 
 
 # ------------------------------------------------------------------------
@@ -117,7 +120,7 @@ def _insere_movimento_db(dk_processo, movimento):
         prmv_hash=movimento['hash']
     )
     if 'inteiro-teor' in movimento:
-        insert.values(prmv_tx_inteiro_teor=movimento['inteiro-teor'])
+        insert = insert.values(prmv_tx_inteiro_teor=movimento['inteiro-teor'])
 
     resultado = conn().execute(insert)
     return resultado.inserted_primary_key[0]
@@ -175,7 +178,7 @@ def atualizar_vista(numero_documento, docu_dk, processo=None):
 
 @transacao
 def _insere_vista_db(numero_documento, docu_dk):
-    insert = TB_DOCUMENTO.insert().values(
+    insert = TB_PROCESSO.insert().values(
         prtj_dk=SQ_PROCESSO.next_value(),
         prtj_docu_dk=docu_dk,
         prtj_cd_numero_processo=numero_documento,
@@ -188,8 +191,8 @@ def _insere_vista_db(numero_documento, docu_dk):
 
 @transacao
 def _atualiza_vista_db(id_processo):
-    update = TB_DOCUMENTO.update().where(
-        TB_DOCUMENTO.c.prtj_dk == id_processo
+    update = TB_PROCESSO.update().where(
+        TB_PROCESSO.c.prtj_dk == id_processo
     ).values(
         prtj_dt_ultima_vista=sysdate()
     )
@@ -199,11 +202,11 @@ def _atualiza_vista_db(id_processo):
 
 @transacao
 def _insere_documento_db(documento, docu_dk):
-    insert = TB_DOCUMENTO.insert()
+    insert = TB_PROCESSO.insert()
 
-    _preenche_valores(documento, insert)
+    insert = _preenche_valores(documento, insert)
 
-    insert.values(
+    insert = insert.values(
         prtj_docu_dk=docu_dk,
         prtj_dk=SQ_PROCESSO.next_value(),
     )
@@ -215,11 +218,11 @@ def _insere_documento_db(documento, docu_dk):
 
 @transacao
 def _atualizar_documento_db(documento, prtj_dk):
-    insert = TB_DOCUMENTO.update()
+    insert = TB_PROCESSO.update()
 
-    _preenche_valores(documento, insert)
+    insert = _preenche_valores(documento, insert)
 
-    insert.values(
+    insert = insert.values(
         prtj_dk=SQ_PROCESSO.next_value(),
     ).where(
         prtj_dk=prtj_dk
@@ -241,4 +244,4 @@ def _obtem_hashs_movimentos(prtj_dk):
     return [doc[0] for doc in conn().execute(
         TB_MOVIMENTO_PROCESSO.select(
             'hash').where(
-                prtj_dk=prtj_dk))]
+                prmv_prtj_dk=prtj_dk))]

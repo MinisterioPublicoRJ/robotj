@@ -1,7 +1,9 @@
 from sqlalchemy import create_engine
 from extrator.settings import DS_EXADATA_CONN_CSTR
 from extrator.base.utils import engine, set_log
-# from extrator.datasources.mcpr import obter_documentos_externos
+from extrator.datasources.models import (
+    obter_documentos_externos,
+    atualizar_documento)
 from extrator.crawler.pipeliner import pipeline
 # from multiprocessing import Pool
 
@@ -17,7 +19,11 @@ def main():
 
     set_log()
 
-    # docs = obter_documentos_externos()
+    docs = obter_documentos_externos()
+
+    for doc in docs:
+        documento = pipeline(doc[0])
+        atualizar_documento(documento, doc[1])
 
     # pool = Pool(POOLCOUNT)
 

@@ -1,6 +1,10 @@
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
-from ..datasources.models import _itens_não_presentes, obtem_hashs_movimentos
+from ..datasources.models import (
+    _itens_não_presentes,
+    obtem_hashs_movimentos,
+    insere_movimento
+)
 
 
 class ItensMovimento(TestCase):
@@ -52,3 +56,25 @@ class ItensMovimento(TestCase):
         hashs = obtem_hashs_movimentos('3')
 
         assert hashs == ['123', '456']
+
+    @patch('robotj.extrator.datasources.models._insere_movimento')
+    @patch('robotj.extrator.datasources.models._insere_item_movimento')
+    def test_inserir_movimento(self, _insere_item_movimento, _insere_movimento):
+        _insere_movimento.return_value = 1
+        _insere_item_movimento.return_value = 1
+
+        movimento = {
+            'tipo-do-movimento': 'Movimento de Teste',
+            'hash': '1234567890',
+            'chave': 'valor'
+        }
+
+        resultado = insere_movimento(1, movimento)
+
+        assert resultado == 1
+
+        _insere_movimento.assert_called_once_with(1, movimento)
+        _insere_item_movimento.assert_called_once_with(
+            1,
+            'chave',
+            'valor')

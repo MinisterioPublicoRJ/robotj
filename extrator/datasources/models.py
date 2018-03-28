@@ -96,6 +96,8 @@ def insere_movimento(dk_processo, movimento):
             continue
         _insere_item_movimento(id_inserido, item, movimento[item])
 
+    return id_inserido
+
 
 def _insere_movimento(dk_processo, movimento):
     insert = TB_MOVIMENTO_PROCESSO.insert().values(

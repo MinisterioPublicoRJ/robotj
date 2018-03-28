@@ -142,10 +142,10 @@ def atualizar_documento(documento, docu_dk):
 
     if processo:
         if processo['prtj_hash'] == documento['hash']:
-            atualizar_vista(documento['numero_documento'], docu_dk, processo)
+            atualizar_vista(documento['numero-processo'], docu_dk, processo)
             return
 
-        id_processo = processo['PRTJ_DK']
+        id_processo = processo['prtj_docu_dk']
         _atualizar_documento_db(id_processo, documento)
     else:
         id_processo = _insere_documento_db(documento, docu_dk)

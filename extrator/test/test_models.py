@@ -33,6 +33,28 @@ class ItensMovimento(TestCase):
              'hash': '012'}
         ]
 
+        self.documento = {
+            'numero-processo':
+            '00049995820158190036',
+            'hash': '1234',
+            'itens': [{
+                'tipo-do-movimento': 'Distribuição Dirigida',
+                'hash': '1234',
+                'data-da-distribuicao': ['14/03/2011'],
+                'serventia':
+                ['Cartório da 2ª Vara de Família, da Inf., da Juv. '
+                 'e do Idoso -'
+                 ' 2ª Vara de Família Infância e Juventude e do Idoso'],
+                'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
+                'processo-s-no-tribunal-de-justica':
+                ['0002346-95.2011.8.19.0045'],
+                'protocolo-s-no-tribunal-de-justica':
+                ['201500617620 - Data: 26/10/2015'],
+                'localizacao-na-serventia':
+                ['Aguardando Arquivamento']
+            }]
+        }
+
     def test_itens_nao_presentes(self):
         itens_no_banco = ['123', '456']
 
@@ -109,34 +131,14 @@ class ItensMovimento(TestCase):
             conn):
 
         docu_dk = 3
-        documento = {
-            'numero-processo':
-            '00049995820158190036',
-            'itens': [{
-                'tipo-do-movimento': 'Distribuição Dirigida',
-                'hash': '1234',
-                'data-da-distribuicao': ['14/03/2011'],
-                'serventia':
-                ['Cartório da 2ª Vara de Família, da Inf., da Juv. '
-                 'e do Idoso -'
-                 ' 2ª Vara de Família Infância e Juventude e do Idoso'],
-                'processo-s-apensado-s': ['0000159-51.2010.8.19.0045'],
-                'processo-s-no-tribunal-de-justica':
-                ['0002346-95.2011.8.19.0045'],
-                'protocolo-s-no-tribunal-de-justica':
-                ['201500617620 - Data: 26/10/2015'],
-                'localizacao-na-serventia':
-                ['Aguardando Arquivamento']
-            }]
-        }
 
         _obter_por_numero_processo.return_value = None
         _insere_documento_db.return_value = 1
         _obtem_hashs_movimentos.return_value = []
-        _itens_não_presentes.return_value = documento['itens']
+        _itens_não_presentes.return_value = self.documento['itens']
         insere_movimento.return_value = None
 
-        atualizar_documento(documento, docu_dk)
+        atualizar_documento(self.documento, docu_dk)
 
         assert not atualizar_vista.called
         assert not _atualizar_documento_db.called
@@ -145,3 +147,71 @@ class ItensMovimento(TestCase):
         assert _obtem_hashs_movimentos.called
         assert _itens_não_presentes.called
         assert insere_movimento.called
+
+    @patch('robotj.extrator.datasources.models.conn')
+    @patch('robotj.extrator.datasources.models._itens_não_presentes')
+    @patch('robotj.extrator.datasources.models.atualizar_vista')
+    @patch('robotj.extrator.datasources.models._obter_por_numero_processo')
+    @patch('robotj.extrator.datasources.models._atualizar_documento_db')
+    @patch('robotj.extrator.datasources.models._insere_documento_db')
+    @patch('robotj.extrator.datasources.models._obtem_hashs_movimentos')
+    @patch('robotj.extrator.datasources.models.insere_movimento')
+    def test_atualizar_documento_existente_igual(
+            self,
+            insere_movimento,
+            _obtem_hashs_movimentos,
+            _insere_documento_db,
+            _atualizar_documento_db,
+            _obter_por_numero_processo,
+            atualizar_vista,
+            _itens_não_presentes,
+            conn):
+
+        docu_dk = 3
+
+        _obter_por_numero_processo.return_value = {'prtj_hash': '1234'}
+
+        atualizar_documento(self.documento, docu_dk)
+
+        assert atualizar_vista.called
+        assert not _atualizar_documento_db.called
+        assert not _insere_documento_db.called
+        assert not _obtem_hashs_movimentos.called
+        assert not _itens_não_presentes.called
+        assert not insere_movimento.called
+
+    @patch('robotj.extrator.datasources.models.conn')
+    @patch('robotj.extrator.datasources.models._itens_não_presentes')
+    @patch('robotj.extrator.datasources.models.atualizar_vista')
+    @patch('robotj.extrator.datasources.models._obter_por_numero_processo')
+    @patch('robotj.extrator.datasources.models._atualizar_documento_db')
+    @patch('robotj.extrator.datasources.models._insere_documento_db')
+    @patch('robotj.extrator.datasources.models._obtem_hashs_movimentos')
+    @patch('robotj.extrator.datasources.models.insere_movimento')
+    def test_atualizar_documento_existente_diferente(
+            self,
+            insere_movimento,
+            _obtem_hashs_movimentos,
+            _insere_documento_db,
+            _atualizar_documento_db,
+            _obter_por_numero_processo,
+            atualizar_vista,
+            _itens_não_presentes,
+            conn):
+
+        docu_dk = 3
+
+        _obter_por_numero_processo.return_value = {'prtj_hash': '1134', 'prtj_docu_dk': 1}
+        _obtem_hashs_movimentos.return_value = []
+        _itens_não_presentes.return_value = self.documento['itens']
+        insere_movimento.return_value = None
+
+        atualizar_documento(self.documento, docu_dk)
+
+        self.assertFalse(atualizar_vista.called)
+        self.assertTrue(_atualizar_documento_db.called)
+
+        self.assertFalse(_insere_documento_db.called)
+        self.assertTrue(_obtem_hashs_movimentos.called)
+        self.assertTrue(_itens_não_presentes.called)
+        self.assertTrue(insere_movimento.called)

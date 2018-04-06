@@ -32,14 +32,13 @@ def limpa_conteudo(conteudo_sujo):
 def remove_data_consulta(html):
     html = html.decode('latin-1')
     return re.sub(
-        'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
+        r'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
         '',
         html).encode()
 
 
 def cria_hash_do_processo(html):
-    html_sem_data = remove_data_consulta(html)
-    return md5(html_sem_data).hexdigest()
+    return md5(html.encode()).hexdigest()
 
 
 def cria_hash_do_movimento(item):

@@ -3,6 +3,7 @@ from ..settings import LOGGER_FORMAT, LOGGER_LEVEL
 from sqlalchemy.orm import sessionmaker
 
 engine = {'connection': None}
+engine_cx = {'connection': None}
 
 
 def set_log():
@@ -26,3 +27,7 @@ def session():
         engine['session'] = sessionmaker(bind=conn())
 
     return engine['session']()
+
+
+def cxoracle():
+    return engine_cx['connection']

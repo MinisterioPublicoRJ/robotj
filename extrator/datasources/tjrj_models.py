@@ -7,6 +7,7 @@ from sqlalchemy import (
     String,
     DateTime,
     LargeBinary)
+from sqlalchemy.ext.declarative import declarative_base
 
 # meta = MetaData(schema='tjrj')
 meta = MetaData()
@@ -82,3 +83,16 @@ TB_ITEM_MOVIMENTO = Table(
     Column('mvit_tp_chave', String(256)),
     Column('mvit_tp_valor', DateTime()),
 )
+
+
+Base = declarative_base()
+
+
+class Movimento(Base):
+    __tablename__ = 'tjrj_processo_movimento_tj'
+    prmv_dk = Column('prmv_dk', Integer, primary_key=True)
+    prmv_prtj_dk = Column('prmv_prtj_dk', Integer())
+    prmv_tp_movimento = Column('prmv_tp_movimento', String(400))
+    prmv_dt_ultima_atualizacao = Column('prmv_dt_ultima_atualizacao', DateTime())
+    prmv_hash = Column('prmv_hash', String(32))
+    prmv_tx_inteiro_teor = Column('prmv_tx_inteiro_teor', LargeBinary())

@@ -1,3 +1,4 @@
+import os
 import cx_Oracle
 from sqlalchemy import create_engine
 from extrator.settings import DS_EXADATA_CONN_CSTR
@@ -13,26 +14,31 @@ from extrator.settings import (
     DS_EXADATA_SID,
     DS_EXADATA_user,
     DS_EXADATA_password)
-from multiprocessing import Pool
+from multiprocessing.dummy import Pool
 
 
 POOLCOUNT = 10
 
 
 def main():
+    os.environ['NLS_LANG'] = 'American_America.UTF8'
     engine['connection'] = create_engine(
         DS_EXADATA_CONN_CSTR,
         convert_unicode=False,
         pool_recycle=10,
         pool_size=50,
-        echo=True,
-        isolation_level="AUTOCOMMIT"
+        #echo=True,
+        encoding="utf-8"
     )
 
     dsn_tns = cx_Oracle.makedsn(
         DS_EXADATA_HOST, DS_EXADATA_PORT, DS_EXADATA_SID)
     engine_cx['connection'] = cx_Oracle.connect(
-        DS_EXADATA_user, DS_EXADATA_password, dsn_tns)
+        DS_EXADATA_user,
+        DS_EXADATA_password,
+        dsn_tns,
+        encoding="UTF-8",
+        nencoding="UTF-8")
     engine_cx['connection'].autocommit = True
 
     set_log()
@@ -41,19 +47,25 @@ def main():
 
     pool = Pool(POOLCOUNT)
 
-    resultados = pool.map(processar_armazenar, docs[0:1000])
+    # for i in map(processar_armazenar, docs[0:1000]):
+    #     resultados += [i]
 
-    print(resultados)
+    return pool.map(processar_armazenar, docs[0:1000])
 
 
-def processar_armazenar(documento):
+def processar_armazenar(doc):
     try:
-        documento = pipeline(documento[0])
+        documento = pipeline(doc[0])
         if documento == {}:
             return
-        atualizar_documento(documento, documento[1])
+        atualizar_documento(documento, doc[1])
+        print("Atualizado: %s" % str(doc[0]))
+        return "Atualizado: %s" % str(doc[0])
     except Exception as error:
-        atualizar_vista(documento[0], documento[1])
+        print("Problema: doc %s - %s" % (str(doc), str(error)))
+        return "Problema: doc %s - %s" % (str(doc), str(error))
+        
+        # atualizar_vista(documento[0], documento[1])
 
 
 if __name__ == '__main__':

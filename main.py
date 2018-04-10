@@ -17,7 +17,9 @@ from extrator.settings import (
 from multiprocessing.dummy import Pool
 
 
-POOLCOUNT = 10
+POOLCOUNT = 30
+
+PARALELO = True
 
 
 def main():
@@ -37,16 +39,23 @@ def main():
         DS_EXADATA_password,
         dsn_tns,
         encoding="UTF-8",
-        nencoding="UTF-8")
+        nencoding="UTF-8",
+        threaded=True)
     engine_cx['connection'].autocommit = True
 
     set_log()
 
     docs = obter_documentos_externos()
 
-    pool = Pool(POOLCOUNT)
+    if PARALELO:
+        pool = Pool(POOLCOUNT)
 
-    return pool.map(processar_armazenar, docs[0:1000])
+        return pool.map(processar_armazenar, docs[0:1000])
+    else:
+        retorno = []
+        for item in map(processar_armazenar, docs[0:1000]):
+            retorno += [item]
+        return retorno
 
 
 def processar_armazenar(doc):
@@ -59,7 +68,7 @@ def processar_armazenar(doc):
         return "Atualizado: %s" % str(doc[0])
     except Exception as error:
         print("Problema: doc %s - %s" % (str(doc), str(error)))
-        atualizar_vista(documento[0], documento[1])
+        atualizar_vista(doc[0], doc[1])
         return "Problema: doc %s - %s" % (str(doc), str(error))
 
 

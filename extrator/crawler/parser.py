@@ -139,7 +139,6 @@ def parse_itens(soup, numero_processo, inicio_itens):
 
                 cont += 1
 
-            item['hash'] = cria_hash_do_movimento(item)
             lista_de_itens.append(item)
 
     for item in lista_de_itens:
@@ -149,6 +148,9 @@ def parse_itens(soup, numero_processo, inicio_itens):
                     'type': 'HIDDEN',
                     'name': 'descMov{0}'.format(item['inteiro-teor'][0])
                 }).attrs['value']
+
+    for item in lista_de_itens:
+        item['hash'] = cria_hash_do_movimento(item)
 
     itens['itens'] = lista_de_itens
     return itens

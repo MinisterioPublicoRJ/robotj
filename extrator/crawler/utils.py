@@ -26,7 +26,7 @@ def formata_numero_processo(numero_processo):
 
 
 def limpa_conteudo(conteudo_sujo):
-    return re.sub('\s+', ' ', conteudo_sujo).strip()
+    return re.sub(r'\s+', ' ', conteudo_sujo).strip()
 
 
 def remove_data_consulta(html):

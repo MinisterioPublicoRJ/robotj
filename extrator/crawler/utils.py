@@ -32,7 +32,8 @@ def limpa_conteudo(conteudo_sujo):
 def remove_data_consulta(html):
     html = html.decode('latin-1')
     return re.sub(
-        r'TJ/RJ -\r\n                      \d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
+        r'TJ/RJ -\r\n                      '
+        r'\d{2}/\d{2}/\d{4} \d{2}:\d{2}:\d{2}',
         '',
         html).encode()
 

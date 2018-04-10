@@ -1,8 +1,7 @@
 from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from ..datasources.models import (
     _itens_não_presentes,
-    _obtem_hashs_movimentos,
     insere_movimento,
     atualizar_documento
 )
@@ -69,20 +68,6 @@ class ItensMovimento(TestCase):
         itens_no_banco = ['123', '456', '789', '012', '444']
 
         assert not _itens_não_presentes(self.itens, itens_no_banco)
-
-    @patch('robotj.extrator.datasources.models.conn')
-    @patch('robotj.extrator.datasources.models.TB_MOVIMENTO_PROCESSO')
-    def test_obtem_hashs_movimentos(self, tb_movimento, conn):
-        conn_mock = MagicMock()
-        conn_mock.execute.return_value = [('123',), ('456',)]
-        conn.return_value = conn_mock
-        select_mock = MagicMock()
-        select_mock.where.return_value = [('123',), ('456',)]
-        tb_movimento.select.return_value = select_mock
-
-        hashs = _obtem_hashs_movimentos('3')
-
-        assert hashs == ['123', '456']
 
     @patch('robotj.extrator.datasources.models.conn')
     @patch('robotj.extrator.datasources.models._insere_movimento_db')
@@ -169,8 +154,7 @@ class ItensMovimento(TestCase):
 
         docu_dk = 3
 
-        _obter_por_numero_processo.return_value = {'prtj_hash': '1234'}
-
+        _obter_por_numero_processo.return_value = (1, '1234')
         atualizar_documento(self.documento, docu_dk)
 
         assert atualizar_vista.called
@@ -201,9 +185,7 @@ class ItensMovimento(TestCase):
 
         docu_dk = 3
 
-        _obter_por_numero_processo.return_value = {
-            'prtj_hash': '1134',
-            'prtj_dk': 1}
+        _obter_por_numero_processo.return_value = ('1134', 1)
         _obtem_hashs_movimentos.return_value = []
         _itens_não_presentes.return_value = self.documento['itens']
         insere_movimento.return_value = None

@@ -33,7 +33,7 @@ class Utils(TestCase):
 class Hash(TestCase):
     def test_cria_hash_do_conteudo_html_do_processo(self):
         hash_documento = cria_hash_do_processo(processo_judicial_1)
-        esperado = '5d317d964aeb5b1b3b0fb794047e0bc9'
+        esperado = '30a5e6dc4717981102f2dfc2598eac27'
 
         self.assertEqual(hash_documento, esperado)
 

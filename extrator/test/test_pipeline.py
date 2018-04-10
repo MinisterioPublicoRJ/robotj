@@ -18,9 +18,8 @@ class Pipeline(TestCase):
     def test_pipeline_do_parsing_dos_processos(self, _fnp, _req, _chdp, _bs,
                                                _am, _pm, _pi):
         processo = '1234'
-
         numero_formatado = '1.2.3.4'
-        html = 'html_1'
+        html = '{"a": 1}'
         _resp_mock = MagicMock()
         _resp_mock.content = html
 

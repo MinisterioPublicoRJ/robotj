@@ -27,7 +27,6 @@ def main():
         convert_unicode=False,
         pool_recycle=10,
         pool_size=50,
-        #echo=True,
         encoding="utf-8"
     )
 
@@ -47,9 +46,6 @@ def main():
 
     pool = Pool(POOLCOUNT)
 
-    # for i in map(processar_armazenar, docs[0:1000]):
-    #     resultados += [i]
-
     return pool.map(processar_armazenar, docs[0:1000])
 
 
@@ -63,9 +59,8 @@ def processar_armazenar(doc):
         return "Atualizado: %s" % str(doc[0])
     except Exception as error:
         print("Problema: doc %s - %s" % (str(doc), str(error)))
+        atualizar_vista(documento[0], documento[1])
         return "Problema: doc %s - %s" % (str(doc), str(error))
-        
-        # atualizar_vista(documento[0], documento[1])
 
 
 if __name__ == '__main__':

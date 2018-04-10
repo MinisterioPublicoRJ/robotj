@@ -159,7 +159,6 @@ def _insere_movimento_db(dk_processo, movimento):
         prmv_dt_ultima_atualizacao=sysdate(),
         prmv_hash=movimento['hash']
     )
-    
 
     resultado = conn().execute(insert)
     return resultado.inserted_primary_key[0]

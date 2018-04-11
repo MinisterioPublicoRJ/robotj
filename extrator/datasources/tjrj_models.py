@@ -8,12 +8,11 @@ from sqlalchemy import (
     DateTime,
     LargeBinary)
 
-# meta = MetaData(schema='tjrj')
-meta = MetaData()
+meta = MetaData(schema='tjrj')
 
-SQ_PROCESSO = Sequence('SEQ_TJRJ_PROCESSO_TJ')
-SQ_MOVIMENTO = Sequence('SEQ_TJRJ_PROCESSO_MOVIMENTO_TJ')
-SQ_ITEM_MOVIMENTO = Sequence('SEQ_TJRJ_MOVIMENTO_ITEM_TJ')
+SQ_PROCESSO = Sequence('tjrj_sq_prtj_dk')
+SQ_MOVIMENTO = Sequence('tjrj_sq_prmv_dk')
+SQ_ITEM_MOVIMENTO = Sequence('tjrj_sq_mvit_dk')
 
 TB_PROCESSO = Table(
     'tjrj_processo_tj',

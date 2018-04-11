@@ -107,10 +107,10 @@ def _insere_item_movimento_db(dk_movimento, chave, valor):
 
 
 def _insere_movimento_blob_db(dk_processo, movimento):
-    sql = ("INSERT INTO SYSTEM.TJRJ_PROCESSO_MOVIMENTO_TJ "
+    sql = ("INSERT INTO TJRJ.TJRJ_PROCESSO_MOVIMENTO_TJ "
            "(PRMV_DK, PRMV_PRTJ_DK, PRMV_TP_MOVIMENTO, "
            "PRMV_DT_ULTIMA_ATUALIZACAO, PRMV_TX_INTEIRO_TEOR, PRMV_HASH) "
-           "VALUES(SEQ_TJRJ_PROCESSO_MOVIMENTO_TJ.NEXTVAL, :DK_PROCESSO, "
+           "VALUES(tjrj_sq_prmv_dk.NEXTVAL, :DK_PROCESSO, "
            ":TP_MOVIMENTO, SYSDATE, :PRMV_TX_INTEIRO_TEOR,:HASH) "
            "returning PRMV_DK into :x")
 

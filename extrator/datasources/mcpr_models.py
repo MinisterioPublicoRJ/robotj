@@ -5,8 +5,7 @@ from sqlalchemy import (
     NUMERIC,
     String)
 
-# meta = MetaData(schema='mcpr')
-meta = MetaData()
+meta = MetaData(schema='mcpr')
 
 TB_DOCUMENTO = Table(
     'mcpr_documento',

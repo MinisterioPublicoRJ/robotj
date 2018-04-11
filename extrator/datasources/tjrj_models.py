@@ -5,8 +5,7 @@ from sqlalchemy import (
     Column,
     Integer,
     String,
-    DateTime,
-    LargeBinary)
+    DateTime)
 
 meta = MetaData(schema='tjrj')
 
@@ -68,8 +67,7 @@ TB_MOVIMENTO_PROCESSO = Table(
     Column('prmv_prtj_dk', Integer()),
     Column('prmv_tp_movimento', String(400)),
     Column('prmv_dt_ultima_atualizacao', DateTime()),
-    Column('prmv_hash', String(32)),
-    Column('prmv_tx_inteiro_teor', LargeBinary())
+    Column('prmv_hash', String(32))
 )
 
 

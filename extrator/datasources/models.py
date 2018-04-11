@@ -116,7 +116,7 @@ def _insere_movimento_blob_db(dk_processo, movimento):
 
     cursor = cxoracle().cursor()
     seq = cursor.var(cx_Oracle.NUMBER)
-    cursor.setinputsizes(PRMV_TX_INTEIRO_TEOR=cx_Oracle.BLOB)
+    cursor.setinputsizes(PRMV_TX_INTEIRO_TEOR=cx_Oracle.NCLOB)
     cursor.prepare(
         sql
     )

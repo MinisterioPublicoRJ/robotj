@@ -1,8 +1,11 @@
 import os
 import cx_Oracle
 import logging
+import newrelic.agent
 
 POOLCOUNT=50
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DS_EXADATA_HOST=os.environ['DB_HOST']
 DS_EXADATA_PORT=os.environ['DB_PORT']
@@ -27,3 +30,10 @@ LOGGER_LEVEL = logging.INFO
 URL_PROCESSO = ("http://www4.tjrj.jus.br/consultaProcessoWebV2/"
                 "consultaMov.do?v=2&numProcesso={doc_number}&"
                 "acessoIP=internet&tipoUsuario")
+
+
+newrelic.agent.initialize(os.path.join(BASE_DIR, 'newrelic.ini'))
+
+NEWRELIC_APPLICATION=newrelic.agent.application(name="Zuleika")
+
+newrelic.agent.register_application('Zuleika')

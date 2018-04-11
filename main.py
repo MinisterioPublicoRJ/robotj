@@ -13,13 +13,15 @@ from extrator.settings import (
     DS_EXADATA_PORT,
     DS_EXADATA_SID,
     DS_EXADATA_user,
-    DS_EXADATA_password)
+    DS_EXADATA_password,
+    NEWRELIC_APPLICATION)
 from multiprocessing.dummy import Pool
+from newrelic.agent import record_custom_event
 
 
 POOLCOUNT = 30
 
-PARALELO = True
+PARALELO = False
 
 
 def main():
@@ -29,6 +31,7 @@ def main():
         convert_unicode=False,
         pool_recycle=10,
         pool_size=50,
+        # echo=True,
         encoding="utf-8"
     )
 
@@ -50,10 +53,10 @@ def main():
     if PARALELO:
         pool = Pool(POOLCOUNT)
 
-        return pool.map(processar_armazenar, docs[0:1000])
+        return pool.map(processar_armazenar, docs)
     else:
         retorno = []
-        for item in map(processar_armazenar, docs[0:1000]):
+        for item in map(processar_armazenar, docs):
             retorno += [item]
         return retorno
 
@@ -65,9 +68,18 @@ def processar_armazenar(doc):
             return
         atualizar_documento(documento, doc[1])
         print("Atualizado: %s" % str(doc[0]))
+        record_custom_event('info', {
+            'acao': 'atualizar_documento',
+            'documento': doc[0]},
+            application=NEWRELIC_APPLICATION)
         return "Atualizado: %s" % str(doc[0])
     except Exception as error:
         print("Problema: doc %s - %s" % (str(doc), str(error)))
+        record_custom_event('error', {
+            'acao': 'atualizar_documento',
+            'documento': doc[0],
+            'mensagem': error},
+            application=NEWRELIC_APPLICATION)
         atualizar_vista(doc[0], doc[1])
         return "Problema: doc %s - %s" % (str(doc), str(error))
 

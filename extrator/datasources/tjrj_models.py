@@ -80,5 +80,5 @@ TB_ITEM_MOVIMENTO = Table(
     Column('mvit_dk', Integer, primary_key=True),
     Column('mvit_prmv_dk', Integer()),
     Column('mvit_tp_chave', String(256)),
-    Column('mvit_tp_valor', DateTime()),
+    Column('mvit_tp_valor', String(4000)),
 )

@@ -12,21 +12,7 @@ from .tjrj_models import (
 from .mcpr_models import TB_DOCUMENTO
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql.functions import sysdate
-
-
-def transacao(funcao):
-    def wrapper(*args, **kwargs):
-        return funcao(*args, **kwargs)
-        # trans = conn().begin()
-        # try:
-        #     retorno = funcao(*args, **kwargs)
-        #     trans.transaction.commit()
-        #     return retorno
-        # except Exception as error:
-        #     logger().error(error)
-        #     trans.transaction.rollback()
-        #     raise error
-    return wrapper
+from sqlalchemy.sql.expression import nullsfirst
 
 
 def obtem(documento, chave):
@@ -89,7 +75,7 @@ def obter_documentos_externos():
         TB_DOCUMENTO.c.docu_mate_dk == 4
     ).filter(
             func.length(TB_DOCUMENTO.c.docu_nr_externo) == 20).order_by(
-        TB_PROCESSO.c.prtj_dt_ultima_vista
+        nullsfirst(TB_PROCESSO.c.prtj_dt_ultima_vista),
     )
     return [(doc[0], doc[1]) for doc in query]
 

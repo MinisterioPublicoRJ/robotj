@@ -5,6 +5,8 @@ import newrelic.agent
 
 POOLCOUNT=50
 
+NEW_RELIC_ENVIRONMENT = os.environ.get("NEW_RELIC_ENVIRONMENT")
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DS_EXADATA_HOST=os.environ['DB_HOST']
@@ -34,6 +36,9 @@ URL_PROCESSO = ("http://www4.tjrj.jus.br/consultaProcessoWebV2/"
 
 newrelic.agent.initialize(os.path.join(BASE_DIR, 'newrelic.ini'))
 
-NEWRELIC_APPLICATION=newrelic.agent.application(name="Zuleika")
+nome_aplicacao = 'Zuleika'
 
-newrelic.agent.register_application('Zuleika')
+if NEW_RELIC_ENVIRONMENT:
+    nome_aplicacao += ' ( %s )' % NEW_RELIC_ENVIRONMENT
+
+newrelic.agent.register_application(nome_aplicacao)

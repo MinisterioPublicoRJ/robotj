@@ -13,15 +13,14 @@ from extrator.settings import (
     DS_EXADATA_PORT,
     DS_EXADATA_SID,
     DS_EXADATA_user,
-    DS_EXADATA_password,
-    NEWRELIC_APPLICATION)
+    DS_EXADATA_password)
 from multiprocessing.dummy import Pool
-from newrelic.agent import record_custom_event
+from newrelic.agent import background_task
 
 
 POOLCOUNT = 30
 
-PARALELO = False
+PARALELO = True
 
 
 def main():
@@ -53,35 +52,39 @@ def main():
     if PARALELO:
         pool = Pool(POOLCOUNT)
 
-        return pool.map(processar_armazenar, docs)
+        return pool.map(processar_armazenar, docs[:10000])
     else:
         retorno = []
-        for item in map(processar_armazenar, docs):
+        for item in map(processar_armazenar, docs[:10000]):
             retorno += [item]
         return retorno
 
 
 def processar_armazenar(doc):
+
+    retorno = None
+
+    @background_task()
+    def wrapper(doc):
+        global retorno
+        try:
+            documento = pipeline(doc[0])
+            if documento == {}:
+                atualizar_vista(doc[0], doc[1])
+                raise Exception("Documento %s não encontrado no TJRJ" % doc[0])
+            atualizar_documento(documento, doc[1])
+            retorno = "Atualizado: %s" % str(doc[0])
+        except Exception as error:
+            atualizar_vista(doc[0], doc[1])
+            retorno = "Problema: doc %s - %s" % (str(doc), str(error))
+            raise error
+
     try:
-        documento = pipeline(doc[0])
-        if documento == {}:
-            return
-        atualizar_documento(documento, doc[1])
-        print("Atualizado: %s" % str(doc[0]))
-        record_custom_event('info', {
-            'acao': 'atualizar_documento',
-            'documento': doc[0]},
-            application=NEWRELIC_APPLICATION)
-        return "Atualizado: %s" % str(doc[0])
-    except Exception as error:
-        print("Problema: doc %s - %s" % (str(doc), str(error)))
-        record_custom_event('error', {
-            'acao': 'atualizar_documento',
-            'documento': doc[0],
-            'mensagem': error},
-            application=NEWRELIC_APPLICATION)
-        atualizar_vista(doc[0], doc[1])
-        return "Problema: doc %s - %s" % (str(doc), str(error))
+        wrapper(doc)
+    except Exception:
+        pass
+
+    return retorno
 
 
 if __name__ == '__main__':

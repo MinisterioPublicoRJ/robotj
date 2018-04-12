@@ -7,6 +7,8 @@ POOLCOUNT=50
 
 NEW_RELIC_ENVIRONMENT = os.environ.get("NEW_RELIC_ENVIRONMENT")
 
+INSTANCIAS = int(os.environ.get("INSTANCIAS", 2))
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 DS_EXADATA_HOST=os.environ['DB_HOST']

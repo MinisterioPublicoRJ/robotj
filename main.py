@@ -13,12 +13,10 @@ from extrator.settings import (
     DS_EXADATA_PORT,
     DS_EXADATA_SID,
     DS_EXADATA_user,
-    DS_EXADATA_password)
+    DS_EXADATA_password,
+    INSTANCIAS)
 from multiprocessing.dummy import Pool
 from newrelic.agent import background_task
-
-
-POOLCOUNT = 30
 
 PARALELO = True
 
@@ -50,7 +48,7 @@ def main():
     docs = obter_documentos_externos()
 
     if PARALELO:
-        pool = Pool(POOLCOUNT)
+        pool = Pool(INSTANCIAS)
 
         return pool.map(processar_armazenar, docs[:10000])
     else:

@@ -5,9 +5,9 @@ do
     then
         export INSTANCIAS=2
     else
-        export INSTANCIAS=30
+        export INSTANCIAS=10
     fi
 
-    echo $INSTANCIAS
-    python main.py  
+    echo Iniciando $INSTANCIAS instancias paralelas
+    newrelic-admin run-python main.py  
 done;

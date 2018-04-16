@@ -34,13 +34,3 @@ LOGGER_LEVEL = logging.INFO
 URL_PROCESSO = ("http://www4.tjrj.jus.br/consultaProcessoWebV2/"
                 "consultaMov.do?v=2&numProcesso={doc_number}&"
                 "acessoIP=internet&tipoUsuario")
-
-
-newrelic.agent.initialize(os.path.join(BASE_DIR, 'newrelic.ini'))
-
-nome_aplicacao = 'Zuleika'
-
-if NEW_RELIC_ENVIRONMENT:
-    nome_aplicacao += ' ( %s )' % NEW_RELIC_ENVIRONMENT
-
-newrelic.agent.register_application(nome_aplicacao)

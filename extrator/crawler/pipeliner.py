@@ -12,7 +12,9 @@ def pipeline(processo):
     dados_processo = {}
     numero_processo = formata_numero_processo(processo)
     try:
-        resp = requests.get(URL_PROCESSO.format(doc_number=numero_processo))
+        resp = requests.get(URL_PROCESSO.format(
+            doc_number=numero_processo),
+            headers={'X-Forwarded-For': '10.0.250.15'})
         soup = BeautifulSoup(resp.content, 'lxml')
         linhas = soup.find_all('tr')
         inicio, fim = area_dos_metadados(linhas)

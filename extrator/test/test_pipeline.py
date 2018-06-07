@@ -36,7 +36,8 @@ class Pipeline(TestCase):
 
         _fnp.assert_called_once_with(processo)
         _req.get.assert_called_once_with(URL_PROCESSO.format(
-            doc_number=numero_formatado))
+            doc_number=numero_formatado),
+            headers={'X-Forwarded-For': '10.0.250.15'})
         _chdp.assert_called_once_with(html)
         _bs.assert_called_once_with(html, 'lxml')
         _soup_mock.find_all.assert_called_once_with('tr')

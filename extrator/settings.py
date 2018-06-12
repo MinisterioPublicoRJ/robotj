@@ -2,6 +2,7 @@ import os
 import cx_Oracle
 import logging
 import newrelic.agent
+from celery import Celery
 
 POOLCOUNT=50
 
@@ -34,3 +35,8 @@ LOGGER_LEVEL = logging.INFO
 URL_PROCESSO = ("http://www4.tjrj.jus.br/consultaProcessoWebV2/"
                 "consultaMov.do?v=2&numProcesso={doc_number}&"
                 "acessoIP=internet&tipoUsuario")
+
+QUEUE = os.environ.get('QUEUE', None)
+BROKER = os.environ.get('BROKER', None)
+
+celeryapp = Celery(QUEUE, broker=BROKER)

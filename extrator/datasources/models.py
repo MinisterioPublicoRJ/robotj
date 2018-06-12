@@ -9,6 +9,7 @@ from .tjrj_models import (
     SQ_MOVIMENTO,
     SQ_PROCESSO
 )
+from .broker import classificar
 from .mcpr_models import TB_DOCUMENTO
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql.functions import sysdate
@@ -136,18 +137,21 @@ def _insere_movimento_blob_db(dk_processo, movimento):
 
 def _insere_movimento_db(dk_processo, movimento):
     if 'inteiro-teor' in movimento:
-        return _insere_movimento_blob_db(dk_processo, movimento)
+        id_inserido = _insere_movimento_blob_db(dk_processo, movimento)
+        classificar.delay(id_inserido, movimento['inteiro-teor'])
+    else:
+        insert = TB_MOVIMENTO_PROCESSO.insert().values(
+            prmv_dk=SQ_MOVIMENTO.next_value(),
+            prmv_prtj_dk=dk_processo,
+            prmv_tp_movimento=movimento['tipo-do-movimento'],
+            prmv_dt_ultima_atualizacao=sysdate(),
+            prmv_hash=movimento['hash']
+        )
 
-    insert = TB_MOVIMENTO_PROCESSO.insert().values(
-        prmv_dk=SQ_MOVIMENTO.next_value(),
-        prmv_prtj_dk=dk_processo,
-        prmv_tp_movimento=movimento['tipo-do-movimento'],
-        prmv_dt_ultima_atualizacao=sysdate(),
-        prmv_hash=movimento['hash']
-    )
+        resultado = conn().execute(insert)
+        id_inserido = resultado.inserted_primary_key[0]
 
-    resultado = conn().execute(insert)
-    return resultado.inserted_primary_key[0]
+    return id_inserido
 
 
 def insere_movimento(dk_processo, movimento):

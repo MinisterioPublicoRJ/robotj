@@ -15,7 +15,8 @@ from .fixtures.processos import (processo_judicial_1,
                                  processo_judicial_5,
                                  processo_judicial_6,
                                  processo_judicial_7,
-                                 trecho_processo_judicial_1)
+                                 trecho_processo_judicial_1,
+                                 process_com_mandado_pagamento)
 
 
 def _prepara_html(html, tag='tr'):
@@ -472,6 +473,49 @@ class ParserItems(ComparaItensProcessoMixin, TestCase):
                 'localizacao-na-serventia':
                 ['Aguardando Arquivamento']
             }]
+        }
+
+        for chave, valor in esperado['itens'][-1].items():
+            with self.subTest():
+                self.assertEqual(itens['itens'][-1][chave], valor)
+
+    @patch('robotj.extrator.crawler.parser.cria_hash_do_movimento',
+           return_value='1234')
+    def test_parse_process_com_mandado_pagamento(self, _chdm):
+        soup = BeautifulSoup(process_com_mandado_pagamento, 'lxml')
+        itens = parse_itens(
+            soup,
+            '0166627-93.2017.8.19.0001',
+            inicio_itens=29
+        )
+        esperado = {
+            'numero-processo':
+            '0166627-93.2017.8.19.0001',
+            'itens': [{
+                'data-da-distribuicao': ['04/07/2017'],
+                'hash':
+                '1234',
+                'localizacao-na-serventia': ['Arquivado na Serventia'],
+                'processo-s-no-conselho-recursal': ['Não há.'],
+                'serventia': [
+                    'Cartório do 6º Juizado Especial Cível - '
+                    'Lagoa - 6º Juizado Especial Cível - Lagoa'
+                ],
+                'tipo-do-movimento':
+                'Distribuição Sorteio'
+            }, {
+                'hash': '1234',
+                'no-mandado': ['742474'],
+                'situacao-mandado': ['Pago'],
+                'tipo-do-movimento': 'Mandado de Pagamento:'
+            }, {
+                'data-pagamento': ['18/10/2017'],
+                'hash': '1234',
+                'no-guia': ['081010000041111402'],
+                'situacao-da-guia': ['Disponível'],
+                'tipo-do-movimento': 'Guia de Depósito:',
+                'valor-pago': ['R$ 2.585,33']
+            }],
         }
 
         for chave, valor in esperado['itens'][-1].items():

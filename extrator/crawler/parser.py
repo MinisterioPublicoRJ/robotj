@@ -116,9 +116,21 @@ def parse_itens(soup, numero_processo, inicio_itens):
         if linha.attrs == {'class': ['tipoMovimento']}:
             item = collections.defaultdict(list)
             colunas = linha.find_all('td')
-            item[slugify(colunas[0].get_text())] = limpa_conteudo(
-                colunas[1].get_text()
-            )
+            # Podem existir cabeçalhos de itens sem texto, como o
+            # Mandado de Pagamento
+            # Nesses caso registraremos como tipo de movimento o
+            # título do bloco
+            if len(colunas) == 1:
+                texto = colunas[0].get_text().strip()
+                chave = 'tipo-do-movimento'
+            else:
+                texto = limpa_conteudo(
+                    colunas[1].get_text()
+                )
+                chave = slugify(colunas[0].get_text())
+
+            item[chave] = texto
+
             info = linhas_com_itens[indice + 1:]
             cont = 0
             while cont < len(info) and\
@@ -159,11 +171,11 @@ def parse_itens(soup, numero_processo, inicio_itens):
 def area_dos_metadados(linhas_de_dados):
     # Aparentemente esse valor e fixo
     inicio = 0
+    atributos_inicio_metadados = {'align': 'center',
+                                  'class': ['negrito'],
+                                  'colspan': '2'}
     for indice, linha in enumerate(linhas_de_dados):
         coluna = linha.find('td')
-        atributos_inicio_metadados = {'align': 'center',
-                                      'class': ['negrito'],
-                                      'colspan': '2'}
         if not inicio and coluna.attrs == atributos_inicio_metadados:
             inicio = indice
 

@@ -59,3 +59,1531 @@ trecho_processo_judicial_1 = """<tr>
                   
                   </tr>
 """
+
+process_com_mandado_pagamento = """
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+             
+             
+
+
+
+<html>
+  <head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="Expires" content="-1"/>
+
+
+    <!-- #APPTJ0316 -->
+    <title>Resultado da consulta processual</title>
+	<script type="text/javascript" src="./js/jquery.js"></script>
+    <script type="text/javascript" src="./js/dataTables.js"></script>
+    <script type="text/javascript" src="./js/jquery-historico-mandado.js"></script>
+    <script language="JavaScript" src="http://www.tjrj.jus.br/consultas/redirecionador/js/integracaoPortal.js"></script>
+	
+    <!-- import para funcionamento integrado com o portal -->
+    
+    
+    <!-- import para funcionamento integrado com o portal -->
+    
+    
+
+
+
+<link href="http://www.tjrj.jus.br/importacao-portal/css" type="text/css" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="http://www.tjrj.jus.br/importacao-portal/script"></script>
+
+
+    
+
+    
+    <style type="text/css" media="print">
+        #navegador { display:none; }
+        #navegador-horiz { display:none; }
+        #navegador-horiz2 { display:none; }
+        #navegador-horiz3 { display:none; }
+        #navegador-horiz-limpo { display:none; }
+        #content-barra  { display:none; }
+        #cabecalho { display:none; }
+        #rodape { display:none; }
+        #content, #content2,
+        #content3, #content100,
+        #content-center, #content-center2,
+        #content-frame, #content-id-busca,
+        #content-idusuario-100 {
+         margin-left:0px;
+         width:100%;
+        }
+        body { color:#000000; }
+        a { color:#000000; }
+        h1 { color:#000000; }
+        h2 { color:#000000; }
+        h3 { color:#000000; }
+        h4 { color:#000000; }
+        h5 { color:#000000; }
+        h6 { color:#000000; }
+        
+        table { border-width: 1px; }
+    </style>
+    <style type="text/css">
+      .info { font-weight: bold; }
+      .negrito {font-weight: bold;}
+    </style>
+    <script type="text/javascript" src="./print.js"></script>
+    <script type="text/javascript" src="./funcoesPopUp.js?v=1.0"></script>
+    <script type="text/javascript" src="./js/consultaPorNumero.js?v=4"></script>
+    <script type="text/javascript" src="./autoCompletar.js"></script>
+    <script type="text/javascript" src="./js/impOutrosEstilos.js"></script>
+    
+    
+    <link href="./css/demo_table.css" rel="stylesheet" type="text/css">
+    <link href="./css/estilo.css" rel="stylesheet" type="text/css">    
+    
+    
+    
+    <script type="text/javascript" type="text/javascript">
+      var arquivosCss = new Array("http://www.tjrj.jus.br/css/body2/body.css",
+                                  "http://www.tjrj.jus.br/css/lay-out.css",
+                                  "http://www.tjrj.jus.br/css/menu.css",
+                                  "http://www.tjrj.jus.br/css/form.css",
+                                  "http://www.tjrj.jus.br/css/textos-img.css");
+      function submetePesqDocElet(){
+        //location.href='consultaProcDocElet.do?numProcesso=2017.001.136762-9&acessoIP=internet&senhaProcesso=document.getElementById('senhaProcesso').value;'
+        var senha = document.getElementById("senhaProcesso").value;
+        document.location.href="consultaProcDocElet.do?v=2&numProcesso=2017.001.136762-9&acessoIP=internet&senhaProcesso="+senha;
+      }
+      function exibeListaPersonagens(){
+        if (document.getElementById('listaPersonagens').style.display == "block")
+          document.getElementById('listaPersonagens').style.display = "none"
+        else {
+          document.getElementById('listaPersonagens').style.display = "block"
+        }
+      }
+      function exibeListaHistoricoPersonagens(){
+        if (document.getElementById('listaHistoricoPersonagens').style.display == "block")
+          document.getElementById('listaHistoricoPersonagens').style.display = "none"
+        else {
+          document.getElementById('listaHistoricoPersonagens').style.display = "block"
+        }
+      }
+      
+      function assistirAudiencia(dtAudiencia,horaAudiencia){
+            document.location.href="redirencionakenta?codigoProc=0166627-93.2017.8.19.0001" + "&dtAudiencia=" + dtAudiencia + "&horaAudiencia=" + horaAudiencia;
+      }
+    </script>
+	
+  </head>
+  <body>
+    
+    
+        <div id="tudo">
+    
+    <!-- Início da div#tudo -->
+    
+      
+      
+      
+      
+        
+<div id="banner" role="banner">
+	<div id="barra">
+		<div class="container-fluid-1280 clearfix">
+			<div class="atalhos-wrapper">
+				<div class="menu-barra" role="navigation">
+					<ul class="atalhos">
+						<li><a href="http://www.tjrj.jus.br/web/guest/mapa-do-site" title="Mapa do site">Mapa do site</a></li>
+						<li><a href="http://www.tjrj.jus.br/web/guest/fale-conosco" title="Fale conosco">Fale conosco</a></li>
+						<li><a href="http://www.tjrj.jus.br/c/portal/login?p_l_id=10139" title="Intranet">Intranet</a></li>
+						<li><a href="https://outlook.office.com/" title="Webmail">Webmail</a></li>
+						<li><a href="https://portaltj.tjrj.jus.br/web/guest/home-interna" title="Magistrados">Magistrados, Servidores e Colaboradores</a></li>
+					</ul>
+				</div>
+				<ul class="redes clearfix">
+					<li class="nav-facebook"><a href="https://www.facebook.com/tjrjoficial" target="_blank" title="Acessar o Facebook"><i class="icone-rede" aria-label="Facebook"></i></a></li>
+					<li class="nav-twitter"><a href="https://twitter.com/tjrjoficial" target="_blank" title="Acessar o Twitter"><i class="icone-rede" aria-label="Twitter"></i></a></li>
+					<li class="nav-instagram"><a href="https://www.instagram.com/tjrjoficial/" target="_blank" title="Acessar o Instagram"><i class="icone-rede" aria-label="Instagram"></i></a></li>
+					<li class="nav-youtube"><a href="https://www.youtube.com/user/pjerjoficial" target="_blank" title="Acessar o Youtube"><i class="icone-rede" aria-label="Youtube"></i></a></li>
+					<li class="nav-flickr"><a href="https://www.flickr.com/people/pjerjoficial" target="_blank" title="Acessar o Flickr"><i class="icone-rede" aria-label="Flickr"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="topo">
+		<div class="conteudo-topo">
+			<div class="container-fluid-1280">
+				<a class="logo" href="http://www.tjrj.jus.br" role="logo" title="TJRJ">
+					<img src="http://www.tjrj.jus.br/theme-tjrj/images/logo.png" alt="TJRJ"></a>
+			</div>
+		</div>
+	</div>
+</div>
+        
+          <div id="navigation" role="navigation">
+	<h1 class="hide-accessible">Navegação</h1>
+	<div class="container-fluid-1280">
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav clearfix" aria-label="Páginas do site">
+				<li class="active" role="presentation"><a href="http://www.tjrj.jus.br/web/guest/home" role="menuitem" title="Página inicial">Página inicial</a></li>
+				<li role="presentation"><a href="http://www.tjrj.jus.br/web/guest/consultas" role="menuitem" title="Consultas">Consultas</a></li>
+				<li role="presentation"><a href="http://www.tjrj.jus.br/web/guest/servicos/servicos" role="menuitem" title="Serviços">Serviços</a></li>
+				<li role="presentation"><a href="http://www.tjrj.jus.br/web/guest/institucional/institucional" role="menuitem" title="Institucional">Institucional</a></li>
+				<li role="presentation"><a href="http://cgj.tjrj.jus.br" target="_blank" role="menuitem" title="Corregedoria">Corregedoria</a></li>
+				<li role="presentation"><a href="http://www4.tjrj.jus.br/sislicweb/lic_conteudo.aspx?id=17" role="menuitem" title="Licitações">Licitações</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+        
+      
+      
+      <!-- Início da div#container -->
+      <div id="container">
+        
+        
+        
+          
+        
+        <!-- Menu Vertical Lateral -->
+        
+        
+          
+<div id='navegador' class='naveg-vertical navegador list-menu'>
+<h2 class='titulo portlet-title-text'><div class="conteudo">
+<a href="http://www.tjrj.jus.br/web/guest/consultas/processos_jud/processos_jud" title="Judiciais" >Judiciais</a></div></h2><ul class="layouts level-1" ><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-numero-indice0" title="Por Número" >Por Número</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-nome-indice1" title="Por Nome" >Por Nome</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-oab-indice2" title="Por OAB" >Por OAB</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-advogado-indice3" title="Por Nome do Advogado" >Por Nome do Advogado</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-cpf-indice4" title="Por CPF / CNPJ" >Por CPF / CNPJ</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-protocolo-indice5" title="Por Protocolo" >Por Protocolo</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do#tabs-serventia-indice6" title="Lista de Processos Aptos a Julgamento" >Lista de Processos Aptos a Julgamento</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do?o=prec#tabs-numero-indice0" title="Precatórios Judiciais" >Precatórios Judiciais</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/eJUD/ProcessarProcInconst.aspx" title="Processos de Inconstitucionalidade" >Processos de Inconstitucionalidade</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/consultaPedidoFalencia/inicio.do" title="Pedidos de Falência" >Pedidos de Falência</a></li><li class="lfr-nav-item " ><a href="http://www4.tjrj.jus.br/portalDeServicos/jsp/portal/formularioLogin.jsp" title="Por e-mail" >Por e-mail</a></li><li class="lfr-nav-item ultimo " ><a href="http://www.tjrj.jus.br/web/guest/consultas/processos-jud/formas-dispo-consultas" title="Formas disponíveis de Consulta" >Formas disponíveis de Consulta</a></li></ul></div>
+        
+        
+        
+        
+          
+
+
+
+
+
+
+    <div id="content-barra">
+
+<!-- inicio da barra de ferramentas-->
+      
+      
+      
+          <a href="javascript:history.go(-1);"><img height="17" width="26" class="margin-icos" src="http://www.tjrj.jus.br/imagens/ico-voltar.gif" title="voltar" alt="voltar"/></a>      
+      
+            
+      
+      <a href="javascript:history.go(1);"><img height="17" width="26" class="margin-icos" src="http://www.tjrj.jus.br/imagens/ico-avancar.gif" title="avanÃ§ar" alt="avanÃ§ar"/></a>
+      
+      
+      <a href="javascript:window.print();"><img height="17" width="26" class="margin-icos" src="http://www.tjrj.jus.br/imagens/ico-print.gif" title="imprimir" alt="imprimir"/></a>
+      
+      
+      
+      
+        
+        
+        
+          
+          
+            <a href="javascript:location.href='http://www4.tjrj.jus.br/ConsultaUnificada/consulta.do';"><img height="17" width="26" class="margin-icos" src="http://www.tjrj.jus.br/imagens/ico-busca-arquivo.gif" title="nova busca" alt="nova busca"/></a>
+            
+          
+                          
+      
+      
+            
+      
+      
+      
+      
+        
+          
+        
+      
+      
+        
+        
+<!-- Fim da barra de ferramentas-->
+</div>
+        
+                
+        
+        
+            <div id="content" name="content">
+        
+        
+          
+            <h3>Consulta Processual - N&uacute;mero - Primeira
+                                  Inst&acirc;ncia</h3>
+          <form name="formResultado" action="">
+            
+              
+              
+              
+              
+                <input type="HIDDEN" name="acessoIP"
+                       value='internet'/>
+              
+              <input type="HIDDEN" name="maquinaResposta" value="internet"/>
+              <input id="tipoUsuario" type="HIDDEN" name="tipoUsuario" value=''/>
+              
+              
+              <table width="100%" border="0">
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr valign="top">
+                  <td align="center" colspan="2" class="info">
+                    As informa&ccedil;&otilde;es aqui contidas n&atilde;o produzem
+                    efeitos legais.
+                    <br/>
+                    Somente a publica&ccedil;&atilde;o no DJERJ oficializa
+                    despachos e decis&otilde;es e estabelece prazos.
+                  </td>
+                </tr>
+                
+                
+                
+                
+                  <tr valign="top">
+                    <td align="center" colspan="2" class="info">
+                    
+                      <br/><h2>Processo N<sup>o</sup>
+                      0166627-93.2017.8.19.0001
+                      </h2>
+                    
+                    
+                    </td>
+                  </tr>
+                  
+                  
+                    <input type="HIDDEN" name="codigoProc"
+                           value='0166627-93.2017.8.19.0001'/>
+                  
+                  <tr><td>&nbsp;</td></tr>
+                   <tr valign="top">
+                   <td colspan="2" class="info">
+                      TJ/RJ -
+                      18/06/2018 16:36:49
+                      
+                        </td>
+                        </tr>
+                        
+                          <tr>
+                            <td colspan="2">&nbsp;</td>
+                          </tr>
+                          <tr> 
+                             <td colspan="2" align="center" class="negrito">
+                                    ARQUIVADO EM DEFINITIVO, em 14/11/2017
+                             </td>
+                          </tr>
+                        
+                        <tr>
+                          <td colspan="2">&nbsp;</td>
+                        </tr>
+                      
+                     
+                      
+
+                  
+                    
+                    
+                      
+                        <tr valign="top">
+                          <td align="center" colspan="2" class="info" nowrap="nowrap">
+                            <a href="javascript: abrirVisualizador('2017.001.136762-9','1','0166627-93.2017.8.19.0001','N');">
+                              Processo eletrônico - clique aqui para visualizar.
+                             <img name='pesqDocElet' border="0" style="vertical-align:middle;"
+                                     src='http://www4.tjrj.jus.br/portalDeServicos/images/icones/visualizarProcesso.png' title='Pesquisar processo eletrônico'
+                                     alt='Pesquisar processo eletrônico'>
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">&nbsp;</td>
+                        </tr>
+                      
+                    
+                    
+                    
+                        
+                    
+                  
+                  
+                   
+                  
+                      
+                          
+                      
+                  
+                  
+                  
+                  
+                  
+                                    
+                  
+                  
+                  <tr>
+                    <td class="info">
+                      
+                        Comarca da Capital
+                      
+                    </td>
+                    <td class="info">
+                      
+                        6º Juizado Especial Cível - Lagoa
+                      
+                    </td>
+                  </tr>
+                  
+                  
+                  <tr>
+                    <td colspan="1"/>
+                    <td class="info">
+                      
+                        Cartório do 6º Juizado Especial Cível - Lagoa
+                      
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Endere&ccedil;o:</td>
+                      <td valign="top">
+                        Avenida Padre Leonel Franca
+                        &nbsp;
+                        248
+                        &nbsp;
+                        
+                        &nbsp;
+                      </td>
+                    </tr>
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Bairro:</td>
+                      <td valign="top">
+                        Gávea
+                      </td>
+                    </tr>
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Cidade:</td>
+                      <td valign="top">
+                        Rio de Janeiro
+                      </td>
+                    </tr>
+                  
+                  
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Of&iacute;cio de Registro:</td>
+                      <td valign="top">
+                        2º Ofício de Registro de Distribuição
+                      </td>
+                    </tr>
+                  
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">A&ccedil;&atilde;o:</td>
+                      <td valign="top">
+                        Telefonia - Outras / Contratos de Consumo
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Assunto:</td>
+                      <td valign="top">
+                        Cobrança de Quantia Indevida E/ou Repetição de Indébito - Cdc C/C Telefonia - Outras / Contratos de Consumo C/C Dano Moral Outros - Cdc
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Classe:</td>
+                      <td valign="top">
+                        Procedimento do Juizado Especial Cível/Fazendário
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                    
+                      <tr>
+                        <td valign="top" class="info">
+                          Autor
+                        </td>
+                        <td valign="top">
+                          MARCIA FIALHO DE ANDRADE
+                        </td>
+                      </tr>
+                    
+                      <tr>
+                        <td valign="top" class="info">
+                          Réu
+                        </td>
+                        <td valign="top">
+                          VIVO S/A e outro(s)...
+                        </td>
+                      </tr>
+                    
+                    
+                    
+                      
+                      
+                         
+                        
+                      
+                      
+                      
+                      
+                      
+                    
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" class="info">Advogado(s):</td>
+                      <td valign="top">
+                        
+                          RJ103597
+                          &nbsp;-&nbsp;
+                          GABRIELA GUARILHA PIMENTEL DE FREITAS
+                          <br/>
+                        
+                          RJ104659
+                          &nbsp;-&nbsp;
+                          LUIZ ALBERTO PINHEIRO DE CASTRO NEVES
+                          <br/>
+                        
+                          RJ108935
+                          &nbsp;-&nbsp;
+                          ANDRESSA BARROS FIGUEREDO DE PAIVA
+                          <br/>
+                        
+                          RJ186334
+                          &nbsp;-&nbsp;
+                          PRISCILA FABIO DANTAS
+                          <br/>
+                        
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                                  
+                     
+                    
+                    
+                    
+                    
+                      
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Arquivamento</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data de arquivamento:</td>
+<td valign=top align=justify class='normal'>14/11/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Tipo de arquivamento:</td>
+<td valign=top align=justify class='normal'>definitivo</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Situação: </td>
+<td valign=top align=justify class='normal'>Em fase de encaminhamento ao arquivo</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Envio de Documento Eletrônico</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da remessa:</td>
+<td valign=top align=justify class='normal'>10/11/2017</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Ato Ordinatório Praticado</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data:</td>
+<td valign=top align=justify class='normal'>10/11/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Fica intimada a parte interessada  para receber o alvará eletrônico, bastando, para isso,  dirigir-se a qualquer  agência do Banco do Brasil, munida do número  do alvará eletrônico (nº 742474)  e seu documento de identificação.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Ato Ordinatório Praticado</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data:</td>
+<td valign=top align=justify class='normal'>08/11/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Certifico que o Mandado de Pagamento Eletrônico de nº 742474 
+foi gerado e enviado ao Banco do Brasil para conferência. Após, aguardar assinatura digital.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Recebimento</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data de Recebimento:</td>
+<td valign=top align=justify class='normal'>07/11/2017</td>
+</tr><tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Decisão - Decisão Determinação</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data Decisão:</td>
+<td valign=top align=justify class='normal'>07/11/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Expeça-se alvará em favor da parte autora e de seu I. Patrono se houver poderes para receber, com relação ao depósito realizado, e, após, intime-se a parte autora para retirar o alvará, independente de conclusão.
+
+Reti...
+<br><br>
+<a href='javascript:void("17");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=17&descMov=Decis%E3o','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Decisão
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov17" value="Expeça-se alvará em favor da parte autora e de seu I. Patrono se houver poderes para receber, com relação ao depósito realizado, e, após, intime-se a parte autora para retirar o alvará, independente de conclusão.
+
+Retirado o alvará, dê-se baixa e arquive-se."><tr>
+<td valign=top nowrap class='negrito'>&nbsp;</td>
+<td valign=top align=justify class='normal'><a href='#' onClick=javascript:abreDocEletronico('00046DD82C5EEF7F80B5449BA68B89E57A57F6C5071B491A');>Visualizar Ato Assinado Digitalmente <img height='14' width='13' border='0' src='./imagens/pdf4.gif' alt='Visualizar Ato Assinado Digitalmente' title='Visualizar Ato Assinado Digitalmente' );></a></td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Conclusão ao Juiz</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da conclusão:</td>
+<td valign=top align=justify class='normal'>07/11/2017</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Juiz:</td>
+<td valign=top align=justify class='normal'>FLAVIA CAPANEMA REGO</td>
+</tr>
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada - Petição</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>31/10/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição da juntada:</td>
+<td valign=top align=justify class='normal'>Documento eletrônico juntado de forma automática.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada - Petição</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>31/10/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição da juntada:</td>
+<td valign=top align=justify class='normal'>Documento eletrônico juntado de forma automática.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Envio de Documento Eletrônico</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da remessa:</td>
+<td valign=top align=justify class='normal'>17/10/2017</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Recebimento</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data de Recebimento:</td>
+<td valign=top align=justify class='normal'>17/10/2017</td>
+</tr><tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Despacho - Proferido despacho de mero expediente</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data Despacho:</td>
+<td valign=top align=justify class='normal'>17/10/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Transitada em julgado, certifique-se, e, após, INTIME-SE A PARTE AUTORA, para dar prossseguimento ao feito, juntando aos autos planilha atualizada e discriminada do débito, nos termos do artigo 524, do NCPC, no prazo de ...
+<br><br>
+<a href='javascript:void("12");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=12&descMov=Despacho','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Despacho
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov12" value="Transitada em julgado, certifique-se, e, após, INTIME-SE A PARTE AUTORA, para dar prossseguimento ao feito, juntando aos autos planilha atualizada e discriminada do débito, nos termos do artigo 524, do NCPC, no prazo de cinco dias, sob pena de baixa e arquivamento.
+
+Decorrido o prazo, nada havendo, dê-se baixa e arquive-se, independente de conclusão."><tr>
+<td valign=top nowrap class='negrito'>&nbsp;</td>
+<td valign=top align=justify class='normal'><a href='#' onClick=javascript:abreDocEletronico('00047BBEBDE4E14C81915580CC9004E85042C507100D3F5E');>Visualizar Ato Assinado Digitalmente <img height='14' width='13' border='0' src='./imagens/pdf4.gif' alt='Visualizar Ato Assinado Digitalmente' title='Visualizar Ato Assinado Digitalmente' );></a></td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Conclusão ao Juiz</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da conclusão:</td>
+<td valign=top align=justify class='normal'>17/10/2017</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Juiz:</td>
+<td valign=top align=justify class='normal'>FLAVIA CAPANEMA REGO</td>
+</tr>
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Trânsito em Julgado</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data do trânsito:</td>
+<td valign=top align=justify class='normal'>11/10/2017</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Recebimento</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data de Recebimento:</td>
+<td valign=top align=justify class='normal'>26/09/2017</td>
+</tr><tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Sentença - Art. 40 Lei 9.099/95 - Homologatória</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data Sentença:</td>
+<td valign=top align=justify class='normal'>26/09/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Homologo, por sentença, para que surta seus efeitos legais, o projeto de sentença elaborado pelo juiz leigo, na forma do artigo 40 da Lei nº 9.099/95.   
+
+Publique-se, se for o caso. R.I. Certifique-se acerca do trânsi...<br><br>
+<a href='javascript:void("11");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=11&descMov=Senten%E7a','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Sentença
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov11" value="Homologo, por sentença, para que surta seus efeitos legais, o projeto de sentença elaborado pelo juiz leigo, na forma do artigo 40 da Lei nº 9.099/95.   
+
+Publique-se, se for o caso. R.I. Certifique-se acerca do trânsito em julgado.
+ 
+Em  caso  de  depósito  judicial  referente  à  condenação,  expeça-se mandado  de  pagamento, independentemente de nova conclusão.   
+ 
+Caso  haja  valor  remanescente  a  ser  recebido,  manifeste-se  o  credor  em 7  dias,  sob  pena  de arquivamento dos autos. Após o trânsito em julgado, tratando-se de sentença de improcedência ou de extinção do feito sem resolução do mérito, dê-se baixa e arquivem-se imediatamente.   
+  
+Tratando-se de sentença de procedência, após o trânsito em julgado e o decurso do prazo de 15 dias  para  pagamento  espontâneo  do  valor  da  condenação  previsto  no  art.  523  do  NCPC  c/c  o entendimento consolidado no enunciado nº 13.9.1 do Aviso nº 23/2008 do TJERJ, aguarde-se por mais 7 dias a manifestação das partes e, em seguida, caso permaneçam em silêncio, proceda-se a baixa e ao arquivamento.   
+ 
+FICAM  AS  PARTES  CIENTES  DE  QUE  A  NOVA  SISTEMÁTICA DE  CONTAGEM  DE  PRAZO ESTABELECIDO  NO  ART.  219  DO NCPC/2015  NÃO  SE  APLICA  AOS  JUIZADOS  ESPECIAIS CÍVEIS, CONSOANTE NOTA TÉCNICA 01/2016 DO FONAJE DE 04/03/2016 C/C A PRIMEIRA PARTE DO ENUNCIADO 86 TAMBÉM DO FONAJE, COMPUTANDO-SE OS PRAZOS EM DIAS CORRIDOS, ASSIM PROCEDENDO COM A FINALIDADE PRECÍPUA DE SE ALCANÇAR A BOA GESTÃO CARTORÁRIA COM FUNDAMENTO NO PRINCÍPIO DA CELERIDADE QUE REGE A LEI 9.099/95."><tr>
+<td valign=top nowrap class='negrito'>&nbsp;</td>
+<td valign=top align=justify class='normal'><a href='#' onClick=javascript:abreDocEletronico('0004D867C82E3FF5549C0BC294BC67702F4DC50706102B3D');>Visualizar Ato Assinado Digitalmente <img height='14' width='13' border='0' src='./imagens/pdf4.gif' alt='Visualizar Ato Assinado Digitalmente' title='Visualizar Ato Assinado Digitalmente' );></a></td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Conclusão ao Juiz</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da conclusão:</td>
+<td valign=top align=justify class='normal'>25/09/2017</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Juiz:</td>
+<td valign=top align=justify class='normal'>CATARINA CINELLI VOCOS CAMARGO</td>
+</tr>
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Remessa ao Juiz Leigo</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da conclusão:</td>
+<td valign=top align=justify class='normal'>21/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data de devolução:</td>
+<td valign=top align=justify class='normal'>25/09/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data do ato:</td>
+<td valign=top align=justify class='normal'>25/09/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Diante do exposto, JULGO PARCIALMENTE PROCEDENTE o pedido, na forma do art. 487, inciso I, do CPC, para: 
+a)	condenar a primeira ré à obrigação de cancelar a linha de telefone celular nu?mero 21 - 99656-3495, no prazo d...<br><br>
+<a href='javascript:void("10");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=10&descMov=Senten%E7a','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Sentença
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov10" value="Processo : 0166627-93.2017.8.19.0001 Distribui?do em: 04/07/2017
+Classe/Assunto: Procedimento do Juizado Especial Ci?vel/Fazenda?rio - Telefonia - Outras / Contratos de Consumo
+Autor: MARCIA FIALHO DE ANDRADE
+Advogado: GABRIELA GUARILHA PIMENTEL DE FREITAS (RJ103597)
+Advogado: LUIZ ALBERTO PINHEIRO DE CASTRO NEVES (RJ104659)
+Re?u: VIVO S/A
+Advogado: ANDRESSA BARROS FIGUEREDO DE PAIVA (RJ108935)
+Re?u: COTRIM CELULAR
+Advogado: PRISCILA FABIO DANTAS (RJ186334) 
+PROJETO DE SENTENÇA
+
+
+Dispensado o relatório, nos termos do art. 38 da Lei 9.099/99, passo a decidir.
+
+Trata-se de demanda em que a parte autora alega falha na prestação dos serviços da ré consistente na inclusão de linha não contrata e na cobrança divergente do valor contratado. Diante disso, requer a concessão de tutela antecipada para que a ré cancele a linha não contratada, bem como as cobranças relativas a ela e, ainda, a adequação do plano nos moldes contratados, indenização por dano moral e dano material dobrado. 
+
+Tutela antecipada indeferida, fls. 60.
+
+Em contestações, as rés impugnam as alegações autorais. Requerem a improcedência do pedido.
+
+Presentes os requisitos objetivos, a saber, produto ou serviço, e subjetivos, quais sejam, fornecedor e consumidor, artigo 2° e 3°, da Lei 8078/90, aptos a caracterizar a relação de consumo, de modo que a questão deve ser tratada à luz do Código de Defesa do Consumidor (CDC).
+ 
+Quanto à responsabilidade discutida nesta lide, a mesma é contratual e objetiva, tendo a parte autora comprovado o dano sofrido e o nexo causal com a conduta da ré, sem precisar se ater à ocorrência de culpa por parte do causador na espécie. 
+No caso dos autos, há verossimilhança nas alegações da parte autora, corroborada pelos documentos acostados, especialmente as faturas de janeiro a março de 2017, fls. 31/46, onde verifico apenas uma linha e telefone, com cobranças de aproximadamente R$ 240,00, e fls. 48 e 55, faturas com inclusão de linha de telefone não contratada e valores diversos do avençado, qual seja, R$ 199,00.  Ademais, as rés não se desincumbiram do ônus de desconstituir o direito da parte autora, tampouco trouxeram aos autos provas acerca de suas alegações, restando configurada a falha na prestação do serviço.
+ 
+A falta de qualidade na prestação do serviço, conforme artigo 14, § 1º da Lei 8078/90, configura fato do serviço, o que não se espera de empresas que se propõem a atuar no mercado de bens e serviços, visando o lucro, sendo sua responsabilidade aferida de forma objetiva pelos danos comprovadamente causados.
+
+Ainda, para que surja o defeito, pressupõe-se, em tese, um vício. Porém, esse vício causa uma lesão não só do bem adquirido ou no serviço contratado, mas, também, lesão ao patrimônio jurídico material e/ou moral do consumidor. Por conseguinte, isso gera um dano, caracterizando, então, um acidente de consumo, ou como apregoa o CDC, um fato do produto ou serviço.
+O defeito, portanto, é o cerne do dever de indenizar nesta modalidade de responsabilidade, pois, verificada a existência dele, e, ocorrendo o dano, surgirá para o fornecedor de produtos e serviços o dever de indenizar o consumidor lesado.
+Assim, procede o pedido autoral no que concerne ao cumprimento da oferta, a fim de que o plano seja adequado na forma contrata, ainda, o cancelamento da linha incluída indevidamente a partir da conta de abril de 2017, bem como os débitos a ela vinculado.
+A situação narrada caracteriza a indenização por danos morais que se dá in re ipsa, isto é, ela decorre do mero fato danoso, não sendo necessário que a parte autora o demonstre, bastando, para tanto, a apreciação subjetiva deste Juízo acerca dos fatos alegados. 
+O montante indenizatório considerará o que dos autos consta, não se olvidando do caráter pedagógico/ressarcitório da condenação e dos princípios da razoabilidade e da vedação ao enriquecimento sem causa, pelo que tenho como justo e necessário o arbitramento da indenização no valor correspondente a R$ 2.500,00, tendo em vista as peculiaridades do caso.
+
+Por outro lado, não há nos autos prova do pagamento de eventual dano material, sendo, portanto, incabível a cogitação de valores a devolver. .
+
+Diante do exposto, JULGO PARCIALMENTE PROCEDENTE o pedido, na forma do art. 487, inciso I, do CPC, para: 
+a)	condenar a primeira ré à obrigação de cancelar a linha de telefone celular nu?mero 21 - 99656-3495, no prazo de 20 dias contados da leitura da sentença, sob pena de multa fixada pelo triplo do valor cobrado em desacordo com este dispositivo;
+b)	 condenar a primeira ré à obrigação de adequar o plano da autora para o valor de R$ 199,00, admito o reagiste anual, no prazo de 30 dias a contar da leitura da sentença, sob pena de multa fixada pelo triplo da cobrança em descordo com este comando; 
+c)	condenar as rés, solidariamente, a pagar à parte autora indenização pelos danos morais sofridos, na quantia de R$ 2.500,00, quantia esta que deverá ser corrigida monetariamente desde a leitura da sentença e acrescida de juros de 1% ao mês desde a citação até a data do efetivo pagamento.
+
+Caso o devedor não pague a quantia certa a que foi condenado em 15 (quinze) dias contados do trânsito em julgado da sentença ou do acórdão, o valor da condenação será acrescido de multa de 10% (dez por cento), prevista no artigo 523 do CPC, independentemente da nova intimação.
+Sem custas, nem honorários, na forma do artigo 55, da Lei 9.099/95. Certificado o trânsito em julgado e, após o prazo de 15 dias fixado no art. 523 do CPC, em caso de condenação, a execução, por não cumprimento voluntário, deverá ser requerida pela parte interessada. Em seguida, não havendo novas manifestações no prazo de 15 dias, dê-se baixa e arquivem-se. Decorridos 90 dias do arquivamento, os autos serão eliminados, na forma do art. 1º do Ato Normativo Conjunto 01/2005. 
+A parte autora, em eventual execução, deverá observar os seguintes Enunciados, constantes do Aviso TJERJ nº23/2008: Enunc. Nº 13.9.5 - ´O art. 475-J não incide sobre o valor da multa cominatória.´ E Enunc. Nº 14.2.5 - ´Não incidem honorários, juros e correção monetária sobre o valor da multa cominatória.´
+
+Futuras publicações conforme ata de AIJ.
+
+Rio de Janeiro, setembro de 2017
+
+Anelise Schweinberger
+Juíza Leiga
+
+Submeto o projeto de sentença para homologação pelo MM. Juiz de Direito.
+
+SENTENÇA
+Homologo, por sentença, para que produza seus efeitos jurídicos e legais, a decisão proferida pelo i. Juiz Leigo, com esteio no artigo 40 da Lei 9.099/95. P.R.I. Cumpridas as formalidades legais, dê-se baixa e arquivem-se, ficando cientes as partes que, após 90 dias da data do arquivamento definitivo, os autos serão eliminados, nos termos do Ato Normativo Conjunto 01/2005, publicado no D.O. em 07/01/2005.">
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada - Petição</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>21/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição da juntada:</td>
+<td valign=top align=justify class='normal'>Documento eletrônico juntado de forma automática.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada - Petição</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>21/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição da juntada:</td>
+<td valign=top align=justify class='normal'>Documento eletrônico juntado de forma automática.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Audiência Conciliação, Instrução e Julgamento</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data da audiência:</td>
+<td valign=top align=justify class='normal'>21/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Resultado:</td>
+<td valign=top align=justify class='normal'>Realizada - Projeto de Sentença</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Processo nº.: 0166627-93.2017.8.19.0001
+Partes: MARCIA FIALHO DE ANDRADE X VIVO S/A E OUTRO
+
+AUDIÊNCIA DE INSTRUÇÃO E JULGAMENTO
+
+Em 21 de AGOSTO de 2017, às 16h29 min, na sala de audiência deste Juizado, foi declar...
+<br><br>
+<a href='javascript:void("24126883");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=24126883&descMov=Audi%EAncia+Concilia%E7%E3o%2C+Instru%E7%E3o+e+Julgamento&exibeNumMov=N','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Audiência Conciliação, Instrução e Julgamento
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov24126883" value="Processo nº.: 0166627-93.2017.8.19.0001
+Partes: MARCIA FIALHO DE ANDRADE X VIVO S/A E OUTRO
+
+AUDIÊNCIA DE INSTRUÇÃO E JULGAMENTO
+
+Em 21 de AGOSTO de 2017, às 16h29 min, na sala de audiência deste Juizado, foi declarada aberta a audiência pela Juíza Leiga, Dra. Anelise Schweinberger.    
+
+Realizados os pregões, compareceram as partes.
+Proposta: sem
+Embora esclarecidos sobre as vantagens do acordo, não foi possível conciliar as partes.
+Oferecida (s) contestação (ões), com vista da parte autora. As partes se reportam.
+Pelas partes foi dito que não há mais provas a produzir.
+Publicações conforme peça de defesa.
+Pela Juíza Leiga foi determinado que viessem os autos conclusos. Designada leitura de sentença para o dia 29 de SETEMBRO de 2017, a partir das 17h, em cartório. Intimados os presentes. Nada mais havendo, encerrou-se a audiência às 16h 35min. 
+
+
+Anelise Schweinberger
+Juíza Leiga
+
+Autor (a): 
+Advogado:
+
+Réu:
+Advogado:">
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Ato Ordinatório Praticado</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data:</td>
+<td valign=top align=justify class='normal'>18/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Certifico que o AR de fl. 57 não retornou até a presente data.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Ato Ordinatório Praticado</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data:</td>
+<td valign=top align=justify class='normal'>18/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>Certifico que  cadastrei a patrona da 1ª parte ré conforme requerido.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada - Petição</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>18/08/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição da juntada:</td>
+<td valign=top align=justify class='normal'>Documento eletrônico juntado de forma automática.</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Juntada de AR</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da juntada:</td>
+<td valign=top align=justify class='normal'>26/07/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Resultado:</td>
+<td valign=top align=justify class='normal'>Positivo</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Envio de Documento Eletrônico</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da remessa:</td>
+<td valign=top align=justify class='normal'>11/07/2017</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Recebimento</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data de Recebimento:</td>
+<td valign=top align=justify class='normal'>10/07/2017</td>
+</tr><tr><td colspan=2>&nbsp;</td></tr><tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Decisão - Não Concedida a Antecipação de tutela</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data Decisão:</td>
+<td valign=top align=justify class='normal'>10/07/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Descrição:</td>
+<td valign=top align=justify class='normal'>A antecipação da tutela no início da lide pressupõe o vislumbre de dano irreparável ou de difícil reparação, o que não se verifica no alegado para pleitear a medida pretendida, já que, procedente a ação, serão os valores...
+<br><br>
+<a href='javascript:void("2");' onClick=window.open('popdespacho.jsp?tipoato=Descri%E7%E3o&numMov=2&descMov=Decis%E3o','','width=500,height=250,left=300,top=300,location=no,menubar=no,resizable=no,scrollbars=yes,status=no,toolbar=no');>
+Ver íntegra do(a) Decisão
+</a>
+</td>
+</tr>
+<input type="HIDDEN" name="descMov2" value="A antecipação da tutela no início da lide pressupõe o vislumbre de dano irreparável ou de difícil reparação, o que não se verifica no alegado para pleitear a medida pretendida, já que, procedente a ação, serão os valores repetidos. Em razão do exposto, INDEFIRO A ANTECIPAÇÃO DOS EFEITOS DA TUTELA PRETENDIDA. Aguarde-se a ACIJ já designada.
+
+INTIME-SE A PARTE AUTORA, para ciência do ora decidido."><tr>
+<td valign=top nowrap class='negrito'>&nbsp;</td>
+<td valign=top align=justify class='normal'><a href='#' onClick=javascript:abreDocEletronico('0004D8EF85A6F0DB4CBA27A35FED5CC761EFC50644594F31');>Visualizar Ato Assinado Digitalmente <img height='14' width='13' border='0' src='./imagens/pdf4.gif' alt='Visualizar Ato Assinado Digitalmente' title='Visualizar Ato Assinado Digitalmente' );></a></td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Conclusão ao Juiz</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da conclusão:</td>
+<td valign=top align=justify class='normal'>05/07/2017</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Juiz:</td>
+<td valign=top align=justify class='normal'>FLAVIA CAPANEMA REGO</td>
+</tr>
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr  class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Digitação de Documentos</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Data da digitação:</td>
+<td valign=top align=justify class='normal'>05/07/2017</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                          
+                            
+                                
+                                
+                                <tr><td colspan=2>&nbsp;</td></tr>
+<tr class='tipoMovimento'>
+<td valign=top nowrap class='negrito'>Tipo do Movimento:</td>
+<td valign=top align=justify class='normal'>Distribuição Sorteio</td>
+</tr><tr>
+<td valign=top nowrap class='negrito'>Data da distribuição:</td>
+<td valign=top align=justify class='normal'>04/07/2017</td>
+</tr>
+<tr>
+<td valign=top nowrap class='negrito'>Serventia:</td>
+<td valign=top align=justify class='normal'>Cartório do 6º Juizado Especial Cível - Lagoa - 6º Juizado Especial Cível - Lagoa</td>
+</tr>
+
+                                
+                            
+                            
+                        
+                        <tr>
+                          <td colspan="2">&nbsp;</td>
+                        </tr>
+                      
+                      
+                      
+                      
+                    
+                    
+                  </form>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+
+                  
+                  
+                  
+                  
+                  
+                    
+                      
+                      
+                      
+                        <tr>
+                          <td valign="top" class="info">Processo(s) no Conselho
+                                                           Recursal:</td>
+                      
+                    
+                      
+                         <td valign="top" class="normal">
+                            Não há.
+                         </td>
+                     
+                     
+                    
+                  
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      &nbsp;
+                    </td>
+                  </tr>
+                   
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                    <tr>
+                      <td valign="top" nowrap="nowrap" class="info">Localiza&ccedil;&atilde;o
+                                                                       na serventia:</td>
+                      <td valign="top">
+                        Arquivado na Serventia
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                    <tr class="tipoMovimento">
+                      <td valign="top" colspan="2" class="info">
+                        Mandado de Pagamento:
+                      </td>
+                    </tr>                    
+                    
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Nº Mandado:</td>
+                        <td valign="top">
+                            742474
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Situa&ccedil;&atilde;o Mandado:</td>
+                        <td valign="top">
+                            Pago
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">&nbsp;</td>
+                      </tr>                      
+                    
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+                  
+                  
+                  
+                    <tr class="tipoMovimento">
+                      <td valign="top" nowrap colspan="2" class="negrito">
+                        Guia de Dep&oacute;sito:
+                      </td>
+                    </tr>
+                    
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Nº Guia:</td>
+                        <td valign="top">
+                            081010000041111402
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Situa&ccedil;&atilde;o da guia:</td>
+                        <td valign="top">
+                            Disponível
+                        </td>
+                      </tr>                      
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Valor Pago:</td>
+                        <td valign="top">
+                            R$ 2.585,33
+                        </td>
+                      </tr>
+                      <tr>
+                        <td valign="top" nowrap="nowrap" class="info">Data Pagamento:</td>
+                        <td valign="top">
+                            18/10/2017
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">&nbsp;</td>
+                      </tr> 
+                                        
+                    <tr>
+                      <td colspan="2">&nbsp;</td>
+                    </tr>
+                  
+                  
+  
+                  
+                  
+                  
+                  
+                  
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                
+                
+                
+                
+                
+              </table>
+              
+              
+              
+              
+                
+              
+              
+                 
+                  <p align="justify" colspan="2">
+                      Os autos processuais findos dos Juizados Especiais Cíveis 
+                      serão eliminados após o prazo de 90 (noventa) dias 
+                      da data do arquivamento definitivo.
+                  </p>
+                 
+                                     
+                            
+              
+            
+          </form>
+          <!-- Fim da div#content -->
+        </div> 
+        <div class="clear"/>
+        </div>
+        </div>
+      <!-- Fim da div#container -->
+      </div>
+      
+      
+      
+      <div id="footer">
+	<div class="acesso-informacao">
+		<a href="http://www.tjrj.jus.br/web/guest/transparencia/apresentacao" title="Acesso à Informação"> 
+			<img src="http://www.tjrj.jus.br/theme-tjrj/images/logo-acesso.png" alt="Acesso à Informação"> 
+		</a>
+	</div>
+	<div class="endereco">
+		<div class="container-fluid-1280">
+			<p>PALÁCIO DA JUSTIÇA DO ESTADO DO RIO DE JANEIRO - FÓRUM CENTRAL
+				<br> Av. Erasmo Braga, 115 - Centro / CEP: 20020-903 - Rua Dom Manuel, 37, 
+					Centro / CEP: 20010-090 / Tel.: (0xx21) 3133-2000
+				<br> Horários de funcionamento das Serventias Judiciais em todas as Comarcas do Estado do Rio de Janeiro:
+					 - 11h às 18h | Varas da Infância e da Juventude - 09h às 18h | 
+					 Juizados Especiais e Adjuntos - 10h às 18h
+			</p>
+		</div>
+	</div>
+</div>
+<script data-senna-track="permanent" id="googleAnalyticsScript" type="text/javascript">
+	(function(i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r;
+
+		i[r] = i[r] || function() {
+			var arrayValue = i[r].q || [];
+
+			i[r].q = arrayValue;
+
+			(i[r].q).push(arguments);
+		};
+
+		i[r].l = 1 * new Date();
+
+		a = s.createElement(o);
+		m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m);
+	})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+	ga('create', 'UA-870424-2', 'auto');
+	ga('send', 'pageview');
+</script>
+      <!-- Fim da div#tudo -->
+    </body>
+</html>"""

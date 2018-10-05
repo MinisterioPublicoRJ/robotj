@@ -1,4 +1,5 @@
 import os
+import sys
 import cx_Oracle
 from sqlalchemy import create_engine
 from extrator.settings import DS_EXADATA_CONN_CSTR
@@ -67,6 +68,7 @@ def processar_armazenar(doc):
         global retorno
         try:
             print('.', end='')
+            sys.stdout.flush()
             documento = pipeline(doc[0])
             if documento == {}:
                 atualizar_vista(doc[0], doc[1])

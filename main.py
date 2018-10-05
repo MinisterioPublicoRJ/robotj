@@ -66,6 +66,7 @@ def processar_armazenar(doc):
     def wrapper(doc):
         global retorno
         try:
+            print('.', end='')
             documento = pipeline(doc[0])
             if documento == {}:
                 atualizar_vista(doc[0], doc[1])

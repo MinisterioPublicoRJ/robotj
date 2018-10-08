@@ -19,7 +19,7 @@ from extrator.settings import (
 from multiprocessing.dummy import Pool
 from newrelic.agent import background_task
 
-PARALELO = True
+PARALELO = False
 
 
 def main():

@@ -10,12 +10,10 @@ from extrator.datasources.models import (
     atualizar_vista)
 from extrator.crawler.pipeliner import pipeline
 from extrator.settings import (
-    DS_EXADATA_HOST,
-    DS_EXADATA_PORT,
-    DS_EXADATA_SID,
     DS_EXADATA_user,
     DS_EXADATA_password,
-    INSTANCIAS)
+    INSTANCIAS,
+    DS_EXADATA_CONN_SID)
 from multiprocessing.dummy import Pool
 from newrelic.agent import background_task
 
@@ -33,12 +31,10 @@ def main():
         encoding="utf-8"
     )
 
-    dsn_tns = cx_Oracle.makedsn(
-        DS_EXADATA_HOST, DS_EXADATA_PORT, DS_EXADATA_SID)
     engine_cx['connection'] = cx_Oracle.connect(
         DS_EXADATA_user,
         DS_EXADATA_password,
-        dsn_tns,
+        DS_EXADATA_CONN_SID,
         encoding="UTF-8",
         nencoding="UTF-8",
         threaded=True)

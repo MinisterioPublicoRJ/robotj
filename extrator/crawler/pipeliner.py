@@ -8,7 +8,7 @@ from ..base.utils import logger
 from ..settings import URL_PROCESSO
 
 
-@timeout_decorator.timeout(30, use_signals=False)
+@timeout_decorator.timeout(30)
 def pipeline(processo):
     logger().info(processo)
     dados_processo = {}

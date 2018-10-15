@@ -16,7 +16,7 @@ from extrator.settings import (
     DS_EXADATA_CONN_SID)
 from multiprocessing.dummy import Pool
 
-PARALELO = False
+PARALELO = True
 
 
 def main():

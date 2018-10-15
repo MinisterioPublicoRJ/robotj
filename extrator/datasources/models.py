@@ -138,7 +138,7 @@ def _insere_movimento_blob_db(dk_processo, movimento):
 def _insere_movimento_db(dk_processo, movimento):
     if 'inteiro-teor' in movimento:
         id_inserido = _insere_movimento_blob_db(dk_processo, movimento)
-        classificar.delay(id_inserido, movimento['inteiro-teor'])
+        #classificar.delay(id_inserido, movimento['inteiro-teor'])
     else:
         insert = TB_MOVIMENTO_PROCESSO.insert().values(
             prmv_dk=SQ_MOVIMENTO.next_value(),

@@ -15,7 +15,6 @@ from extrator.settings import (
     INSTANCIAS,
     DS_EXADATA_CONN_SID)
 from multiprocessing.dummy import Pool
-from newrelic.agent import background_task
 
 PARALELO = False
 
@@ -59,7 +58,6 @@ def processar_armazenar(doc):
 
     retorno = None
 
-    @background_task()
     def wrapper(doc):
         global retorno
         try:

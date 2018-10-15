@@ -9,5 +9,5 @@ do
     fi
 
     echo Iniciando $INSTANCIAS instancias paralelas
-    newrelic-admin run-python main.py  
+    python main.py  
 done;
